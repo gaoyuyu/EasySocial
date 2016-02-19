@@ -30,11 +30,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="false"
-            app:tabBackground="@color/white"
+            app:tabBackground="@color/colorPrimary"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@android:color/holo_blue_light"
-            app:tabSelectedTextColor="@android:color/holo_blue_light"
-            app:tabTextColor="@android:color/black"/>
+            app:tabIndicatorColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextColor="@color/tab_text_color"/>
 
         <!--Tab被选中字体的颜色-->
         <!--app:tabSelectedTextColor="@android:color/holo_blue_bright"-->
