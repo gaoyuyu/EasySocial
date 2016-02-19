@@ -31,7 +31,7 @@ UI：`多个Fragment多个ToolBar`，更改TabLayout色调
 	</DrawerLayout>
 </LinearLayout>
 ```
-将<CoordinatorLayout />,也就是app_bar_main.xml抽离出来，由MainFragment来填充。
+将`<CoordinatorLayout />`,也就是app_bar_main.xml抽离出来，由MainFragment来填充。
 切换Fragment的不再是简单的replace(),之后commit(),而是hide(),show(),性能更好。
 当然，在初始化MainFragment的时候是用了replace。<br>
 参考blog：[仿知乎程序（二）fragment的切换以及toolbar在不同页面下显示的menu不同](http://blog.csdn.net/chenguang79/article/details/49486723)<br>
