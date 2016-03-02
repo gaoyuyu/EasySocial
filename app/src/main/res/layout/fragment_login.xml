@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include
+        android:id="@+id/login_toolbar"
+        layout="@layout/widget_toolbar"
+        />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/edittext_email_hint"
+        app:met_baseColor="@color/colorPrimary"
+        app:met_errorColor="@color/edittext_error_color"
+        app:met_floatingLabel="highlight"
+        app:met_maxCharacters="10"
+        app:met_minCharacters="0"
+        app:met_primaryColor="@color/colorPrimary"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/edittext_password_hint"
+        app:met_baseColor="@color/colorPrimary"
+        app:met_errorColor="@color/edittext_error_color"
+        app:met_floatingLabel="highlight"
+        app:met_maxCharacters="10"
+        app:met_minCharacters="0"
+        app:met_primaryColor="@color/colorPrimaryDark"/>
+
+</LinearLayout>

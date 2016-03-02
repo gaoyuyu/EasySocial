@@ -19,7 +19,7 @@
         >
         <!-- 主体-->
         <FrameLayout
-            android:id="@+id/main"
+            android:id="@+id/layout_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />

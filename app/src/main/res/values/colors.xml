@@ -8,4 +8,6 @@
     <color name="white">#ffffff</color>
     <color name="status_bar_color">#4d080808</color>
     <color name="tab_text_color">#939191</color>
+
+    <color name="edittext_error_color">#e74d33</color>
 </resources>
