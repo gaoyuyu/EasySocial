@@ -6,11 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.gaoyy.easysoical.fragment.LoginFragment;
 import com.gaoyy.easysoical.fragment.MainFragment;
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private NavigationView navigationView;
     private MainFragment mainFragment;
+    private DrawerLayout drawerLayout;
 
     //记录当前正在使用的fragment
     private Fragment isFragment;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawerlayout);
         View headerView = navigationView.getHeaderView(0);
         ImageView img = (ImageView) headerView.findViewById(R.id.imageView);
         img.setOnClickListener(new View.OnClickListener()
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 {
                     loginFragment = new LoginFragment();
                 }
-                ((MainFragment)isFragment).getDrawerLayout().closeDrawer(GravityCompat.START);
                 switchContent(isFragment, loginFragment);
             }
         });
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentManager fm = getSupportFragmentManager();
             //添加渐隐渐现的动画
             FragmentTransaction ft = fm.beginTransaction();
+            ft.setCustomAnimations(
+                    R.anim.fade_in,
+                    R.anim.fade_out);
             if (!to.isAdded())
             {    // 先判断是否被add过
                 ft.hide(from).add(R.id.layout_main, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
@@ -90,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
         }
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
 
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         if(id == android.R.id.home)
         {
-            Toast.makeText(MainActivity.this,"activity",Toast.LENGTH_SHORT).show();
+            switchContent(isFragment,mainFragment);
         }
         return super.onOptionsItemSelected(item);
     }

@@ -152,3 +152,5 @@ final MaterialDialog mMaterialDialog = new MaterialDialog(MainActivity.this);
         return super.onOptionsItemSelected(item);
     }
 ```
+
+关于v4包Fragment和非v4包Fragment使用切换动画:[Android Activity和Fragment的转场动画](http://www.cnblogs.com/mengdd/p/3494041.html)

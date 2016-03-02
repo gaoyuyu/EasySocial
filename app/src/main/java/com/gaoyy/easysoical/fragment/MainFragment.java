@@ -70,10 +70,6 @@ public class MainFragment extends Fragment
     }
 
 
-    public DrawerLayout getDrawerLayout()
-    {
-        return this.drawerLayout;
-    }
     public void initViews(View rootView)
     {
         toolbar = (Toolbar)rootView.findViewById(R.id.toolbar);
