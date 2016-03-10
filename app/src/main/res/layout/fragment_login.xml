@@ -16,30 +16,48 @@
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:hint="@string/edittext_email_hint"
         app:met_baseColor="@color/colorPrimary"
         app:met_errorColor="@color/edittext_error_color"
         app:met_floatingLabel="highlight"
-        app:met_maxCharacters="10"
-        app:met_minCharacters="0"
         app:met_primaryColor="@color/colorPrimary"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="3dp"
         android:hint="@string/edittext_password_hint"
         app:met_baseColor="@color/colorPrimary"
         app:met_errorColor="@color/edittext_error_color"
         app:met_floatingLabel="highlight"
-        app:met_maxCharacters="10"
-        app:met_minCharacters="0"
         app:met_primaryColor="@color/colorPrimaryDark"/>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/colorPrimary"
+        app:mrl_rippleAlpha="0.2"
+        app:mrl_rippleColor="@color/gray600"
+        app:mrl_rippleOverlay="true"
+        >
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector"
+            android:text="@string/login"
+            android:textColor="@color/white"/>
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
 
 </LinearLayout>

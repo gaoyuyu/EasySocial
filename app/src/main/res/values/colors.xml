@@ -10,4 +10,8 @@
     <color name="tab_text_color">#939191</color>
 
     <color name="edittext_error_color">#e74d33</color>
+
+    <color name="gray">#888888</color>
+    <color name="gray100">#dddddd</color>
+    <color name="gray600">#999999</color>
 </resources>

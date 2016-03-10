@@ -11,12 +11,15 @@
               android:paddingTop="@dimen/activity_vertical_margin"
               android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <com.github.siyamed.shapeimageview.CircularImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:src="@android:drawable/sym_def_app_icon"/>
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:src="@drawable/user_icon_default_main"
+        app:siBorderWidth="2dp"
+        app:siBorderColor="@color/white"
+        />
 
     <TextView
         android:layout_width="match_parent"

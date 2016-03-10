@@ -1,6 +1,7 @@
 # EasySocial
 EasySocial
 <br>
+Learn Here：[How to Build Project](http://www.jianshu.com/p/d9e4ddd1c530)
 #### 2016.2.18
 Material Design UI初始化(DrawerLayout+NavigationView,CoordinatorLayout+AppBarLayout+Toolbar+TabLayout,
 FloatingActionButton)
@@ -154,3 +155,141 @@ final MaterialDialog mMaterialDialog = new MaterialDialog(MainActivity.this);
 ```
 
 关于v4包Fragment和非v4包Fragment使用切换动画:[Android Activity和Fragment的转场动画](http://www.cnblogs.com/mengdd/p/3494041.html)
+####2016.3.10
+一、toolbar中设置SearchView（仿微信点击Search按钮跳转到SearchActivity）
+<br>
+1、MainActivity中设置menu
+```Java
+menu.xml
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+    <item
+        android:id="@+id/ic_search"
+        android:icon="@mipmap/ic_search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/ic_refresh"
+        android:icon="@mipmap/ic_refresh"
+        android:orderInCategory="80"
+        android:title="@string/refresh"
+        app:showAsAction="ifRoom"
+        />
+</menu>
+
+MainActivity.java
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+```
+2、SearchActivity设置menu，然后设置SearchView默认展开
+```Java
+search_menu.xml
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+     >
+    <item android:id="@+id/ic_search_view"
+          android:title="@string/search"
+          android:icon="@mipmap/ic_search"
+          android:inputType="textCapWords"
+          app:showAsAction="collapseActionView|ifRoom"
+          app:actionViewClass="android.support.v7.widget.SearchView"
+        />
+</menu>
+
+SearchActivity.java
+public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.ic_search_view);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        //这里需要注意的是使用MenuItem来调用collapseActionView()和expandActionView()
+        //若使用searchView调用setIconifiedByDefault(boolean),setIconified(boolean),onActionViewExpanded()不起作用
+        menuItem.collapseActionView();
+        menuItem.expandActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                Toast.makeText(SearchActivity.this,query,Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                Toast.makeText(SearchActivity.this,newText,Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+```
+二、在Fragment重写onCreateOptionsMenu和onOptionsItemSelected，需要在onCreateView中调用setHasOptionsMenu(true)才能事其生效。
+```Java
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        setHasOptionsMenu(true);
+        return rootView;
+    }
+```
+三、SearchView展开之后对其返回键的监听，不能监听android.R.id.home，是无效的
+```Java
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+        
+        MenuItem menuItem = menu.findItem(R.id.ic_search_view);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        
+        menuItem.collapseActionView();
+        menuItem.expandActionView();
+        //监听SearchView的输入内容
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query)
+            {
+                Toast.makeText(SearchActivity.this, query, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText)
+            {
+                Toast.makeText(SearchActivity.this, newText, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        //监听SearchView的打开和关闭状态，不能
+        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener()
+        {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item)
+            {
+                Toast.makeText(SearchActivity.this, "onMenuItemActionExpand", Toast.LENGTH_SHORT).show();
+                //true SearchView打开
+                return false;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item)
+            {
+                Toast.makeText(SearchActivity.this, "onMenuItemActionCollapse", Toast.LENGTH_SHORT).show();
+                //true SearchView关闭
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+```
