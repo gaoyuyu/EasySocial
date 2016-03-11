@@ -33,4 +33,5 @@ dependencies {
     compile 'me.drakeet.materialdialog:library:1.2.8'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.github.siyamed:android-shape-imageview:0.9.3'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
 }

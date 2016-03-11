@@ -293,3 +293,49 @@ public boolean onCreateOptionsMenu(Menu menu)
         return super.onCreateOptionsMenu(menu);
     }
 ```
+四、解决Plugin is too old,please update to a more recent version,or set ANDROID_DAILY_OVERRIDE..
+[jcenter gradle](https://jcenter.bintray.com/com/android/tools/build/gradle/) 查看最新版本的gradle，修改project下的build.gradle的classpath
+目前最新2.0.0-beta2
+
+```Java
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.0.0-beta2'
+    }
+```
+####2016.3.11
+添加okHttp库<br>
+[okhttp](https://github.com/square/okhttp)<br>
+->[okhttp Wiki](https://github.com/square/okhttp/wiki)
+
+```Java
+ --demo
+                Request request = new Request.Builder()
+                        .url(Global.HOST_URL + "User/login")
+                        .build();
+                client.newCall(request).enqueue(new Callback()
+                {
+                    @Override
+                    public void onFailure(Call call, IOException e)
+                    {
+                        Log.i(Global.TAG,"onFailure");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException
+                    {
+                        Log.i(Global.TAG,"onResponse");
+                        if (!response.isSuccessful())
+                        {
+                            Log.i(Global.TAG,"Unexpected");
+                            throw new IOException("Unexpected code " + response);
+                        }
+                        Headers responseHeaders = response.headers();
+                        for (int i = 0; i < responseHeaders.size(); i++)
+                        {
+                            Log.i(Global.TAG,responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                        }
+
+                        Log.i(Global.TAG,response.body().string());
+                    }
+                });
+```

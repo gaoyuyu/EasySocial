@@ -6,4 +6,5 @@ package com.gaoyy.easysoical.utils;
 public class Global
 {
     public static String HOST_URL="http://easysocial.applinzi.com/Home/";
+    public static String TAG="Global";
 }
