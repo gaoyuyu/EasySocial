@@ -9,7 +9,7 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class SplashActivity extends AppCompatActivity
 {
-    private static final long DELAY_TIME = 2000L;
+    private static final long DELAY_TIME = 1000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

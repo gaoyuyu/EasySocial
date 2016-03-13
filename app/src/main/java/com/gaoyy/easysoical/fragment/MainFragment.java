@@ -36,7 +36,7 @@ public class MainFragment extends Fragment
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    String[] pagerTitle = {"Dead Man","Alive Guys","Utila","MassStu","Kssip","Yusuto"};
+    String[] pagerTitle = {"首页","Alive Guys","Utila"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 
@@ -49,18 +49,10 @@ public class MainFragment extends Fragment
         // Required empty public constructor
 
     }
-//    public static MainFragment newInstance(String param1, String param2)
-//    {
-//        MainFragment fragment = new MainFragment();
-//        Bundle args = new Bundle();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         initData();
@@ -85,9 +77,9 @@ public class MainFragment extends Fragment
         {
             Bundle bundle = new Bundle();
             bundle.putString("title",pagerTitle[i]);
-            PageFragment pageFragment = new PageFragment();
-            pageFragment.setArguments(bundle);
-            fragmentList.add(i,pageFragment);
+            HomeFragment homeFragment = new HomeFragment();
+            homeFragment.setArguments(bundle);
+            fragmentList.add(i,homeFragment);
         }
     }
     public void configViews()
@@ -130,7 +122,7 @@ public class MainFragment extends Fragment
             @Override
             public void onPageSelected(int position)
             {
-                toolbar.setTitle(pagerTitle[position]);
+//                toolbar.setTitle(pagerTitle[position]);
             }
 
             @Override
@@ -140,7 +132,7 @@ public class MainFragment extends Fragment
             }
         });
 
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
         // 将TabLayout和ViewPager进行关联，让两者联动起来
         tabLayout.setupWithViewPager(viewPager);
         // 设置Tablayout的Tab显示ViewPager的适配器中的getPageTitle函数获取到的标题

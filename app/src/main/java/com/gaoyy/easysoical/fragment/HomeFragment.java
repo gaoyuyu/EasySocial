@@ -21,7 +21,7 @@ import java.util.LinkedList;
 /**
  * Created by gaoyy on 2016/2/16/0016.
  */
-public class PageFragment extends Fragment
+public class HomeFragment extends Fragment
 {
     private View rootView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -41,7 +41,7 @@ public class PageFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        rootView = inflater.inflate(R.layout.page_fragment, container, false);
+        rootView = inflater.inflate(R.layout.fragment_home, container, false);
         assignViews(rootView);
         initData();
         configViews();

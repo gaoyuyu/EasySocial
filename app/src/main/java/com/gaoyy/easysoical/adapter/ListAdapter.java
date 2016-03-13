@@ -51,7 +51,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             return footerViewHolder;
         } else if (viewType == TYPE_ITEM)
         {
-            View rootView = inflater.inflate(R.layout.page_item, parent, false);
+            View rootView = inflater.inflate(R.layout.item_home, parent, false);
             ItemViewHolder itemViewHolder = new ItemViewHolder(rootView);
             return itemViewHolder;
         }
