@@ -6,6 +6,7 @@
 
 
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="status_bar_color">#4d080808</color>
     <color name="tab_text_color">#939191</color>
 

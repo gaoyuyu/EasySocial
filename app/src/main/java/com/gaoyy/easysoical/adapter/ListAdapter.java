@@ -105,7 +105,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public ItemViewHolder(View itemView)
         {
             super(itemView);
-            tv = (TextView) itemView.findViewById(R.id.page_tv);
+            tv = (TextView) itemView.findViewById(R.id.item_home_account);
         }
     }
 
