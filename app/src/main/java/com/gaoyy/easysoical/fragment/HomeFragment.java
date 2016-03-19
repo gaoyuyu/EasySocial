@@ -1,13 +1,14 @@
 package com.gaoyy.easysoical.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,21 @@ import android.view.ViewGroup;
 
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.adapter.ListAdapter;
+import com.gaoyy.easysoical.bean.Tweet;
+import com.gaoyy.easysoical.utils.Global;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.LinkedList;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by gaoyy on 2016/2/16/0016.
@@ -26,10 +40,15 @@ public class HomeFragment extends Fragment
     private View rootView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView swRecyclerView;
-    private LinkedList<String> data;
+    private LinkedList<Tweet> data;
     private ListAdapter listAdapter;
     private LinearLayoutManager linearLayoutManager;
     private int lastVisibleItemPosition;
+
+    private final OkHttpClient client = new OkHttpClient();
+
+    private int pageCount=-1;
+    private int currentPage=1;
 
     private void assignViews(View rootView)
     {
@@ -45,17 +64,14 @@ public class HomeFragment extends Fragment
         assignViews(rootView);
         initData();
         configViews();
+        new HomeTask().execute(String.valueOf(currentPage));
         return rootView;
     }
 
     public void initData()
     {
         String title = getArguments().getString("title");
-        data = new LinkedList<String>();
-        for (int i = 0; i < 15; i++)
-        {
-            data.add(i, title + "@" + i);
-        }
+        data = new LinkedList<Tweet>();
     }
 
     public void configViews()
@@ -81,22 +97,12 @@ public class HomeFragment extends Fragment
             @Override
             public void onRefresh()
             {
-                new Handler().postDelayed(new Runnable()
+                if(currentPage <= pageCount)
                 {
-                    @Override
-                    public void run()
-                    {
-                        LinkedList<String> newDatas = new LinkedList<String>();
-                        for (int i = 0; i < 5; i++)
-                        {
-                            int index = i + 1;
-                            newDatas.add("new item" + index+""+(int)(Math.random()*100));
-                        }
-                        listAdapter.addItem(newDatas);
-                        swRecyclerView.scrollToPosition(0);
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }, 1500);
+                    currentPage = currentPage+1;
+                    new HomeTask().execute(String.valueOf(currentPage));
+                }
+
             }
         });
 
@@ -108,20 +114,11 @@ public class HomeFragment extends Fragment
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == listAdapter.getItemCount())
                 {
-                    new Handler().postDelayed(new Runnable()
+                    if(currentPage <= pageCount)
                     {
-                        @Override
-                        public void run()
-                        {
-                            LinkedList<String> newDatas = new LinkedList<String>();
-                            for (int i = 0; i < 5; i++)
-                            {
-                                int index = i + 1;
-                                newDatas.add("more item" + index+""+(int)(Math.random()*100));
-                            }
-                            listAdapter.addMoreItem(newDatas);
-                        }
-                    }, 1500);
+                        currentPage = currentPage+1;
+                        new HomeTask().execute(String.valueOf(currentPage));
+                    }
                 }
             }
 
@@ -132,5 +129,64 @@ public class HomeFragment extends Fragment
                 lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
             }
         });
+    }
+
+    class HomeTask extends AsyncTask<String, String, LinkedList<Tweet>>
+    {
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            swipeRefreshLayout.setRefreshing(true);
+        }
+
+        @Override
+        protected LinkedList<Tweet> doInBackground(String... params)
+        {
+            LinkedList<Tweet> list = null;
+            RequestBody formBody = new FormBody.Builder()
+                    .add("pageNum", params[0])
+                    .build();
+            Request request = new Request.Builder()
+                    .url(Global.HOST_URL + "Public/showTweet")
+                    .post(formBody)
+                    .build();
+            try
+            {
+                Response response = client.newCall(request).execute();
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                String body = response.body().string();
+                Log.i(Global.TAG, "body-->" + body);
+                Gson gson = new Gson();
+                JSONObject jsonObject = null;
+                JSONObject dataObject = null;
+                jsonObject = new JSONObject(body);
+
+
+                dataObject = (JSONObject) jsonObject.get("data");
+                pageCount = dataObject.getInt("pageCount");
+                Log.i(Global.TAG, "pageCount-->" + pageCount);
+                list = gson.fromJson(dataObject.get("pageData").toString(),
+                        new TypeToken<LinkedList<Tweet>>()
+                        {
+                        }.getType());
+                Log.i(Global.TAG, "list-->" + list.toString());
+            }
+            catch (Exception e)
+            {
+                Log.i(Global.TAG, "ee-->" + e.toString());
+            }
+
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(LinkedList<Tweet> s)
+        {
+            super.onPostExecute(s);
+            Log.i(Global.TAG, "s------>" + s);
+            swipeRefreshLayout.setRefreshing(false);
+            listAdapter.addMoreItem(s);
+        }
     }
 }

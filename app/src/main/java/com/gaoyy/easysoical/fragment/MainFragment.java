@@ -36,7 +36,8 @@ public class MainFragment extends Fragment
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    String[] pagerTitle = {"首页","Alive Guys","Utila"};
+//    String[] pagerTitle = {"首页","Alive Guys","Utila"};
+    String[] pagerTitle = {"首页"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 
