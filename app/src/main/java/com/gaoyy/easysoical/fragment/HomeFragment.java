@@ -18,6 +18,7 @@ import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.adapter.ListAdapter;
 import com.gaoyy.easysoical.bean.Tweet;
 import com.gaoyy.easysoical.utils.Global;
+import com.gaoyy.easysoical.utils.Tool;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,8 +48,9 @@ public class HomeFragment extends Fragment
 
     private final OkHttpClient client = new OkHttpClient();
 
-    private int pageCount=-1;
-    private int currentPage=1;
+    private int pageCount = -1;
+    private int currentPage = 1;
+
 
     private void assignViews(View rootView)
     {
@@ -64,7 +66,7 @@ public class HomeFragment extends Fragment
         assignViews(rootView);
         initData();
         configViews();
-        new HomeTask().execute(String.valueOf(currentPage));
+        new HomeTask(true).execute(String.valueOf(currentPage));
         return rootView;
     }
 
@@ -97,12 +99,8 @@ public class HomeFragment extends Fragment
             @Override
             public void onRefresh()
             {
-                if(currentPage <= pageCount)
-                {
-                    currentPage = currentPage+1;
-                    new HomeTask().execute(String.valueOf(currentPage));
-                }
-
+                currentPage=1;
+                new HomeTask(true).execute(String.valueOf(currentPage));
             }
         });
 
@@ -112,12 +110,16 @@ public class HomeFragment extends Fragment
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
             {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == listAdapter.getItemCount())
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition+1 == listAdapter.getItemCount())
                 {
-                    if(currentPage <= pageCount)
+                    if (currentPage <= pageCount)
                     {
-                        currentPage = currentPage+1;
-                        new HomeTask().execute(String.valueOf(currentPage));
+                        currentPage = currentPage + 1;
+                        new HomeTask(false).execute(String.valueOf(currentPage));
+                    }
+                    else
+                    {
+                        Tool.showSnackbar(recyclerView, ":)到底啦");
                     }
                 }
             }
@@ -133,6 +135,12 @@ public class HomeFragment extends Fragment
 
     class HomeTask extends AsyncTask<String, String, LinkedList<Tweet>>
     {
+        private boolean status;
+        public HomeTask(boolean status)
+        {
+            this.status = status;
+        }
+
         @Override
         protected void onPreExecute()
         {
@@ -156,7 +164,6 @@ public class HomeFragment extends Fragment
                 Response response = client.newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
-                Log.i(Global.TAG, "body-->" + body);
                 Gson gson = new Gson();
                 JSONObject jsonObject = null;
                 JSONObject dataObject = null;
@@ -165,16 +172,14 @@ public class HomeFragment extends Fragment
 
                 dataObject = (JSONObject) jsonObject.get("data");
                 pageCount = dataObject.getInt("pageCount");
-                Log.i(Global.TAG, "pageCount-->" + pageCount);
                 list = gson.fromJson(dataObject.get("pageData").toString(),
                         new TypeToken<LinkedList<Tweet>>()
                         {
                         }.getType());
-                Log.i(Global.TAG, "list-->" + list.toString());
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "ee-->" + e.toString());
+                Log.i(Global.TAG, "e-->" + e.toString());
             }
 
             return list;
@@ -184,9 +189,26 @@ public class HomeFragment extends Fragment
         protected void onPostExecute(LinkedList<Tweet> s)
         {
             super.onPostExecute(s);
-            Log.i(Global.TAG, "s------>" + s);
+            Log.i(Global.TAG, "s.size------>" + s.size());
             swipeRefreshLayout.setRefreshing(false);
-            listAdapter.addMoreItem(s);
+//            if(isDownLoadMore)
+//            {
+//                listAdapter.addMoreItem(s);
+//                isDownLoadMore = false;
+//            }
+//            else
+//            {
+//                listAdapter.addItem(s);
+//            }
+            if(status)
+            {
+                listAdapter.addItem(s);
+            }
+            else
+            {
+                listAdapter.addMoreItem(s);
+            }
+
         }
     }
 }

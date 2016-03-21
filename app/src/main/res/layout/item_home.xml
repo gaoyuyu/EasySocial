@@ -21,7 +21,7 @@
             android:id="@+id/item_home_avatar"
             android:layout_width="42dp"
             android:layout_height="42dp"
-            fresco:backgroundImage="@color/black"
+            fresco:placeholderImage="@drawable/user_icon_default_main"
             fresco:roundedCornerRadius="180dp"/>
 
         <TextView
@@ -62,8 +62,9 @@
             android:id="@+id/item_home_tweimg"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            fresco:placeholderImage="@drawable/bg_pic_loading"
+            fresco:failureImage="@drawable/bg_pic_fail"
             android:layout_below="@+id/item_home_tweet"
-            fresco:backgroundImage="@color/black"
             />
 
         <LinearLayout
