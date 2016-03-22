@@ -60,10 +60,12 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/item_home_tweimg"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
             fresco:placeholderImage="@drawable/bg_pic_loading"
             fresco:failureImage="@drawable/bg_pic_fail"
+            fresco:retryImage="@drawable/bg_pic_retry"
+            fresco:viewAspectRatio="1.33"
             android:layout_below="@+id/item_home_tweet"
             />
 

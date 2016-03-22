@@ -164,24 +164,23 @@ public class HomeFragment extends Fragment
                 Response response = client.newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
-                Gson gson = new Gson();
-                JSONObject jsonObject = null;
-                JSONObject dataObject = null;
-                jsonObject = new JSONObject(body);
-
-
-                dataObject = (JSONObject) jsonObject.get("data");
-                pageCount = dataObject.getInt("pageCount");
-                list = gson.fromJson(dataObject.get("pageData").toString(),
-                        new TypeToken<LinkedList<Tweet>>()
-                        {
-                        }.getType());
+                Log.i(Global.TAG, "body-->" + body);
+                Log.i(Global.TAG, "code-->" + Tool.getRepCode(body));
+                if(0 == Tool.getRepCode(body))
+                {
+                    Gson gson = new Gson();
+                    JSONObject dataJsonObj = Tool.getDataJsonObj(body);
+                    pageCount = dataJsonObj.getInt("pageCount");
+                    list = gson.fromJson(dataJsonObj.get("pageData").toString(),
+                            new TypeToken<LinkedList<Tweet>>()
+                            {
+                            }.getType());
+                }
             }
             catch (Exception e)
             {
                 Log.i(Global.TAG, "e-->" + e.toString());
             }
-
             return list;
         }
 
@@ -189,25 +188,24 @@ public class HomeFragment extends Fragment
         protected void onPostExecute(LinkedList<Tweet> s)
         {
             super.onPostExecute(s);
-            Log.i(Global.TAG, "s.size------>" + s.size());
+            Log.i(Global.TAG, "s.size------>"   + s.size());
             swipeRefreshLayout.setRefreshing(false);
-//            if(isDownLoadMore)
-//            {
-//                listAdapter.addMoreItem(s);
-//                isDownLoadMore = false;
-//            }
-//            else
-//            {
-//                listAdapter.addItem(s);
-//            }
-            if(status)
+            if(s != null)
             {
-                listAdapter.addItem(s);
+                if(status)
+                {
+                    listAdapter.addItem(s);
+                }
+                else
+                {
+                    listAdapter.addMoreItem(s);
+                }
             }
             else
             {
-                listAdapter.addMoreItem(s);
+                Log.i(Global.TAG,"内部错误");
             }
+
 
         }
     }

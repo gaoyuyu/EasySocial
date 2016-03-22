@@ -17,4 +17,19 @@
 
     <style name="AppTheme" parent="@style/BaseAppTheme">
     </style>
+
+
+    <!-- 自定义ProgressDialog -->
+    <style name="BasicDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="BasicProgressDialog" parent="@style/BasicDialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

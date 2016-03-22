@@ -80,8 +80,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemViewHolder.itemHomeDetail.setText(tweet.getCreate_time());
             itemViewHolder.itemHomeTweet.setText(tweet.getContent());
 
-        GenericDraweeHierarchyBuilder builder =
-                new GenericDraweeHierarchyBuilder(context.getResources());
+        GenericDraweeHierarchyBuilder builder =new GenericDraweeHierarchyBuilder(context.getResources());
         GenericDraweeHierarchy hierarchy = builder
                 .setFadeDuration(300)
                 .setPlaceholderImage(new ProgressBarDrawable())
@@ -114,7 +113,11 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void addItem(LinkedList<Tweet> newDatas)
     {
-        data.clear();
+        if(data.size() != 0)
+        {
+            data.clear();
+        }
+
         for (int i = 0; i < newDatas.size(); i++)
         {
             data.addFirst(newDatas.get(i));
