@@ -1,23 +1,20 @@
-package com.gaoyy.easysoical.fragment;
+package com.gaoyy.easysoical;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.utils.Global;
 import com.gaoyy.easysoical.utils.Tool;
 import com.gaoyy.easysoical.view.BasicProgressDialog;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONObject;
@@ -30,51 +27,52 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-/**
- * Created by gaoyy on 2016/3/1/0001.
- */
-public class LoginFragment extends Fragment implements View.OnClickListener
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-    private View rootView;
     private Toolbar loginToolbar;
     private MaterialEditText email;
     private MaterialEditText password;
-    private AppCompatActivity activity;
     private AppCompatButton loginBtn;
 
     private final OkHttpClient client = new OkHttpClient();
     BasicProgressDialog basicProgressDialog;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    protected void onCreate(Bundle savedInstanceState)
     {
-        rootView = inflater.inflate(R.layout.fragment_login, container, false);
-        activity = (AppCompatActivity) getActivity();
-        assignViews(rootView);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        assignViews();
         initToolbar();
         setListener();
-        return rootView;
+
     }
 
-    private void assignViews(View rootView)
+    private void assignViews()
     {
-        loginToolbar = (Toolbar) rootView.findViewById(R.id.login_toolbar);
-        email = (MaterialEditText) rootView.findViewById(R.id.email);
-        password = (MaterialEditText) rootView.findViewById(R.id.password);
-        loginBtn = (AppCompatButton) rootView.findViewById(R.id.login_btn);
+        loginToolbar = (Toolbar) findViewById(R.id.login_toolbar);
+        email = (MaterialEditText) findViewById(R.id.email);
+        password = (MaterialEditText) findViewById(R.id.password);
+        loginBtn = (AppCompatButton) findViewById(R.id.login_btn);
 
-        basicProgressDialog = BasicProgressDialog.create(activity);
+        email.setText("740514999@qq.com");
+        password.setText("1qa2ws");
+
+        basicProgressDialog = BasicProgressDialog.create(this);
     }
 
     public void initToolbar()
     {
         loginToolbar.setTitle(R.string.login);
-        activity.setSupportActionBar(loginToolbar);
+        setSupportActionBar(loginToolbar);
         //设置返回键可用
-        activity.getSupportActionBar().setHomeButtonEnabled(true);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        tintManager.setStatusBarTintEnabled(true);
     }
 
     private void setListener()
@@ -90,39 +88,21 @@ public class LoginFragment extends Fragment implements View.OnClickListener
         {
             case R.id.login_btn:
 
-                String[] params = {email.getText().toString(),password.getText().toString()};
+                String[] params = {email.getText().toString(), password.getText().toString()};
                 new LoginTask().execute(params);
-//                Request request = new Request.Builder()
-//                        .url(Global.HOST_URL + "User/login")
-//                        .build();
-//                client.newCall(request).enqueue(new Callback()
-//                {
-//                    @Override
-//                    public void onFailure(Call call, IOException e)
-//                    {
-//                        Log.i(Global.TAG,"onFailure");
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException
-//                    {
-//                        Log.i(Global.TAG,"onResponse");
-//                        if (!response.isSuccessful())
-//                        {
-//                            Log.i(Global.TAG,"Unexpected");
-//                            throw new IOException("Unexpected code " + response);
-//                        }
-//                        Headers responseHeaders = response.headers();
-//                        for (int i = 0; i < responseHeaders.size(); i++)
-//                        {
-//                            Log.i(Global.TAG,responseHeaders.name(i) + ": " + responseHeaders.value(i));
-//                        }
-//
-//                        Log.i(Global.TAG,response.body().string());
-//                    }
-//                });
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+        if (id == android.R.id.home)
+        {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class LoginTask extends AsyncTask<String, String, String>
@@ -151,10 +131,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener
                 Response response = client.newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
+                Log.i(Global.TAG,body);
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "e-->" + e.toString());
+                Log.i(Global.TAG, "doInBackground e-->" + e.toString());
             }
 
             return body;
@@ -169,10 +150,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener
             {
                 if (0 == Tool.getRepCode(s))
                 {
-                    SharedPreferences account = activity.getSharedPreferences("account",
+                    SharedPreferences account = (LoginActivity.this).getSharedPreferences("account",
                             Activity.MODE_PRIVATE);
                     SharedPreferences.Editor editor = account.edit();
                     JSONObject dataJsonObj = Tool.getDataJsonObj(s);
+                    editor.putString("loginKey", "1");
                     editor.putString("aid", dataJsonObj.getString("aid"));
                     editor.putString("username", dataJsonObj.getString("username"));
                     editor.putString("realname", dataJsonObj.getString("realname"));
@@ -182,16 +164,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener
                     editor.putString("gender", dataJsonObj.getString("gender"));
                     editor.putString("avatar", dataJsonObj.getString("avatar"));
                     editor.commit();
-                    Tool.showToast(activity,"登录成功");
+                    Tool.showToast(LoginActivity.this, "登录成功");
+                    finish();
                 }
                 else
                 {
-                    Tool.showToast(activity,(Tool.getMainJsonObj(s)).getString("data"));
+                    Tool.showToast(LoginActivity.this, (Tool.getMainJsonObj(s)).getString("data"));
                 }
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "e-->" + e.toString());
+                Log.i(Global.TAG, "onPostExecute e-->" + e.toString());
             }
 
         }

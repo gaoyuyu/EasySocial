@@ -1,9 +1,13 @@
 package com.gaoyy.easysoical.fragment;
 
 
+import android.app.Activity;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,12 +15,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.adapter.PageAdapter;
+import com.gaoyy.easysoical.utils.Global;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
@@ -111,7 +124,6 @@ public class MainFragment extends Fragment
 
         pageAdapter = new PageAdapter(activity.getSupportFragmentManager(),pagerTitle,fragmentList);
         viewPager.setAdapter(pageAdapter);
-        viewPager.setOffscreenPageLimit(pagerTitle.length);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
         {
             @Override
@@ -138,8 +150,42 @@ public class MainFragment extends Fragment
         tabLayout.setupWithViewPager(viewPager);
         // 设置Tablayout的Tab显示ViewPager的适配器中的getPageTitle函数获取到的标题
         tabLayout.setTabsFromPagerAdapter(pageAdapter);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        Log.i(Global.TAG,"onResume");
+        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        SharedPreferences account= getActivity().getSharedPreferences("account",Activity.MODE_PRIVATE);
+        if(account != null)
+        {
+            String loginKey = account.getString("loginKey", "");
+            if(loginKey.equals("1"))
+            {
+                GenericDraweeHierarchyBuilder builder =new GenericDraweeHierarchyBuilder(getActivity().getResources());
+                GenericDraweeHierarchy hierarchy = builder
+                        .setFadeDuration(300)
+                        .setPlaceholderImage(new ProgressBarDrawable())
+                        .build();
+                DraweeController controller = Fresco.newDraweeControllerBuilder()
+                        .setTapToRetryEnabled(true)
+                        .build();
+                SimpleDraweeView img = (SimpleDraweeView)headerView.findViewById(R.id.nav_header_ava);
+                TextView name = (TextView)headerView.findViewById(R.id.nav_header_account);
+                TextView signature = (TextView)headerView.findViewById(R.id.nav_header_signature);
+                img.setImageURI(Uri.parse(account.getString("avatar","")));
+
+                name.setText(account.getString("username",""));
+                signature.setText(account.getString("signature",""));
+
+            }
+        }
+
 
 
     }
-
 }

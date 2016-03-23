@@ -1,5 +1,6 @@
 package com.gaoyy.easysoical;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,10 +11,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.gaoyy.easysoical.fragment.LoginFragment;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.fragment.MainFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -24,8 +24,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
 
     //记录当前正在使用的fragment
-    private Fragment isFragment;
-    private LoginFragment loginFragment;
+    private Fragment currentFragment;
+
+    public Fragment getCurrentFragment()
+    {
+        return currentFragment;
+    }
+
+    public void setCurrentFragment(Fragment currentFragment)
+    {
+        this.currentFragment = currentFragment;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,19 +44,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerlayout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
         View headerView = navigationView.getHeaderView(0);
-        ImageView img = (ImageView) headerView.findViewById(R.id.imageView);
+        SimpleDraweeView img = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_ava);
         img.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if (loginFragment == null)
-                {
-                    loginFragment = new LoginFragment();
-                }
-                switchContent(isFragment, loginFragment);
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
             }
         });
         initFragment(savedInstanceState);
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             {
                 mainFragment = new MainFragment();
             }
-            isFragment = mainFragment;
+            setCurrentFragment(mainFragment);
             ft.replace(R.id.layout_main, mainFragment).commit();
         }
     }
@@ -79,9 +85,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     public void switchContent(Fragment from, Fragment to)
     {
-        if (isFragment != to)
+        if (currentFragment != to)
         {
-            isFragment = to;
+            //设置当前的Fragment
+            setCurrentFragment(to);
+
             FragmentManager fm = getSupportFragmentManager();
             //添加渐隐渐现的动画
             FragmentTransaction ft = fm.beginTransaction();
@@ -91,7 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (!to.isAdded())
             {    // 先判断是否被add过
                 ft.hide(from).add(R.id.layout_main, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
-            } else
+            }
+            else
             {
                 ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
@@ -106,12 +115,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawerLayout.isDrawerOpen(GravityCompat.START))
         {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else
+        }
+        else
         {
             super.onBackPressed();
         }
     }
-
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -126,9 +135,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
-        if(id == android.R.id.home)
+        if (id == android.R.id.home)
         {
-            switchContent(isFragment,mainFragment);
+
         }
         return super.onOptionsItemSelected(item);
     }

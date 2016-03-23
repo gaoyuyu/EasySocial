@@ -339,3 +339,5 @@ public boolean onCreateOptionsMenu(Menu menu)
                     }
                 });
 ```
+####2016.3.23
+Activity最顶层布局必须`android:fitsSystemWindows="true"`，之后再设置SystemBarTintManager

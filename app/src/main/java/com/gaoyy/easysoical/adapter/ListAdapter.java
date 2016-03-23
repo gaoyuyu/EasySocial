@@ -83,7 +83,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         GenericDraweeHierarchyBuilder builder =new GenericDraweeHierarchyBuilder(context.getResources());
         GenericDraweeHierarchy hierarchy = builder
                 .setFadeDuration(300)
-                .setPlaceholderImage(new ProgressBarDrawable())
+                .setProgressBarImage(new ProgressBarDrawable())
                 .build();
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setTapToRetryEnabled(true)
