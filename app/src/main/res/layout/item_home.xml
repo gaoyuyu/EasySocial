@@ -2,72 +2,21 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_home_cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground"
     card_view:cardElevation="3dp">
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         >
 
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_home_avatar"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            fresco:placeholderImageScaleType="fitCenter"
-            fresco:placeholderImage="@drawable/user_icon_default_main"
-            fresco:roundedCornerRadius="180dp"/>
-
-        <TextView
-            android:id="@+id/item_home_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="2dp"
-            android:layout_toEndOf="@+id/item_home_avatar"
-            android:text="真实美女咨询"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            />
-
-        <TextView
-            android:id="@+id/item_home_detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/item_home_account"
-            android:layout_below="@+id/item_home_account"
-            android:layout_marginTop="2dp"
-            android:text="昨天 13:30 皮皮时光机"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
-
-        <TextView
-            android:id="@+id/item_home_tweet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/item_home_avatar"
-            android:layout_marginTop="5dp"
-            android:text="@string/long_text"
-            android:textColor="@color/black"
-            android:textSize="17sp"/>
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/item_home_tweimg"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            fresco:placeholderImage="@drawable/bg_pic_loading"
-            fresco:failureImage="@drawable/bg_pic_fail"
-            fresco:retryImage="@drawable/bg_pic_retry"
-            fresco:viewAspectRatio="1.33"
-            android:layout_below="@+id/item_home_tweet"
+        <include
+            layout="@layout/comment_basic"
             />
 
         <LinearLayout
@@ -75,8 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/item_home_tweimg"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -108,12 +57,9 @@
                     android:drawableLeft="@drawable/ic_share"
                     android:gravity="center"
                     android:text="921"/>
-
             </LinearLayout>
-
-
         </LinearLayout>
+    </LinearLayout>
 
 
-    </RelativeLayout>
 </android.support.v7.widget.CardView>

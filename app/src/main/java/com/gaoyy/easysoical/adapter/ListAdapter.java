@@ -2,6 +2,7 @@ package com.gaoyy.easysoical.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +28,22 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private LayoutInflater inflater;
     private LinkedList<Tweet> data;
     private Context context;
+
 //    private static final int TYPE_ITEM = 0;  //普通Item View
 //    private static final int TYPE_FOOTER = 1;  //顶部FootView
+
+    public interface OnItemClickListener
+    {
+        void onItemClick(View view, int position);
+//        void onItemLongClick(View view, int position);
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener)
+    {
+        this.onItemClickListener = listener;
+    }
 
     public ListAdapter(Context context, LinkedList<Tweet> data)
     {
@@ -97,6 +112,17 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemViewHolder.itemHomeTweimg.setHierarchy(hierarchy);
         itemViewHolder.itemHomeTweimg.setController(controller);
         itemViewHolder.itemHomeTweimg.setImageURI(picUri);
+
+
+        if(onItemClickListener != null)
+        {
+            itemViewHolder.itemHomeCardView.setOnClickListener(new BasicOnClickListener(itemViewHolder));
+            itemViewHolder.itemHomeTweimg.setOnClickListener(new BasicOnClickListener(itemViewHolder));
+
+        }
+
+
+
 //        } else if (holder instanceof FooterViewHolder)
 //        {
 //            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
@@ -110,6 +136,33 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return data.size();
 //        return data.size() + 1;
     }
+
+    public class BasicOnClickListener implements View.OnClickListener
+    {
+        ItemViewHolder itemViewHolder;
+
+        public BasicOnClickListener(ItemViewHolder itemViewHolder)
+        {
+            this.itemViewHolder = itemViewHolder;
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            int id = v.getId();
+            switch (id)
+            {
+                case R.id.item_home_cardview:
+                    onItemClickListener.onItemClick(itemViewHolder.itemHomeCardView, itemViewHolder.getLayoutPosition());
+                    break;
+                case R.id.item_home_tweimg:
+                    onItemClickListener.onItemClick(itemViewHolder.itemHomeTweimg, itemViewHolder.getLayoutPosition());
+                    break;
+            }
+        }
+    }
+
+
 
     public void addItem(LinkedList<Tweet> newDatas)
     {
@@ -149,11 +202,13 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView itemHomeFav;
         private TextView itemHomeCom;
         private TextView itemHomeShare;
+        private CardView itemHomeCardView;
 
 
         public ItemViewHolder(View itemView)
         {
             super(itemView);
+            itemHomeCardView = (CardView) itemView.findViewById(R.id.item_home_cardview);
             itemHomeAvatar = (SimpleDraweeView) itemView.findViewById(R.id.item_home_avatar);
             itemHomeAccount = (TextView) itemView.findViewById(R.id.item_home_account);
             itemHomeDetail = (TextView) itemView.findViewById(R.id.item_home_detail);

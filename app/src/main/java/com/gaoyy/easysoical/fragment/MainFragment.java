@@ -27,6 +27,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.gaoyy.easysoical.BlankFragment;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.adapter.PageAdapter;
 import com.gaoyy.easysoical.utils.Global;
@@ -50,7 +51,7 @@ public class MainFragment extends Fragment
     private ViewPager viewPager;
 
 //    String[] pagerTitle = {"首页","Alive Guys","Utila"};
-    String[] pagerTitle = {"首页"};
+    String[] pagerTitle = {"首页","活动","排行榜"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 
@@ -91,14 +92,23 @@ public class MainFragment extends Fragment
         {
             Bundle bundle = new Bundle();
             bundle.putString("title",pagerTitle[i]);
-            HomeFragment homeFragment = new HomeFragment();
-            homeFragment.setArguments(bundle);
-            fragmentList.add(i,homeFragment);
+            Fragment fragment = null;
+            if(pagerTitle[i].equals("首页"))
+            {
+                fragment = new HomeFragment();
+            }
+            else
+            {
+                fragment = new BlankFragment();
+            }
+            fragment.setArguments(bundle);
+            fragmentList.add(i,fragment);
         }
     }
     public void configViews()
     {
         AppCompatActivity activity = ((AppCompatActivity)getActivity());
+        toolbar.setTitle(activity.getResources().getString(R.string.app_name));
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);

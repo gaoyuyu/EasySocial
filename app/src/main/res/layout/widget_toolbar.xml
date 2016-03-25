@@ -7,4 +7,5 @@
     android:background="?attr/colorPrimary"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
     app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:layout_collapseMode="pin"
     />

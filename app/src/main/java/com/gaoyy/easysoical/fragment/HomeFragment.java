@@ -1,5 +1,6 @@
 package com.gaoyy.easysoical.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gaoyy.easysoical.R;
+import com.gaoyy.easysoical.TweetDetailActivity;
 import com.gaoyy.easysoical.adapter.ListAdapter;
 import com.gaoyy.easysoical.bean.Tweet;
 import com.gaoyy.easysoical.utils.Global;
@@ -84,6 +86,26 @@ public class HomeFragment extends Fragment
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         swRecyclerView.setLayoutManager(linearLayoutManager);
         swRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
+        listAdapter.setOnItemClickListener(new ListAdapter.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(View view, int position)
+            {
+                int id = view.getId();
+                switch (id)
+                {
+                    case R.id.item_home_cardview:
+                        Intent intent = new Intent(getActivity(), TweetDetailActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_home_tweimg:
+                        Tool.showToast(getActivity(),"item_home_tweimg");
+                        break;
+                }
+            }
+        });
 
         //设置刷新时动画的颜色，可以设置4个
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
