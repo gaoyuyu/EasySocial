@@ -91,6 +91,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //        {
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             Tweet tweet = data.get(position);
+            itemViewHolder.itemHomeCardView.setTag(tweet);
             itemViewHolder.itemHomeAccount.setText(tweet.getUsername());
             itemViewHolder.itemHomeDetail.setText(tweet.getCreate_time());
             itemViewHolder.itemHomeTweet.setText(tweet.getContent());
@@ -108,7 +109,6 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Uri avaUri = Uri.parse(tweet.getAvatar());
         Uri picUri = Uri.parse(tweet.getPicture());
         itemViewHolder.itemHomeAvatar.setImageURI(avaUri);
-
         itemViewHolder.itemHomeTweimg.setHierarchy(hierarchy);
         itemViewHolder.itemHomeTweimg.setController(controller);
         itemViewHolder.itemHomeTweimg.setImageURI(picUri);

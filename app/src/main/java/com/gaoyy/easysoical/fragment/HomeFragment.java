@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -74,7 +75,6 @@ public class HomeFragment extends Fragment
 
     public void initData()
     {
-        String title = getArguments().getString("title");
         data = new LinkedList<Tweet>();
     }
 
@@ -98,6 +98,8 @@ public class HomeFragment extends Fragment
                 {
                     case R.id.item_home_cardview:
                         Intent intent = new Intent(getActivity(), TweetDetailActivity.class);
+                        Tweet tweet = (Tweet) ((CardView)view).getTag();
+                        intent.putExtra("tweet",tweet);
                         startActivity(intent);
                         break;
                     case R.id.item_home_tweimg:

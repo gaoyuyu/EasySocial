@@ -1,9 +1,11 @@
 package com.gaoyy.easysoical.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by gaoyy on 2016/3/20/0020.
  */
-public class Tweet
+public class Tweet implements Serializable
 {
     //推文信息
     private String tid;
