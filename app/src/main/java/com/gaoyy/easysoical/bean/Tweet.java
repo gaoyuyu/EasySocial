@@ -9,10 +9,11 @@ public class Tweet implements Serializable
 {
     //推文信息
     private String tid;
-    private String account_id;
     private String content;
     private String picture;
     private String create_time;
+    private String favorite_count;
+    private String comment_count;
     //账户信息
     private String aid;
     private String username;
@@ -25,11 +26,6 @@ public class Tweet implements Serializable
     public String getTid()
     {
         return tid;
-    }
-
-    public String getAccount_id()
-    {
-        return account_id;
     }
 
     public String getContent()
@@ -82,15 +78,26 @@ public class Tweet implements Serializable
         return avatar;
     }
 
+    public String getFavorite_count()
+    {
+        return favorite_count;
+    }
+
+    public String getComment_count()
+    {
+        return comment_count;
+    }
+
     @Override
     public String toString()
     {
         return "Tweet{" +
                 "tid='" + tid + '\'' +
-                ", account_id='" + account_id + '\'' +
                 ", content='" + content + '\'' +
                 ", picture='" + picture + '\'' +
                 ", create_time='" + create_time + '\'' +
+                ", favorite_count='" + favorite_count + '\'' +
+                ", comment_count='" + comment_count + '\'' +
                 ", aid='" + aid + '\'' +
                 ", username='" + username + '\'' +
                 ", realname='" + realname + '\'' +

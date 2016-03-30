@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextPaint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.bean.Tweet;
+import com.gaoyy.easysoical.utils.Global;
 
 import java.util.LinkedList;
 
@@ -89,14 +92,17 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     {
 //        if (holder instanceof ItemViewHolder)
 //        {
-            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            Tweet tweet = data.get(position);
-            itemViewHolder.itemHomeCardView.setTag(tweet);
-            itemViewHolder.itemHomeAccount.setText(tweet.getUsername());
-            itemViewHolder.itemHomeDetail.setText(tweet.getCreate_time());
-            itemViewHolder.itemHomeTweet.setText(tweet.getContent());
+        ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+        Tweet tweet = data.get(position);
+        Log.i(Global.TAG,"-getComment_count-->"+tweet.getComment_count()+"--getFavorite_count->"+tweet.getFavorite_count());
+        itemViewHolder.itemHomeCardView.setTag(tweet);
+        itemViewHolder.itemHomeAccount.setText(tweet.getUsername());
+        TextPaint textPaint = itemViewHolder.itemHomeAccount.getPaint();
+        textPaint.setFakeBoldText(true);
+        itemViewHolder.itemHomeDetail.setText(tweet.getCreate_time());
+        itemViewHolder.itemHomeTweet.setText(tweet.getContent());
 
-        GenericDraweeHierarchyBuilder builder =new GenericDraweeHierarchyBuilder(context.getResources());
+        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
         GenericDraweeHierarchy hierarchy = builder
                 .setFadeDuration(300)
                 .setProgressBarImage(new ProgressBarDrawable())
@@ -114,13 +120,16 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemViewHolder.itemHomeTweimg.setImageURI(picUri);
 
 
-        if(onItemClickListener != null)
+        itemViewHolder.itemHomeCom.setText(tweet.getComment_count());
+        itemViewHolder.itemHomeFav.setText(tweet.getFavorite_count());
+
+
+        if (onItemClickListener != null)
         {
             itemViewHolder.itemHomeCardView.setOnClickListener(new BasicOnClickListener(itemViewHolder));
             itemViewHolder.itemHomeTweimg.setOnClickListener(new BasicOnClickListener(itemViewHolder));
 
         }
-
 
 
 //        } else if (holder instanceof FooterViewHolder)
@@ -163,17 +172,16 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-
     public void addItem(LinkedList<Tweet> newDatas)
     {
-        if(data.size() != 0)
+        if (data.size() != 0)
         {
             data.clear();
         }
 
         for (int i = 0; i < newDatas.size(); i++)
         {
-            data.addFirst(newDatas.get(i));
+            data.addLast(newDatas.get(i));
         }
 //        notifyItemRangeInserted(0, newDatas.size());
 //        notifyItemRangeChanged(0 + newDatas.size(), getItemCount() - newDatas.size());

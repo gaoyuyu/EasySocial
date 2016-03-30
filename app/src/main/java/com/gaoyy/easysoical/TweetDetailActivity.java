@@ -1,72 +1,57 @@
 package com.gaoyy.easysoical;
 
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.drawable.ProgressBarDrawable;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.drawee.interfaces.DraweeController;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.gaoyy.easysoical.adapter.TweetDetailAdapter;
+import com.gaoyy.easysoical.adapter.CommentAdapter;
+import com.gaoyy.easysoical.bean.Comment;
 import com.gaoyy.easysoical.bean.Tweet;
-import com.gaoyy.easysoical.fragment.CommentFragment;
-import com.gaoyy.easysoical.fragment.FavoriteFragment;
 import com.gaoyy.easysoical.utils.Global;
+import com.gaoyy.easysoical.utils.Tool;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
-public class TweetDetailActivity extends AppCompatActivity
+import java.io.IOException;
+import java.util.LinkedList;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+public class TweetDetailActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
 {
     private Toolbar tweetDetailToolbar;
-    private TabLayout tweetDetailTablayout;
-    private ViewPager tweetDetailViewpager;
-    private CoordinatorLayout tweetDetailCoordinatorLayout;
-    private TweetDetailAdapter tweetDetailAdapter;
-    private String[] detailTitle = {"评论", "赞"};
-    private List<Fragment> detailFragmentList;
-
-
-    private SimpleDraweeView itemHomeAvatar;
-    private TextView itemHomeAccount;
-    private TextView itemHomeDetail;
-    private TextView itemHomeTweet;
-    private SimpleDraweeView itemHomeTweimg;
-
+    private SwipeRefreshLayout tweetDetailSrlayout;
+    private RecyclerView tweetDetailRv;
+    private CommentAdapter commentAdapter;
+    private LinkedList<Comment> commentList;
+    private LinearLayoutManager linearLayoutManager;
 
     private Tweet tweet;
+
+    private final OkHttpClient client = new OkHttpClient();
 
     private void assignViews()
     {
         tweetDetailToolbar = (Toolbar) findViewById(R.id.tweet_detail_toolbar);
-        tweetDetailTablayout = (TabLayout) findViewById(R.id.tweet_detail_tablayout);
-        tweetDetailViewpager = (ViewPager) findViewById(R.id.tweet_detail_viewpager);
-        tweetDetailCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.tweet_detail_coordinatorLayout);
-        assignHeader();
+        tweetDetailSrlayout = (SwipeRefreshLayout) findViewById(R.id.tweet_detail_srlayout);
+        tweetDetailRv = (RecyclerView) findViewById(R.id.tweet_detail_rv);
     }
 
-    private void assignHeader()
-    {
-        itemHomeAvatar = (SimpleDraweeView) findViewById(R.id.item_home_avatar);
-        itemHomeAccount = (TextView) findViewById(R.id.item_home_account);
-        itemHomeDetail = (TextView) findViewById(R.id.item_home_detail);
-        itemHomeTweet = (TextView) findViewById(R.id.item_home_tweet);
-        itemHomeTweimg = (SimpleDraweeView) findViewById(R.id.item_home_tweimg);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -77,8 +62,10 @@ public class TweetDetailActivity extends AppCompatActivity
         Log.i(Global.TAG, "TWEET-->" + tweet.toString());
         assignViews();
         initToolbar();
-        initFragmentList();
+        initData();
         configViews();
+        new CommentTask().execute();
+
 
     }
 
@@ -95,54 +82,83 @@ public class TweetDetailActivity extends AppCompatActivity
         tintManager.setStatusBarTintEnabled(true);
     }
 
-    public void initFragmentList()
+
+    private void configViews()
     {
-        detailFragmentList = new ArrayList<Fragment>();
-        CommentFragment commentFragment = new CommentFragment();
-        FavoriteFragment favoriteFragment = new FavoriteFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("tweet",tweet);
-        commentFragment.setArguments(bundle);
-        favoriteFragment.setArguments(bundle);
-        detailFragmentList.add(commentFragment);
-        detailFragmentList.add(favoriteFragment);
+        tweetDetailSrlayout.setOnRefreshListener(this);
+        commentAdapter = new CommentAdapter(this,commentList,tweet);
+        tweetDetailRv.setAdapter(commentAdapter);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        tweetDetailRv.setLayoutManager(linearLayoutManager);
+
     }
 
-    public void configViews()
+    private void initData()
     {
-        initHeader();
-        tweetDetailAdapter = new TweetDetailAdapter(getSupportFragmentManager(), detailTitle, detailFragmentList);
-        tweetDetailViewpager.setAdapter(tweetDetailAdapter);
-        tweetDetailTablayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tweetDetailTablayout.setupWithViewPager(tweetDetailViewpager);
-        tweetDetailTablayout.setTabsFromPagerAdapter(tweetDetailAdapter);
+        commentList = new LinkedList<Comment>();
     }
 
-
-    private void initHeader()
+    @Override
+    public void onRefresh()
     {
-        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(getResources());
-        GenericDraweeHierarchy hierarchy = builder
-                .setFadeDuration(300)
-                .setProgressBarImage(new ProgressBarDrawable())
-                .build();
-        DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setTapToRetryEnabled(true)
-                .build();
-
-        Uri avaUri = Uri.parse(tweet.getAvatar());
-        Uri picUri = Uri.parse(tweet.getPicture());
-        itemHomeAvatar.setImageURI(avaUri);
-        itemHomeTweimg.setHierarchy(hierarchy);
-        itemHomeTweimg.setController(controller);
-        itemHomeTweimg.setImageURI(picUri);
-
-
-        itemHomeAccount.setText(tweet.getUsername());
-        itemHomeDetail.setText(tweet.getCreate_time());
-        itemHomeTweet.setText(tweet.getContent());
 
     }
+
+    class CommentTask extends AsyncTask<String, String, LinkedList<Comment>>
+    {
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected LinkedList<Comment> doInBackground(String... params)
+        {
+            String tid = tweet.getTid();
+
+            LinkedList<Comment> list = null;
+            RequestBody formBody = new FormBody.Builder()
+                    .add("tid", tid)
+                    .build();
+            Request request = new Request.Builder()
+                    .url(Global.HOST_URL + "Public/showCommentList")
+                    .post(formBody)
+                    .build();
+            try
+            {
+                Response response = client.newCall(request).execute();
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                String body = response.body().string();
+                Log.i(Global.TAG, "body-->" + body);
+                Log.i(Global.TAG, "code-->" + Tool.getRepCode(body));
+                if (0 == Tool.getRepCode(body))
+                {
+                    Gson gson = new Gson();
+                    JSONObject jsonObj = Tool.getMainJsonObj(body);
+                    list = gson.fromJson(jsonObj.get("data").toString(),
+                            new TypeToken<LinkedList<Comment>>()
+                            {
+                            }.getType());
+                    Log.i(Global.TAG, "list-->" + list.toString());
+                }
+            }
+            catch (Exception e)
+            {
+                Log.i(Global.TAG, "e-->" + e.toString());
+            }
+
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(LinkedList<Comment> s)
+        {
+            super.onPostExecute(s);
+            commentAdapter.addItem(s);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

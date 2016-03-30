@@ -18,7 +18,7 @@
         android:layout_marginTop="2dp"
         android:text="中二之魂"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         />
 
 </LinearLayout>
