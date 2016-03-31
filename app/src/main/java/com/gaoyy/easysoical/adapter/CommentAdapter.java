@@ -38,33 +38,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_HEADER = 1;
 
-
     public interface OnItemClickListener
     {
         void onItemClick(View view, int position);
     }
 
-    public interface OnTabSelectedListener
-    {
-        void onTabSelected(TabLayout.Tab tab);
-    }
-
-
     private OnItemClickListener onItemClickListener;
-    private OnTabSelectedListener onTabSelectedListener;
 
     public void setOnItemClickListener(OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
     }
-
-    public void setOnTabSelectedListener(OnTabSelectedListener listener)
-    {
-        this.onTabSelectedListener = listener;
-    }
-
-
-
 
     public CommentAdapter(Context context, LinkedList<Comment> data, Tweet tweet)
     {
@@ -95,8 +79,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
-        Log.i(Global.TAG,"position-->"+position);
-        if(data.size() == 0)
+        Log.i(Global.TAG, "position-->" + position);
+        if (data.size() == 0)
         {
             return;
         }
@@ -136,39 +120,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             TextPaint textPaint = comHeaderViewHolder.itemHomeAccount.getPaint();
             textPaint.setFakeBoldText(true);
-
-            comHeaderViewHolder.itemHomeTablayout.setVisibility(View.VISIBLE);
-            if(2 != comHeaderViewHolder.itemHomeTablayout.getTabCount())
-            {
-                comHeaderViewHolder.itemHomeTablayout.setTabMode(TabLayout.MODE_FIXED);
-                comHeaderViewHolder.itemHomeTablayout.addTab(comHeaderViewHolder.itemHomeTablayout.newTab().setText("评论"));
-                comHeaderViewHolder.itemHomeTablayout.addTab(comHeaderViewHolder.itemHomeTablayout.newTab().setText("赞"));
-            }
-
-            if (onTabSelectedListener != null)
-            {
-                comHeaderViewHolder.itemHomeTablayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
-                {
-                    @Override
-                    public void onTabSelected(TabLayout.Tab tab)
-                    {
-                        onTabSelectedListener.onTabSelected(tab);
-                    }
-
-                    @Override
-                    public void onTabUnselected(TabLayout.Tab tab)
-                    {
-
-                    }
-
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab)
-                    {
-
-                    }
-                });
-            }
-
         }
 
 
