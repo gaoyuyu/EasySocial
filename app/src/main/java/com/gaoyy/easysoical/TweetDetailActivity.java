@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.gaoyy.easysoical.adapter.CommentAdapter;
 import com.gaoyy.easysoical.bean.Comment;
 import com.gaoyy.easysoical.bean.Tweet;
+import com.gaoyy.easysoical.utils.DividerItemDecoration;
 import com.gaoyy.easysoical.utils.Global;
 import com.gaoyy.easysoical.utils.Tool;
 import com.google.gson.Gson;
@@ -90,6 +91,8 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
         tweetDetailRv.setAdapter(commentAdapter);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         tweetDetailRv.setLayoutManager(linearLayoutManager);
+
+        tweetDetailRv.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
     }
 
     private void initData()
