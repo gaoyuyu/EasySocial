@@ -2,7 +2,10 @@ package com.gaoyy.easysoical.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextPaint;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.bean.Comment;
 import com.gaoyy.easysoical.bean.Tweet;
+import com.gaoyy.easysoical.utils.Global;
 
 import java.util.LinkedList;
 
@@ -40,12 +44,27 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onItemClick(View view, int position);
     }
 
+    public interface OnTabSelectedListener
+    {
+        void onTabSelected(TabLayout.Tab tab);
+    }
+
+
     private OnItemClickListener onItemClickListener;
+    private OnTabSelectedListener onTabSelectedListener;
 
     public void setOnItemClickListener(OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
     }
+
+    public void setOnTabSelectedListener(OnTabSelectedListener listener)
+    {
+        this.onTabSelectedListener = listener;
+    }
+
+
+
 
     public CommentAdapter(Context context, LinkedList<Comment> data, Tweet tweet)
     {
@@ -74,8 +93,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
+        Log.i(Global.TAG,"position-->"+position);
+        if(data.size() == 0)
+        {
+            return;
+        }
         if (holder instanceof ComItemViewHolder)
         {
             ComItemViewHolder comItemViewHolder = (ComItemViewHolder) holder;
@@ -110,12 +134,44 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comHeaderViewHolder.itemHomeTweimg.setController(controller);
             comHeaderViewHolder.itemHomeTweimg.setImageURI(picUri);
 
+            TextPaint textPaint = comHeaderViewHolder.itemHomeAccount.getPaint();
+            textPaint.setFakeBoldText(true);
+
+            comHeaderViewHolder.itemHomeTablayout.setVisibility(View.VISIBLE);
+            if(2 != comHeaderViewHolder.itemHomeTablayout.getTabCount())
+            {
+                comHeaderViewHolder.itemHomeTablayout.setTabMode(TabLayout.MODE_FIXED);
+                comHeaderViewHolder.itemHomeTablayout.addTab(comHeaderViewHolder.itemHomeTablayout.newTab().setText("评论"));
+                comHeaderViewHolder.itemHomeTablayout.addTab(comHeaderViewHolder.itemHomeTablayout.newTab().setText("赞"));
+            }
+
+            if (onTabSelectedListener != null)
+            {
+                comHeaderViewHolder.itemHomeTablayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
+                {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab)
+                    {
+                        onTabSelectedListener.onTabSelected(tab);
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab)
+                    {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab)
+                    {
+
+                    }
+                });
+            }
+
         }
 
-        if (onItemClickListener != null)
-        {
 
-        }
     }
 
     @Override
@@ -206,6 +262,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private SimpleDraweeView itemHomeAvatar;
         private TextView itemHomeAccount;
         private TextView itemHomeDetail;
+        private TabLayout itemHomeTablayout;
 
         public ComHeaderViewHolder(View itemView)
         {
@@ -215,6 +272,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemHomeDetail = (TextView) itemView.findViewById(R.id.item_home_detail);
             itemHomeTweet = (TextView) itemView.findViewById(R.id.item_home_tweet);
             itemHomeTweimg = (SimpleDraweeView) itemView.findViewById(R.id.item_home_tweimg);
+            itemHomeTablayout = (TabLayout) itemView.findViewById(R.id.item_home_tablayout);
         }
     }
 }

@@ -134,26 +134,6 @@ public class MainFragment extends Fragment
 
         pageAdapter = new PageAdapter(activity.getSupportFragmentManager(),pagerTitle,fragmentList);
         viewPager.setAdapter(pageAdapter);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
-        {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
-            {
-
-            }
-
-            @Override
-            public void onPageSelected(int position)
-            {
-//                toolbar.setTitle(pagerTitle[position]);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state)
-            {
-
-            }
-        });
 
         tabLayout.setTabMode(TabLayout.MODE_FIXED);
         // 将TabLayout和ViewPager进行关联，让两者联动起来

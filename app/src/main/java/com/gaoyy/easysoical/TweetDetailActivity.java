@@ -2,6 +2,7 @@ package com.gaoyy.easysoical;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -91,6 +92,21 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         tweetDetailRv.setLayoutManager(linearLayoutManager);
 
+        commentAdapter.setOnTabSelectedListener(new CommentAdapter.OnTabSelectedListener()
+        {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab)
+            {
+                if(0 == tab.getPosition())
+                {
+                    new CommentTask().execute();
+                }
+                else
+                {
+                    Tool.showToast(TweetDetailActivity.this,"none fav");
+                }
+            }
+        });
     }
 
     private void initData()
