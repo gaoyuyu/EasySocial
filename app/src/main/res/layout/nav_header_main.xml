@@ -18,7 +18,7 @@
         android:id="@+id/nav_header_ava"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        fresco:placeholderImage="@drawable/user_icon_default_main"
+        fresco:placeholderImage="@mipmap/user_icon_default_main"
         fresco:placeholderImageScaleType="fitCenter"
         fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@color/white"

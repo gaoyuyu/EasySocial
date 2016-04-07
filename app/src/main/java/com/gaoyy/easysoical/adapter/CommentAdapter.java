@@ -2,14 +2,13 @@ package com.gaoyy.easysoical.adapter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.design.widget.TabLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextPaint;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -21,7 +20,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.bean.Comment;
 import com.gaoyy.easysoical.bean.Tweet;
-import com.gaoyy.easysoical.utils.Global;
 
 import java.util.LinkedList;
 
@@ -69,7 +67,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         else if (viewType == TYPE_HEADER)
         {
-            View rootView = inflater.inflate(R.layout.comment_basic, parent, false);
+            View rootView = inflater.inflate(R.layout.comment_main, parent, false);
             ComHeaderViewHolder comHeaderViewHolder = new ComHeaderViewHolder(rootView);
             return comHeaderViewHolder;
         }
@@ -79,7 +77,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
-        Log.i(Global.TAG, "position-->" + position);
         if (data.size() == 0)
         {
             return;
@@ -91,9 +88,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Uri avaUri = Uri.parse(comment.getAvatar());
             comItemViewHolder.itemHomeAccount.setText(comment.getUsername());
             comItemViewHolder.itemHomeAccount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-            comItemViewHolder.itemHomeDetail.setText(comment.getTime());
+            comItemViewHolder.itemHomeDetail.setVisibility(View.GONE);
+            comItemViewHolder.itemCommentTime.setText(comment.getTime());
             comItemViewHolder.itemCommentText.setText(comment.getComment());
             comItemViewHolder.itemHomeAvatar.setImageURI(avaUri);
+
+            comItemViewHolder.itemCommentLabel.setText("#"+position+"楼");
+
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) (comItemViewHolder.itemHomeAvatar.getLayoutParams());
+            layoutParams.height = 70;
+            layoutParams.width = 64;
+            comItemViewHolder.itemHomeAvatar.setLayoutParams(layoutParams);
         }
         else if (holder instanceof ComHeaderViewHolder)
         {
@@ -117,12 +122,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comHeaderViewHolder.itemHomeTweimg.setHierarchy(hierarchy);
             comHeaderViewHolder.itemHomeTweimg.setController(controller);
             comHeaderViewHolder.itemHomeTweimg.setImageURI(picUri);
+            comHeaderViewHolder.botline.setVisibility(View.VISIBLE);
 
             TextPaint textPaint = comHeaderViewHolder.itemHomeAccount.getPaint();
             textPaint.setFakeBoldText(true);
         }
-
-
     }
 
     @Override
@@ -195,6 +199,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private SimpleDraweeView itemHomeAvatar;
         private TextView itemHomeAccount;
         private TextView itemHomeDetail;
+        private TextView itemCommentTime;
+        private TextView itemCommentLabel;
 
         public ComItemViewHolder(View itemView)
         {
@@ -203,6 +209,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemHomeAvatar = (SimpleDraweeView) itemView.findViewById(R.id.item_home_avatar);
             itemHomeAccount = (TextView) itemView.findViewById(R.id.item_home_account);
             itemHomeDetail = (TextView) itemView.findViewById(R.id.item_home_detail);
+            itemCommentTime = (TextView) itemView.findViewById(R.id.item_comment_time);
+            itemCommentLabel = (TextView) itemView.findViewById(R.id.item_comment_label);
         }
     }
 
@@ -213,7 +221,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private SimpleDraweeView itemHomeAvatar;
         private TextView itemHomeAccount;
         private TextView itemHomeDetail;
-        private TabLayout itemHomeTablayout;
+
+        private View botline;
 
         public ComHeaderViewHolder(View itemView)
         {
@@ -223,7 +232,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemHomeDetail = (TextView) itemView.findViewById(R.id.item_home_detail);
             itemHomeTweet = (TextView) itemView.findViewById(R.id.item_home_tweet);
             itemHomeTweimg = (SimpleDraweeView) itemView.findViewById(R.id.item_home_tweimg);
-            itemHomeTablayout = (TabLayout) itemView.findViewById(R.id.item_home_tablayout);
+            botline = itemView.findViewById(R.id.comment_main_botline);
         }
     }
 }

@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_tweet_detail_comment"
-        android:icon="@drawable/ic_textsms_white"
+        android:icon="@mipmap/ic_textsms_white"
         android:title="@string/app_name"
         app:showAsAction="ifRoom"/>
 </menu>

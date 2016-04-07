@@ -9,7 +9,7 @@
         android:id="@+id/item_home_avatar"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        fresco:placeholderImage="@drawable/user_icon_default_main"
+        fresco:placeholderImage="@mipmap/user_icon_default_main"
         fresco:placeholderImageScaleType="fitCenter"
         fresco:roundedCornerRadius="180dp"/>
 
