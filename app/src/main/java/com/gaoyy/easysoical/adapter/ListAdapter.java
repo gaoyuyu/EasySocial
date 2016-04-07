@@ -128,7 +128,6 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         {
             itemViewHolder.itemHomeCardView.setOnClickListener(new BasicOnClickListener(itemViewHolder));
             itemViewHolder.itemHomeTweimg.setOnClickListener(new BasicOnClickListener(itemViewHolder));
-
         }
 
 

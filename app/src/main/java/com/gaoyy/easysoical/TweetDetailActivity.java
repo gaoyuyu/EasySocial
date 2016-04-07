@@ -1,5 +1,6 @@
 package com.gaoyy.easysoical;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,8 +9,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gaoyy.easysoical.adapter.CommentAdapter;
@@ -32,7 +38,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TweetDetailActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
+public class TweetDetailActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, CommentAdapter.OnItemClickListener
 {
     private Toolbar tweetDetailToolbar;
     private SwipeRefreshLayout tweetDetailSrlayout;
@@ -64,6 +70,7 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
         initToolbar();
         initData();
         configViews();
+        setListener();
         new CommentTask().execute();
 
 
@@ -86,11 +93,15 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
     private void configViews()
     {
         tweetDetailSrlayout.setOnRefreshListener(this);
-        commentAdapter = new CommentAdapter(this,commentList,tweet);
+        commentAdapter = new CommentAdapter(this, commentList, tweet);
         tweetDetailRv.setAdapter(commentAdapter);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         tweetDetailRv.setLayoutManager(linearLayoutManager);
+    }
 
+    private void setListener()
+    {
+        commentAdapter.setOnItemClickListener(this);
     }
 
     private void initData()
@@ -102,6 +113,47 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
     public void onRefresh()
     {
 
+    }
+
+    @Override
+    public void onItemClick(View view, int position)
+    {
+        int id = view.getId();
+        switch (id)
+        {
+            case R.id.item_comment_layout:
+                Tool.showToast(TweetDetailActivity.this, "item_comment_layout");
+                showPopupWindow(view);
+                break;
+        }
+    }
+
+    private void showPopupWindow(View view)
+    {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.item_comment_popwindow, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView,LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        TextView button = (TextView) contentView.findViewById(R.id.item_comment_pop_tv);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Tool.showToast(TweetDetailActivity.this, "item_comment_popwindow");
+                if(popupWindow != null)
+                {
+                    popupWindow.dismiss();
+                }
+            }
+        });
+
+
+
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+
+        popupWindow.showAsDropDown(view,-50,-50);
     }
 
     class CommentTask extends AsyncTask<String, String, LinkedList<Comment>>

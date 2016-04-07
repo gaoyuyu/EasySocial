@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -99,6 +100,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             layoutParams.height = 70;
             layoutParams.width = 64;
             comItemViewHolder.itemHomeAvatar.setLayoutParams(layoutParams);
+
+
+            if(onItemClickListener != null)
+            {
+                comItemViewHolder.itemCommentLayout.setOnClickListener(new BasicOnClickListener(comItemViewHolder));
+            }
+
+
         }
         else if (holder instanceof ComHeaderViewHolder)
         {
@@ -163,7 +172,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int id = v.getId();
             switch (id)
             {
-
+                case R.id.item_comment_layout:
+                    onItemClickListener.onItemClick(comItemViewHolder.itemCommentLayout, comItemViewHolder.getLayoutPosition());
+                    break;
             }
         }
     }
@@ -202,6 +213,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView itemCommentTime;
         private TextView itemCommentLabel;
 
+        private LinearLayout itemCommentLayout;
+
         public ComItemViewHolder(View itemView)
         {
             super(itemView);
@@ -211,6 +224,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemHomeDetail = (TextView) itemView.findViewById(R.id.item_home_detail);
             itemCommentTime = (TextView) itemView.findViewById(R.id.item_comment_time);
             itemCommentLabel = (TextView) itemView.findViewById(R.id.item_comment_label);
+            itemCommentLayout = (LinearLayout) itemView.findViewById(R.id.item_comment_layout);
         }
     }
 
