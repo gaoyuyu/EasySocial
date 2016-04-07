@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".TweetDetailActivity">
         </activity>
+        <activity android:name=".ReplyActivity">
+        </activity>
     </application>
 
 </manifest>

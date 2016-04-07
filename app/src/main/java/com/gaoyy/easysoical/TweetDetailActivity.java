@@ -1,5 +1,6 @@
 package com.gaoyy.easysoical;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -123,38 +124,45 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
         {
             case R.id.item_comment_layout:
                 Tool.showToast(TweetDetailActivity.this, "item_comment_layout");
-                showPopupWindow(view);
+                showPopupWindow(view, position);
                 break;
         }
     }
 
-    private void showPopupWindow(View view)
+    private void showPopupWindow(View view, int position)
     {
         View contentView = LayoutInflater.from(this).inflate(R.layout.item_comment_popwindow, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView,LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        TextView button = (TextView) contentView.findViewById(R.id.item_comment_pop_tv);
-        button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Tool.showToast(TweetDetailActivity.this, "item_comment_popwindow");
-                if(popupWindow != null)
-                {
-                    popupWindow.dismiss();
-                }
-            }
-        });
-
-
-
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        TextView tv = (TextView) contentView.findViewById(R.id.item_comment_pop_tv);
+        tv.setOnClickListener(new PopOnClickListener(position));
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
 
-        popupWindow.showAsDropDown(view,-50,-50);
+        popupWindow.showAsDropDown(view, -50, -50);
     }
+
+
+    private class PopOnClickListener implements View.OnClickListener
+    {
+        int position;
+
+        public PopOnClickListener(int position)
+        {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            Tool.showToast(TweetDetailActivity.this, commentList.get(position - 1).toString());
+            Intent intent = new Intent();
+            intent.setClass(TweetDetailActivity.this, ReplyActivity.class);
+            startActivity(intent);
+        }
+    }
+
 
     class CommentTask extends AsyncTask<String, String, LinkedList<Comment>>
     {
@@ -225,10 +233,14 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
         int itemId = item.getItemId();
         switch (itemId)
         {
+            case android.R.id.home:
+                finish();
+                break;
             case R.id.menu_tweet_detail_comment:
                 Toast.makeText(TweetDetailActivity.this, "menu_tweet_detail_comment", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
