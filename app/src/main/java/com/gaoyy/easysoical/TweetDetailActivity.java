@@ -17,13 +17,13 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.gaoyy.easysoical.adapter.CommentAdapter;
 import com.gaoyy.easysoical.bean.Comment;
 import com.gaoyy.easysoical.bean.Tweet;
 import com.gaoyy.easysoical.utils.Global;
 import com.gaoyy.easysoical.utils.Tool;
+import com.gaoyy.easysoical.view.BasicProgressDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -41,6 +41,7 @@ import okhttp3.Response;
 
 public class TweetDetailActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, CommentAdapter.OnItemClickListener
 {
+    private LinearLayout tweetDetailLayout;
     private Toolbar tweetDetailToolbar;
     private SwipeRefreshLayout tweetDetailSrlayout;
     private RecyclerView tweetDetailRv;
@@ -48,15 +49,20 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
     private LinkedList<Comment> commentList;
     private LinearLayoutManager linearLayoutManager;
 
+    private BasicProgressDialog basicProgressDialog;
+
     private Tweet tweet;
 
     private final OkHttpClient client = new OkHttpClient();
 
     private void assignViews()
     {
+        tweetDetailLayout = (LinearLayout) findViewById(R.id.tweet_detail_layout);
         tweetDetailToolbar = (Toolbar) findViewById(R.id.tweet_detail_toolbar);
         tweetDetailSrlayout = (SwipeRefreshLayout) findViewById(R.id.tweet_detail_srlayout);
         tweetDetailRv = (RecyclerView) findViewById(R.id.tweet_detail_rv);
+
+        basicProgressDialog = BasicProgressDialog.create(this);
     }
 
 
@@ -156,8 +162,9 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
         @Override
         public void onClick(View v)
         {
-            Tool.showToast(TweetDetailActivity.this, commentList.get(position - 1).toString());
             Intent intent = new Intent();
+            intent.putExtra("comment",commentList.get(position - 1));
+            intent.putExtra("isChild",true);
             intent.setClass(TweetDetailActivity.this, ReplyActivity.class);
             startActivity(intent);
         }
@@ -170,6 +177,8 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
         protected void onPreExecute()
         {
             super.onPreExecute();
+            tweetDetailLayout.setVisibility(View.INVISIBLE);
+            Tool.startProgressDialog("loading...",basicProgressDialog);
         }
 
         @Override
@@ -215,6 +224,9 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
         protected void onPostExecute(LinkedList<Comment> s)
         {
             super.onPostExecute(s);
+
+            tweetDetailLayout.setVisibility(View.VISIBLE);
+            Tool.stopProgressDialog(basicProgressDialog);
             commentAdapter.addItem(s);
         }
     }
@@ -237,7 +249,12 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
                 finish();
                 break;
             case R.id.menu_tweet_detail_comment:
-                Toast.makeText(TweetDetailActivity.this, "menu_tweet_detail_comment", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                Comment comment = new Comment();
+                comment.setTid(tweet.getTid());
+                intent.putExtra("comment",comment);
+                intent.setClass(TweetDetailActivity.this, ReplyActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

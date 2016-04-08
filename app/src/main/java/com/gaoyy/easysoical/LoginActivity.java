@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private AppCompatButton loginBtn;
 
     private final OkHttpClient client = new OkHttpClient();
-    BasicProgressDialog basicProgressDialog;
+    private BasicProgressDialog basicProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
