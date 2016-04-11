@@ -156,6 +156,7 @@ public class ReplyActivity extends AppCompatActivity
             if (0 == Tool.getRepCode(s))
             {
                 Tool.showToast(ReplyActivity.this, "发送成功");
+                finish();
             }
             else
             {

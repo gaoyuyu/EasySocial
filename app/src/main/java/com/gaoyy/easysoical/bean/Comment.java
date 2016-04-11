@@ -14,6 +14,7 @@ public class Comment implements Serializable
     private String username;
     private String avatar;
     private String time;
+    private String pusername;
 
     public String getTid()
     {
@@ -48,6 +49,11 @@ public class Comment implements Serializable
     public String getAvatar()
     {
         return avatar;
+    }
+
+    public String getPusername()
+    {
+        return pusername;
     }
 
     public void setTid(String tid)
@@ -96,6 +102,7 @@ public class Comment implements Serializable
                 ", username='" + username + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", time='" + time + '\'' +
+                ", pusername='" + pusername + '\'' +
                 '}';
     }
 }

@@ -3,9 +3,13 @@ package com.gaoyy.easysoical.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
+import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -42,12 +46,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onItemClick(View view, int position);
     }
 
+    public interface OnTouchListener
+    {
+        void onTouch(View v, MotionEvent event);
+    }
+
     private OnItemClickListener onItemClickListener;
+    private OnTouchListener onTouchListener;
 
     public void setOnItemClickListener(OnItemClickListener listener)
     {
         this.onItemClickListener = listener;
     }
+
+    public void setOnTouchListener(OnTouchListener listener)
+    {
+        this.onTouchListener = listener;
+    }
+
+
 
     public CommentAdapter(Context context, LinkedList<Comment> data, Tweet tweet)
     {
@@ -78,10 +95,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position)
     {
-        if (data.size() == 0)
-        {
-            return;
-        }
         if (holder instanceof ComItemViewHolder)
         {
             ComItemViewHolder comItemViewHolder = (ComItemViewHolder) holder;
@@ -101,10 +114,36 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             layoutParams.width = 64;
             comItemViewHolder.itemHomeAvatar.setLayoutParams(layoutParams);
 
+            if(null == comment.getPusername())
+            {
+                comItemViewHolder.itemCommentPrefix.setVisibility(View.GONE);
+            }
+            else
+            {
+                comItemViewHolder.itemCommentPrefix.setVisibility(View.VISIBLE);
+                String pusername = "@"+comment.getPusername();
+                String prefix = "回复"+pusername+"：";
+                SpannableStringBuilder sp = new SpannableStringBuilder(prefix);
+                sp.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.holo_blue)),2,prefix.length()-1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+                comItemViewHolder.itemCommentPrefix.setText(sp);
+            }
 
             if(onItemClickListener != null)
             {
                 comItemViewHolder.itemCommentLayout.setOnClickListener(new BasicOnClickListener(comItemViewHolder));
+            }
+
+            if(onTouchListener != null)
+            {
+                comItemViewHolder.itemCommentLayout.setOnTouchListener(new View.OnTouchListener()
+                {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        onTouchListener.onTouch(v,event);
+                        return false;
+                    }
+                });
             }
 
 
@@ -189,7 +228,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         for (int i = 0; i < newDatas.size(); i++)
         {
-            data.addFirst(newDatas.get(i));
+            data.addLast(newDatas.get(i));
         }
         notifyDataSetChanged();
     }
@@ -212,6 +251,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private TextView itemHomeDetail;
         private TextView itemCommentTime;
         private TextView itemCommentLabel;
+        private TextView itemCommentPrefix;
 
         private LinearLayout itemCommentLayout;
 
@@ -225,6 +265,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemCommentTime = (TextView) itemView.findViewById(R.id.item_comment_time);
             itemCommentLabel = (TextView) itemView.findViewById(R.id.item_comment_label);
             itemCommentLayout = (LinearLayout) itemView.findViewById(R.id.item_comment_layout);
+            itemCommentPrefix = (TextView) itemView.findViewById(R.id.item_comment_prefix);
         }
     }
 

@@ -341,3 +341,31 @@ public boolean onCreateOptionsMenu(Menu menu)
 ```
 ####2016.3.23
 Activity最顶层布局必须`android:fitsSystemWindows="true"`，之后再设置SystemBarTintManager
+####2016.4.11
+PopupWindow在实际的点击位置显示<br>
+资料：[android之View坐标系（view获取自身坐标的方法和点击事件中坐标的获取）](http://blog.csdn.net/jason0539/article/details/42743531)<br>
+<br>
+````Java
+    private void showPopupWindow(View view, int position)
+    {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.item_comment_popwindow, null);
+        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        TextView tv = (TextView) contentView.findViewById(R.id.item_comment_pop_tv);
+        tv.setOnClickListener(new PopOnClickListener(popupWindow,position));
+        popupWindow.setFocusable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        view.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                int rawx = (int)event.getRawX();
+                int rawy = (int)event.getRawY();
+                popupWindow.showAtLocation(v, Gravity.NO_GRAVITY ,rawx, rawy);
+                return false;
+            }
+        });
+    }
+````
