@@ -162,7 +162,6 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
     {
         commentAdapter.setOnTouchListener(this);
         commentAdapter.setOnItemClickListener(this);
-
     }
 
     private void initData()
