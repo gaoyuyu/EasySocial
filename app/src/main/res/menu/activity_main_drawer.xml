@@ -5,11 +5,11 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@mipmap/ic_dashboard"
-            android:title="Home" />
+            android:title="@string/home" />
         <item
             android:id="@+id/nav_messages"
             android:icon="@mipmap/ic_event"
-            android:title="Messages" />
+            android:title="@string/person_center" />
         <item
             android:id="@+id/nav_friends"
             android:icon="@mipmap/ic_headset"
