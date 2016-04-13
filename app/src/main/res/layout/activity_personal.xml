@@ -11,17 +11,19 @@
         android:id="@+id/personal_appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/personal_collapsinglayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <include
                 layout="@layout/personal_header"
+                app:layout_collapseMode="parallax"
                 />
 
             <include
@@ -30,31 +32,22 @@
                 />
         </android.support.design.widget.CollapsingToolbarLayout>
 
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <TextView
+        <android.support.design.widget.TabLayout
+            android:id="@+id/personal_tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="月31日，集团党委决定对集团驻省内各地记者站长（南方日报社驻各地办事处主任）实施轮岗，首批包括东莞、江门、清远、肇庆、韶关、河源、阳江、茂名8个记者站，涉及12位同志。这既是集团贯彻落实省委巡视组关于加强记者站管理的相关要求，也是落实国家新闻出版广电总局关于记者站清理整顿工作的要求，体现了集团对记者站工作高度重视。集团希望通过记者站长轮岗制度的实施，为记者站的持续发展注入新的动力，使记者站成为集团融合发展的重要依托和培养人才的基地。
-受集团党委书记莫高义、集团总编辑张东明委托，4月5日至8日，集团副总编辑、南方日报社副总编辑王垂林率南方日报地方新闻部主任练学华、珠三角新闻部主任胡智勇，先后赴上述八地主持新老记者站站长工作交接，并拜会当地市委书记或市委主管宣传工作的常委。各地市委对集团党委的决定表示理解和支持，对离任站长的工作充分肯定，并表示将一如既往支持我们集团和报社的工作，继续关心、支持新站长。
-王垂林表示，集团对记者站站长首次进行轮岗，首先是执行省委第十巡视组在集团进行巡视时所提出的相关要求。去年8月，集团公布了《关于对省委巡视组巡视集团反馈意见的整改落实方案》，其中明确提出了记者站要“建立负责人轮岗制度”，要求“两届六年原则上轮岗，三届九年必须轮岗”。随后，专门制定了有关制度和工作方案。由于多位老站长的理解和支持，记者站轮岗制度的首次实施进展得非常顺利。
-王垂林强调，集团这次对记者站站长进行轮岗，也是集团创新发展和制度建设的需要。在集团深入推进“深耕主业、多元开拓、加快转型、融合发展”战略的进程中，我们将会遇到各种各样全新的挑战，也需要用创新的方法去解决一个又一个全新的问题，更需要通过制度建设来规范我们的管理，用制度来为我们的创新发展保驾护航，而包括“记者站站长轮岗”、“采编经营分离”等在内的各项制度举措，正是集团“加强驻地方机构的清理和建设”的重要内容。集团这次对记者站长进行轮岗，也是驱动记者站创新发展和制度建设的开端。
-集团这次对记者站站长进行轮岗，恰逢集团上下深入学习贯彻习近平总书记在党的新闻舆论工作座谈会上的重要讲话精神之际，我们要牢记总书记提出的“高举旗帜、引领导向，围绕中心、服务大局，团结人民、鼓舞士气，成风化人、凝心聚力，澄清谬误、明辨是非，联接中外、沟通世界”48字职责使命，把总书记2·19重要讲话精神贯穿到落实集团融合发展中来，贯穿到记者站的规范建设和创新发展与中来，把记者站的事业统一到党的新闻舆论工作大局中来，从更高的层面来理解集团对于记者站工作的重视和关心。
-王垂林表示，各位老站长与当地市委、市政府和各县区党政及各相关部门保持了良好的沟通与合作关系，在新闻报道上较好地服务了地方的中心工作，充分发挥了记者站在本集团与地方顺畅沟通和互助合作上的桥梁作用，能有针对性地依据驻地具体情况，实事求是和因地制宜地展开工作，很好地完成了集团交付的各项任务。各位新站长要充分发挥自身经验和优势，积极向老站长和同事们请教，尽快进入角色、尽快融入当地，强化制度建设、加强队伍管理、整合各方资源，大胆开拓创新，促进各项事业又好又快发展。(地方）
-月31日，集团党委决定对集团驻省内各地记者站长（南方日报社驻各地办事处主任）实施轮岗，首批包括东莞、江门、清远、肇庆、韶关、河源、阳江、茂名8个记者站，涉及12位同志。这既是集团贯彻落实省委巡视组关于加强记者站管理的相关要求，也是落实国家新闻出版广电总局关于记者站清理整顿工作的要求，体现了集团对记者站工作高度重视。集团希望通过记者站长轮岗制度的实施，为记者站的持续发展注入新的动力，使记者站成为集团融合发展的重要依托和培养人才的基地。
-受集团党委书记莫高义、集团总编辑张东明委托，4月5日至8日，集团副总编辑、南方日报社副总编辑王垂林率南方日报地方新闻部主任练学华、珠三角新闻部主任胡智勇，先后赴上述八地主持新老记者站站长工作交接，并拜会当地市委书记或市委主管宣传工作的常委。各地市委对集团党委的决定表示理解和支持，对离任站长的工作充分肯定，并表示将一如既往支持我们集团和报社的工作，继续关心、支持新站长。
-王垂林表示，集团对记者站站长首次进行轮岗，首先是执行省委第十巡视组在集团进行巡视时所提出的相关要求。去年8月，集团公布了《关于对省委巡视组巡视集团反馈意见的整改落实方案》，其中明确提出了记者站要“建立负责人轮岗制度”，要求“两届六年原则上轮岗，三届九年必须轮岗”。随后，专门制定了有关制度和工作方案。由于多位老站长的理解和支持，记者站轮岗制度的首次实施进展得非常顺利。
-王垂林强调，集团这次对记者站站长进行轮岗，也是集团创新发展和制度建设的需要。在集团深入推进“深耕主业、多元开拓、加快转型、融合发展”战略的进程中，我们将会遇到各种各样全新的挑战，也需要用创新的方法去解决一个又一个全新的问题，更需要通过制度建设来规范我们的管理，用制度来为我们的创新发展保驾护航，而包括“记者站站长轮岗”、“采编经营分离”等在内的各项制度举措，正是集团“加强驻地方机构的清理和建设”的重要内容。集团这次对记者站长进行轮岗，也是驱动记者站创新发展和制度建设的开端。
-集团这次对记者站站长进行轮岗，恰逢集团上下深入学习贯彻习近平总书记在党的新闻舆论工作座谈会上的重要讲话精神之际，我们要牢记总书记提出的“高举旗帜、引领导向，围绕中心、服务大局，团结人民、鼓舞士气，成风化人、凝心聚力，澄清谬误、明辨是非，联接中外、沟通世界”48字职责使命，把总书记2·19重要讲话精神贯穿到落实集团融合发展中来，贯穿到记者站的规范建设和创新发展与中来，把记者站的事业统一到党的新闻舆论工作大局中来，从更高的层面来理解集团对于记者站工作的重视和关心。
-王垂林表示，各位老站长与当地市委、市政府和各县区党政及各相关部门保持了良好的沟通与合作关系，在新闻报道上较好地服务了地方的中心工作，充分发挥了记者站在本集团与地方顺畅沟通和互助合作上的桥梁作用，能有针对性地依据驻地具体情况，实事求是和因地制宜地展开工作，很好地完成了集团交付的各项任务。各位新站长要充分发挥自身经验和优势，积极向老站长和同事们请教，尽快进入角色、尽快融入当地，强化制度建设、加强队伍管理、整合各方资源，大胆开拓创新，促进各项事业又好又快发展。(地方）
-"
-            />
-    </android.support.v4.widget.NestedScrollView>
+            app:tabBackground="@color/white"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="@color/tab_text_color"/>
 
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/personal_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </android.support.v4.view.ViewPager>
 
 </android.support.design.widget.CoordinatorLayout>

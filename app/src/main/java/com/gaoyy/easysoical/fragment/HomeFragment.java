@@ -1,6 +1,8 @@
 package com.gaoyy.easysoical.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +24,7 @@ import com.gaoyy.easysoical.adapter.ListAdapter;
 import com.gaoyy.easysoical.bean.Tweet;
 import com.gaoyy.easysoical.utils.Global;
 import com.gaoyy.easysoical.utils.Tool;
+import com.gaoyy.easysoical.view.BasicProgressDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -54,11 +57,16 @@ public class HomeFragment extends Fragment
     private int pageCount = -1;
     private int currentPage = 1;
 
+    private BasicProgressDialog basicProgressDialog;
+
 
     private void assignViews(View rootView)
     {
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
         swRecyclerView = (RecyclerView) rootView.findViewById(R.id.sw_recyclerView);
+
+        basicProgressDialog = BasicProgressDialog.create(getActivity());
+
     }
 
     @Nullable
@@ -104,6 +112,12 @@ public class HomeFragment extends Fragment
                         break;
                     case R.id.item_home_tweimg:
                         Tool.showToast(getActivity(),"item_home_tweimg");
+                        break;
+                    case R.id.item_home_fav:
+                        Tweet currentTweet = data.get(position);
+                        SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
+                        String[] params = {currentTweet.getTid(),account.getString("aid","")};
+                        new doFavorTask().execute(params);
                         break;
                 }
             }
@@ -229,8 +243,58 @@ public class HomeFragment extends Fragment
             {
                 Log.i(Global.TAG,"内部错误");
             }
+        }
+    }
 
+    class doFavorTask extends AsyncTask<String, String, String>
+    {
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            Tool.startProgressDialog("请求数据中...",basicProgressDialog);
+        }
 
+        @Override
+        protected String doInBackground(String... params)
+        {
+            RequestBody formBody = new FormBody.Builder()
+                    .add("tid", params[0])
+                    .add("aid",params[1])
+                    .build();
+            Request request = new Request.Builder()
+                    .url(Global.HOST_URL + "Public/doFavor")
+                    .post(formBody)
+                    .build();
+            String body = null;
+            try
+            {
+                Response response = client.newCall(request).execute();
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                body = response.body().string();
+                Log.i(Global.TAG,"body--->"+body);
+            }
+            catch (Exception e)
+            {
+                Log.i(Global.TAG, "e-->" + e.toString());
+            }
+
+            return body;
+        }
+
+        @Override
+        protected void onPostExecute(String s)
+        {
+            super.onPostExecute(s);
+            Tool.stopProgressDialog(basicProgressDialog);
+            if(0 == Tool.getRepCode(s))
+            {
+                Tool.showToast(getActivity(),"点赞成功");
+            }
+            else
+            {
+                Tool.showToast(getActivity(),"点赞失败");
+            }
         }
     }
 }
