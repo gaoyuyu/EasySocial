@@ -7,13 +7,13 @@
             android:icon="@mipmap/ic_dashboard"
             android:title="@string/home" />
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/nav_personal"
             android:icon="@mipmap/ic_event"
             android:title="@string/person_center" />
         <item
-            android:id="@+id/nav_friends"
+            android:id="@+id/nav_setting"
             android:icon="@mipmap/ic_headset"
-            android:title="Friends" />
+            android:title="@string/setting" />
         <item
             android:id="@+id/nav_discussion"
             android:icon="@mipmap/ic_forum"

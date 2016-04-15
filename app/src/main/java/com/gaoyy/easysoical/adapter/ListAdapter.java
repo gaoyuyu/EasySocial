@@ -11,15 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.drawable.ProgressBarDrawable;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.bean.Tweet;
 import com.gaoyy.easysoical.utils.Global;
+import com.gaoyy.easysoical.utils.Tool;
 
 import java.util.LinkedList;
 
@@ -102,21 +98,21 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemViewHolder.itemHomeDetail.setText(tweet.getCreate_time());
         itemViewHolder.itemHomeTweet.setText(tweet.getContent());
 
-        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
-        GenericDraweeHierarchy hierarchy = builder
-                .setFadeDuration(300)
-                .setProgressBarImage(new ProgressBarDrawable())
-                .build();
-        DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setTapToRetryEnabled(true)
-                .build();
+//        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
+//        GenericDraweeHierarchy hierarchy = builder
+//                .setFadeDuration(300)
+//                .setProgressBarImage(new ProgressBarDrawable())
+//                .build();
+//        DraweeController controller = Fresco.newDraweeControllerBuilder()
+//                .setTapToRetryEnabled(true)
+//                .build();
 
 
         Uri avaUri = Uri.parse(tweet.getAvatar());
         Uri picUri = Uri.parse(tweet.getPicture());
         itemViewHolder.itemHomeAvatar.setImageURI(avaUri);
-        itemViewHolder.itemHomeTweimg.setHierarchy(hierarchy);
-        itemViewHolder.itemHomeTweimg.setController(controller);
+        itemViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
+        itemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
         itemViewHolder.itemHomeTweimg.setImageURI(picUri);
 
 

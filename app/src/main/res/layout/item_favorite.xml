@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_comment_layout"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:id="@+id/item_favorite_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/item_comment_selector"
@@ -21,59 +22,60 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:id="@+id/item_comment_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="1楼"
-                android:textColor="@color/gray"
-                android:textSize="10sp"
-                />
-
-        </LinearLayout>
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginStart="42dp"
+        android:orientation="horizontal"
         >
 
         <TextView
-            android:id="@+id/item_comment_prefix"
+            android:id="@+id/item_favorite_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginTop="5dp"
-            android:text="回复@gaoyy："
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/item_comment_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="5dp"
-            android:text="中二之魂"
+            android:text="favor me"
             android:textColor="@color/black"
             android:textSize="16sp"/>
 
 
     </LinearLayout>
 
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:background="@color/gray100"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/item_favorite_to_content"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/long_text"
+            />
+        
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/item_favorite_to_pic"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            fresco:failureImage="@mipmap/bg_pic_fail"
+            fresco:placeholderImage="@mipmap/bg_pic_loading"
+            fresco:retryImage="@mipmap/bg_pic_retry"
+            />
+
+    </LinearLayout>
+
 
     <TextView
-        android:id="@+id/item_comment_time"
+        android:id="@+id/item_favorite_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="42dp"

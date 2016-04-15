@@ -6,6 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.drawable.ProgressBarDrawable;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.gaoyy.easysoical.view.BasicProgressDialog;
 
 import org.json.JSONException;
@@ -150,5 +155,26 @@ public class Tool
     {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+
+
+
+    public static GenericDraweeHierarchy getCommonGenericDraweeHierarchy(Context context)
+    {
+        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
+        GenericDraweeHierarchy hierarchy = builder
+                .setFadeDuration(300)
+                .setProgressBarImage(new ProgressBarDrawable())
+                .build();
+        return hierarchy;
+    }
+    public static DraweeController getCommonDraweeController(Context context)
+    {
+        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setTapToRetryEnabled(true)
+                .build();
+        return controller;
     }
 }

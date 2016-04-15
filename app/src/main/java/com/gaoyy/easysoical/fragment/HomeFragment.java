@@ -57,6 +57,9 @@ public class HomeFragment extends Fragment
     private int pageCount = -1;
     private int currentPage = 1;
 
+
+    private String aid = "";
+
     private BasicProgressDialog basicProgressDialog;
 
 
@@ -74,6 +77,7 @@ public class HomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        aid = (getArguments().getString("aid") == null)?"":getArguments().getString("aid");
         assignViews(rootView);
         initData();
         configViews();
@@ -150,14 +154,14 @@ public class HomeFragment extends Fragment
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition+1 == listAdapter.getItemCount())
                 {
-                    if (currentPage <= pageCount)
+                    if (currentPage+1 > pageCount)
                     {
-                        currentPage = currentPage + 1;
-                        new HomeTask(false).execute(String.valueOf(currentPage));
+                        Tool.showSnackbar(recyclerView, ":)到底啦");
                     }
                     else
                     {
-                        Tool.showSnackbar(recyclerView, ":)到底啦");
+                        currentPage = currentPage + 1;
+                        new HomeTask(false).execute(String.valueOf(currentPage));
                     }
                 }
             }
@@ -192,6 +196,7 @@ public class HomeFragment extends Fragment
             LinkedList<Tweet> list = null;
             RequestBody formBody = new FormBody.Builder()
                     .add("pageNum", params[0])
+                    .add("aid",aid)
                     .build();
             Request request = new Request.Builder()
                     .url(Global.HOST_URL + "Public/showTweet")

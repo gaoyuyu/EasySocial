@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             app:contentScrim="?attr/colorPrimary"
+            app:layout_collapseParallaxMultiplier="0.6"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <include
@@ -36,7 +37,10 @@
             android:id="@+id/personal_tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             app:tabBackground="@color/white"
+            android:fillViewport="false"
+            app:tabGravity="fill"
             app:tabIndicatorColor="@color/colorPrimary"
             app:tabSelectedTextColor="@color/colorPrimary"
             app:tabTextColor="@color/tab_text_color"/>
