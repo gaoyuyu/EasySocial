@@ -16,6 +16,8 @@
     <string name="setting">设置</string>
     <string name="tweet">推文</string>
     <string name="favorite">赞</string>
+    <string name="avatar">头像</string>
+    <string name="nickname">昵称</string>
 
 
     <string name="long_text">#TaylorSwift##泰勒斯威夫特#  “Everybody has that point in their life where you hit a crossroads and you’ve had a bunch of bad days and there’s different ways you can deal with it and the way I dealt with it was I just turned completely to music.”</string>
@@ -23,4 +25,6 @@
     <string name="reply">回复</string>
     <string name="send">发送</string>
     <string name="logout">退   出</string>
+    <string name="gender">性别</string>
+    <string name="signature">个性签名</string>
 </resources>

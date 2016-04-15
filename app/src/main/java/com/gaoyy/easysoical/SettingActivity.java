@@ -1,11 +1,13 @@
 package com.gaoyy.easysoical;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -87,10 +89,12 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v)
     {
         int  id= v.getId();
+        Intent intent = new Intent();
         switch (id)
         {
             case R.id.setting_modify:
-
+                intent.setClass(SettingActivity.this,ModifyActivity.class);
+                startActivity(intent);
                 break;
             case R.id.setting_feedback:
 
@@ -102,5 +106,17 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
                 break;
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int itemId = item.getItemId();
+        switch (itemId)
+        {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
