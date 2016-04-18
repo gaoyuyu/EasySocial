@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -58,7 +57,6 @@ public class PersonalActivity extends AppCompatActivity
 
     private PageAdapter pageAdapter;
 
-    private final OkHttpClient client = new OkHttpClient();
 
 
 
@@ -179,7 +177,7 @@ public class PersonalActivity extends AppCompatActivity
             String body = null;
             try
             {
-                Response response = client.newCall(request).execute();
+                Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
                 Log.i(Global.TAG,body);

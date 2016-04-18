@@ -16,6 +16,8 @@ import com.gaoyy.easysoical.view.BasicProgressDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import okhttp3.OkHttpClient;
+
 /**
  * Created by gaoyy on 2016/3/2/0002.
  */
@@ -176,5 +178,11 @@ public class Tool
                 .setTapToRetryEnabled(true)
                 .build();
         return controller;
+    }
+
+    public static OkHttpClient getOkHttpClient()
+    {
+        OkHttpClient client = new OkHttpClient();
+        return client;
     }
 }

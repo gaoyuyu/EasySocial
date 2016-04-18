@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.gaoyy.easysoical.utils.Global;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener
@@ -53,7 +55,6 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         account = getSharedPreferences("account", Activity.MODE_PRIVATE);
         assignViews();
         initToolbar();
-        configViews();
         setListener();
     }
 
@@ -118,5 +119,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Log.i(Global.TAG,"SettingActivity onResume");
+        configViews();
     }
 }

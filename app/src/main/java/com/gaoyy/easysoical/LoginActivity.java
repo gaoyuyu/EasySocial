@@ -22,7 +22,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -35,7 +34,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private MaterialEditText password;
     private AppCompatButton loginBtn;
 
-    private final OkHttpClient client = new OkHttpClient();
     private BasicProgressDialog basicProgressDialog;
 
     @Override
@@ -130,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String body = null;
             try
             {
-                Response response = client.newCall(request).execute();
+                Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
                 Log.i(Global.TAG,body);

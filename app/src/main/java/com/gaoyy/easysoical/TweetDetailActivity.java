@@ -36,7 +36,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -63,7 +62,6 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
 
     private int lastVisibleItemPosition;
 
-    private final OkHttpClient client = new OkHttpClient();
 
     private void assignViews()
     {
@@ -266,7 +264,7 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
                     .build();
             try
             {
-                Response response = client.newCall(request).execute();
+                Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
                 Log.i(Global.TAG, "body-->" + body);

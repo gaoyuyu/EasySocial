@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -52,7 +51,6 @@ public class HomeFragment extends Fragment
     private LinearLayoutManager linearLayoutManager;
     private int lastVisibleItemPosition;
 
-    private final OkHttpClient client = new OkHttpClient();
 
     private int pageCount = -1;
     private int currentPage = 1;
@@ -204,7 +202,7 @@ public class HomeFragment extends Fragment
                     .build();
             try
             {
-                Response response = client.newCall(request).execute();
+                Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
                 Log.i(Global.TAG, "body-->" + body);
@@ -274,7 +272,7 @@ public class HomeFragment extends Fragment
             String body = null;
             try
             {
-                Response response = client.newCall(request).execute();
+                Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
                 Log.i(Global.TAG,"body--->"+body);

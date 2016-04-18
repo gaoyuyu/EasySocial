@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:fitsSystemWindows="true"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@+id/set_pic_ablum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawablePadding="12dp"
+        android:drawableTop="@mipmap/bg_ablum"
+        android:gravity="center"
+        android:padding="32dp"
+        android:text="@string/form_album"
+        android:textColor="@color/gray700"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:id="@+id/set_pic_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:drawablePadding="12dp"
+        android:drawableTop="@mipmap/bg_camera"
+        android:gravity="center"
+        android:padding="32dp"
+        android:text="@string/form_camera"
+        android:textColor="@color/gray700"
+        android:textSize="18sp"
+        />
+</LinearLayout>

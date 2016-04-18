@@ -20,7 +20,6 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import java.io.IOException;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -32,7 +31,6 @@ public class ReplyActivity extends AppCompatActivity
     private Comment comment;
     private BasicProgressDialog basicProgressDialog;
 
-    private final OkHttpClient client = new OkHttpClient();
 
     private boolean isChild;
 
@@ -136,7 +134,7 @@ public class ReplyActivity extends AppCompatActivity
             String body = null;
             try
             {
-                Response response = client.newCall(request).execute();
+                Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
                 Log.i(Global.TAG, body);
