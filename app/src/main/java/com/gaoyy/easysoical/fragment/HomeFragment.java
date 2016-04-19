@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
@@ -18,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gaoyy.easysoical.PublishActivity;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.TweetDetailActivity;
 import com.gaoyy.easysoical.adapter.ListAdapter;
@@ -41,33 +43,31 @@ import okhttp3.Response;
 /**
  * Created by gaoyy on 2016/2/16/0016.
  */
-public class HomeFragment extends Fragment
+public class HomeFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ListAdapter.OnItemClickListener
 {
     private View rootView;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView swRecyclerView;
     private LinkedList<Tweet> data;
     private ListAdapter listAdapter;
     private LinearLayoutManager linearLayoutManager;
     private int lastVisibleItemPosition;
 
-
     private int pageCount = -1;
     private int currentPage = 1;
-
 
     private String aid = "";
 
     private BasicProgressDialog basicProgressDialog;
-
+    private SwipeRefreshLayout fragmentHomeSrlayout;
+    private RecyclerView fragmentHomeRv;
+    private FloatingActionButton fragmentHomeFab;
 
     private void assignViews(View rootView)
     {
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
-        swRecyclerView = (RecyclerView) rootView.findViewById(R.id.sw_recyclerView);
+        fragmentHomeSrlayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fragment_home_srlayout);
+        fragmentHomeRv = (RecyclerView) rootView.findViewById(R.id.fragment_home_rv);
+        fragmentHomeFab = (FloatingActionButton) rootView.findViewById(R.id.fragment_home_fab);
 
         basicProgressDialog = BasicProgressDialog.create(getActivity());
-
     }
 
     @Nullable
@@ -75,13 +75,16 @@ public class HomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        aid = (getArguments().getString("aid") == null)?"":getArguments().getString("aid");
+        aid = (getArguments().getString("aid") == null) ? "" : getArguments().getString("aid");
         assignViews(rootView);
         initData();
         configViews();
+        setListener();
         new HomeTask(true).execute(String.valueOf(currentPage));
         return rootView;
     }
+
+
 
     public void initData()
     {
@@ -91,68 +94,30 @@ public class HomeFragment extends Fragment
     public void configViews()
     {
         listAdapter = new ListAdapter(getActivity(), data);
-        swRecyclerView.setAdapter(listAdapter);
+        fragmentHomeRv.setAdapter(listAdapter);
         //设置布局
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        swRecyclerView.setLayoutManager(linearLayoutManager);
-        swRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
-        listAdapter.setOnItemClickListener(new ListAdapter.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(View view, int position)
-            {
-                int id = view.getId();
-                switch (id)
-                {
-                    case R.id.item_home_cardview:
-                        Intent intent = new Intent(getActivity(), TweetDetailActivity.class);
-                        Tweet tweet = (Tweet) ((CardView)view).getTag();
-                        intent.putExtra("tweet",tweet);
-                        startActivity(intent);
-                        break;
-                    case R.id.item_home_tweimg:
-                        Tool.showToast(getActivity(),"item_home_tweimg");
-                        break;
-                    case R.id.item_home_fav:
-                        Tweet currentTweet = data.get(position);
-                        SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
-                        String[] params = {currentTweet.getTid(),account.getString("aid","")};
-                        new doFavorTask().execute(params);
-                        break;
-                }
-            }
-        });
+        fragmentHomeRv.setLayoutManager(linearLayoutManager);
+        fragmentHomeRv.setItemAnimator(new DefaultItemAnimator());
 
         //设置刷新时动画的颜色，可以设置4个
-        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light,
+        fragmentHomeSrlayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        fragmentHomeSrlayout.setColorSchemeResources(android.R.color.holo_blue_light,
                 android.R.color.holo_red_light, android.R.color.holo_orange_light,
                 android.R.color.holo_green_light);
-        swipeRefreshLayout.setProgressViewOffset(false, 0, (int) TypedValue
+        fragmentHomeSrlayout.setProgressViewOffset(false, 0, (int) TypedValue
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
                         .getDisplayMetrics()));
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
-            @Override
-            public void onRefresh()
-            {
-                currentPage=1;
-                new HomeTask(true).execute(String.valueOf(currentPage));
-            }
-        });
-
-        swRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener()
+        fragmentHomeRv.setOnScrollListener(new RecyclerView.OnScrollListener()
         {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
             {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition+1 == listAdapter.getItemCount())
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == listAdapter.getItemCount())
                 {
-                    if (currentPage+1 > pageCount)
+                    if (currentPage + 1 > pageCount)
                     {
                         Tool.showSnackbar(recyclerView, ":)到底啦");
                     }
@@ -173,9 +138,63 @@ public class HomeFragment extends Fragment
         });
     }
 
+    private void setListener()
+    {
+        fragmentHomeFab.setOnClickListener(this);
+        fragmentHomeSrlayout.setOnRefreshListener(this);
+        listAdapter.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        int id = v.getId();
+        switch (id)
+        {
+            case R.id.fragment_home_fab:
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), PublishActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+    }
+
+    @Override
+    public void onRefresh()
+    {
+        currentPage = 1;
+        new HomeTask(true).execute(String.valueOf(currentPage));
+    }
+
+    @Override
+    public void onItemClick(View view, int position)
+    {
+        int id = view.getId();
+        switch (id)
+        {
+            case R.id.item_home_cardview:
+                Intent intent = new Intent(getActivity(), TweetDetailActivity.class);
+                Tweet tweet = (Tweet) ((CardView) view).getTag();
+                intent.putExtra("tweet", tweet);
+                startActivity(intent);
+                break;
+            case R.id.item_home_tweimg:
+
+                break;
+            case R.id.item_home_fav:
+                Tweet currentTweet = data.get(position);
+                SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
+                String[] params = {currentTweet.getTid(), account.getString("aid", "")};
+                new doFavorTask().execute(params);
+                break;
+        }
+    }
+
     class HomeTask extends AsyncTask<String, String, LinkedList<Tweet>>
     {
         private boolean status;
+
         public HomeTask(boolean status)
         {
             this.status = status;
@@ -185,7 +204,7 @@ public class HomeFragment extends Fragment
         protected void onPreExecute()
         {
             super.onPreExecute();
-            swipeRefreshLayout.setRefreshing(true);
+            fragmentHomeSrlayout.setRefreshing(true);
         }
 
         @Override
@@ -194,7 +213,7 @@ public class HomeFragment extends Fragment
             LinkedList<Tweet> list = null;
             RequestBody formBody = new FormBody.Builder()
                     .add("pageNum", params[0])
-                    .add("aid",aid)
+                    .add("aid", aid)
                     .build();
             Request request = new Request.Builder()
                     .url(Global.HOST_URL + "Public/showTweet")
@@ -207,7 +226,7 @@ public class HomeFragment extends Fragment
                 String body = response.body().string();
                 Log.i(Global.TAG, "body-->" + body);
                 Log.i(Global.TAG, "code-->" + Tool.getRepCode(body));
-                if(0 == Tool.getRepCode(body))
+                if (0 == Tool.getRepCode(body))
                 {
                     Gson gson = new Gson();
                     JSONObject dataJsonObj = Tool.getDataJsonObj(body);
@@ -229,11 +248,11 @@ public class HomeFragment extends Fragment
         protected void onPostExecute(LinkedList<Tweet> s)
         {
             super.onPostExecute(s);
-            Log.i(Global.TAG, "s.size------>"   + s.size());
-            swipeRefreshLayout.setRefreshing(false);
-            if(s != null)
+            Log.i(Global.TAG, "s.size------>" + s.size());
+            fragmentHomeSrlayout.setRefreshing(false);
+            if (s != null)
             {
-                if(status)
+                if (status)
                 {
                     listAdapter.addItem(s);
                 }
@@ -244,7 +263,7 @@ public class HomeFragment extends Fragment
             }
             else
             {
-                Log.i(Global.TAG,"内部错误");
+                Log.i(Global.TAG, "内部错误");
             }
         }
     }
@@ -255,7 +274,7 @@ public class HomeFragment extends Fragment
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("请求数据中...",basicProgressDialog);
+            Tool.startProgressDialog("请求数据中...", basicProgressDialog);
         }
 
         @Override
@@ -263,7 +282,7 @@ public class HomeFragment extends Fragment
         {
             RequestBody formBody = new FormBody.Builder()
                     .add("tid", params[0])
-                    .add("aid",params[1])
+                    .add("aid", params[1])
                     .build();
             Request request = new Request.Builder()
                     .url(Global.HOST_URL + "Public/doFavor")
@@ -275,7 +294,7 @@ public class HomeFragment extends Fragment
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG,"body--->"+body);
+                Log.i(Global.TAG, "body--->" + body);
             }
             catch (Exception e)
             {
@@ -290,13 +309,13 @@ public class HomeFragment extends Fragment
         {
             super.onPostExecute(s);
             Tool.stopProgressDialog(basicProgressDialog);
-            if(0 == Tool.getRepCode(s))
+            if (0 == Tool.getRepCode(s))
             {
-                Tool.showToast(getActivity(),"点赞成功");
+                Tool.showToast(getActivity(), "点赞成功");
             }
             else
             {
-                Tool.showToast(getActivity(),"点赞失败");
+                Tool.showToast(getActivity(), "点赞失败");
             }
         }
     }

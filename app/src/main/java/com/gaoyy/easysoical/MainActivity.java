@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
         View headerView = navigationView.getHeaderView(0);
         SimpleDraweeView img = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_ava);
         img.setOnClickListener(new View.OnClickListener()

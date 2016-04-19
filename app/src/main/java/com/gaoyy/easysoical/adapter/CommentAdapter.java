@@ -165,11 +165,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comHeaderViewHolder.itemHomeTweet.setText(tweet.getContent());
 
             Uri avaUri = Uri.parse(tweet.getAvatar());
-            Uri picUri = Uri.parse(tweet.getPicture());
             comHeaderViewHolder.itemHomeAvatar.setImageURI(avaUri);
-            comHeaderViewHolder.itemHomeTweimg.setHierarchy(hierarchy);
-            comHeaderViewHolder.itemHomeTweimg.setController(controller);
-            comHeaderViewHolder.itemHomeTweimg.setImageURI(picUri);
+
+            if(tweet.getPicture() == null || tweet.getPicture().equals(""))
+            {
+                comHeaderViewHolder.itemHomeTweimg.setVisibility(View.GONE);
+            }
+            else
+            {
+                Uri picUri = Uri.parse(tweet.getPicture());
+                comHeaderViewHolder.itemHomeTweimg.setHierarchy(hierarchy);
+                comHeaderViewHolder.itemHomeTweimg.setController(controller);
+                comHeaderViewHolder.itemHomeTweimg.setImageURI(picUri);
+            }
+
+
+
             comHeaderViewHolder.botline.setVisibility(View.VISIBLE);
 
             TextPaint textPaint = comHeaderViewHolder.itemHomeAccount.getPaint();

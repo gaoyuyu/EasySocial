@@ -82,7 +82,7 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     private void configViews()
     {
         favoriteSrlayout.setOnRefreshListener(this);
-        favoriteAdapter = new FavoriteAdapter(getActivity(),favLists);
+        favoriteAdapter = new FavoriteAdapter(getActivity(), favLists);
         favoriteRv.setAdapter(favoriteAdapter);
 
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -95,9 +95,9 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
             {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition+1 == favoriteAdapter.getItemCount())
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition + 1 == favoriteAdapter.getItemCount())
                 {
-                    if (currentPage+1 > pageCount)
+                    if (currentPage + 1 > pageCount)
                     {
                         Tool.showSnackbar(recyclerView, ":)到底啦");
                     }
@@ -122,7 +122,7 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh()
     {
-        currentPage=1;
+        currentPage = 1;
         new FavoriteTask(true).execute(String.valueOf(currentPage));
     }
 
@@ -130,10 +130,12 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     class FavoriteTask extends AsyncTask<String, String, LinkedList<Favorite>>
     {
         private boolean status;
+
         public FavoriteTask(boolean status)
         {
             this.status = status;
         }
+
         @Override
         protected void onPreExecute()
         {
@@ -147,7 +149,7 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
             LinkedList<Favorite> list = null;
             RequestBody formBody = new FormBody.Builder()
                     .add("pageNum", params[0])
-                    .add("aid",getArguments().getString("aid"))
+                    .add("aid", getArguments().getString("aid"))
                     .build();
             Request request = new Request.Builder()
                     .url(Global.HOST_URL + "Public/showFavList")
@@ -158,9 +160,9 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
-                Log.i(Global.TAG, "body-->" + body);
-                Log.i(Global.TAG, "code-->" + Tool.getRepCode(body));
-                if(0 == Tool.getRepCode(body))
+                Log.i(Global.TAG, "FavoriteFragment body-->" + body);
+                Log.i(Global.TAG, "FavoriteFragment code-->" + Tool.getRepCode(body));
+                if (0 == Tool.getRepCode(body))
                 {
                     Gson gson = new Gson();
                     JSONObject dataJsonObj = Tool.getDataJsonObj(body);
@@ -169,12 +171,12 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
                             new TypeToken<LinkedList<Favorite>>()
                             {
                             }.getType());
-                    Log.i(Global.TAG, "list-->" +list.toString());
+                    Log.i(Global.TAG, "FavoriteFragment list-->" + list.toString());
                 }
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "e-->" + e.toString());
+                Log.i(Global.TAG, "FavoriteFragment doInBackground Exception-->" + e.toString());
             }
 
             return list;
@@ -185,9 +187,9 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
         {
             super.onPostExecute(s);
             favoriteSrlayout.setRefreshing(false);
-            if(s != null)
+            if (s != null)
             {
-                if(status)
+                if (status)
                 {
                     favoriteAdapter.addItem(s);
                 }
@@ -198,7 +200,7 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             else
             {
-                Log.i(Global.TAG,"内部错误");
+                Log.i(Global.TAG, "FavoriteFragment 内部错误");
             }
         }
     }

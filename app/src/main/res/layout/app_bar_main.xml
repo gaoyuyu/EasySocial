@@ -2,24 +2,24 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinatorLayout"
+    android:id="@+id/main_coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     >
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbarlayout"
+        android:id="@+id/main_appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
         <include
-            android:id="@+id/toolbar"
+            android:id="@+id/main_toolbar"
             layout="@layout/widget_toolbar"
             />
         <android.support.design.widget.TabLayout
-            android:id="@+id/tablayout"
+            android:id="@+id/main_tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="false"
@@ -39,18 +39,8 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        android:id="@+id/viewpager"
+        android:id="@+id/main_viewpager"
         layout="@layout/content_main"/>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:layout_anchor="@+id/viewpager"
-        app:layout_anchorGravity="bottom|right|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

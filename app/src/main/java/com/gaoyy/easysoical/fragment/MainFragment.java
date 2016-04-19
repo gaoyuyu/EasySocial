@@ -2,13 +2,11 @@ package com.gaoyy.easysoical.fragment;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -30,7 +28,6 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.BlankFragment;
-import com.gaoyy.easysoical.PublishActivity;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.adapter.PageAdapter;
 import com.gaoyy.easysoical.utils.Global;
@@ -44,25 +41,33 @@ import java.util.List;
  */
 public class MainFragment extends Fragment
 {
-    private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
+    private CoordinatorLayout mainCoordinatorLayout;
+    private AppBarLayout mainAppbarlayout;
+    private Toolbar mainToolbar;
+    private TabLayout mainTablayout;
+    private ViewPager mainViewpager;
+    private DrawerLayout mainDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    private CoordinatorLayout coordinatorLayout;
-    private AppBarLayout appBarLayout;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-
-    private FloatingActionButton fab;
-
-//    String[] pagerTitle = {"首页","Alive Guys","Utila"};
-    String[] pagerTitle = {"首页","活动","排行榜"};
+    String[] pagerTitle = {"首页", "活动", "排行榜"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 
     private PageAdapter pageAdapter;
 
     private View rootView;
+
+
+    private void assignViews(View rootView)
+    {
+        mainCoordinatorLayout = (CoordinatorLayout) rootView.findViewById(R.id.main_coordinatorLayout);
+        mainDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.main_drawerlayout);
+        mainAppbarlayout = (AppBarLayout) rootView.findViewById(R.id.main_appbarlayout);
+        mainToolbar = (Toolbar) rootView.findViewById(R.id.main_toolbar);
+        mainTablayout = (TabLayout) rootView.findViewById(R.id.main_tablayout);
+        mainViewpager = (ViewPager) rootView.findViewById(R.id.main_viewpager);
+    }
+
 
     public MainFragment()
     {
@@ -76,30 +81,20 @@ public class MainFragment extends Fragment
     {
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
         initData();
-        initViews(rootView);
+        assignViews(rootView);
         configViews();
         return rootView;
     }
 
 
-    public void initViews(View rootView)
-    {
-        toolbar = (Toolbar)rootView.findViewById(R.id.toolbar);
-        drawerLayout = (DrawerLayout)getActivity().findViewById(R.id.drawerlayout);
-        coordinatorLayout = (CoordinatorLayout)rootView.findViewById(R.id.coordinatorLayout);
-        appBarLayout = (AppBarLayout)rootView.findViewById(R.id.appbarlayout);
-        tabLayout = (TabLayout)rootView.findViewById(R.id.tablayout);
-        viewPager = (ViewPager)rootView.findViewById(R.id.viewpager);
-        fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
-    }
     public void initData()
     {
-        for(int i=0;i<pagerTitle.length;i++)
+        for (int i = 0; i < pagerTitle.length; i++)
         {
             Bundle bundle = new Bundle();
-            bundle.putString("title",pagerTitle[i]);
+            bundle.putString("title", pagerTitle[i]);
             Fragment fragment = null;
-            if(pagerTitle[i].equals("首页"))
+            if (pagerTitle[i].equals("首页"))
             {
                 fragment = new HomeFragment();
             }
@@ -108,23 +103,25 @@ public class MainFragment extends Fragment
                 fragment = new BlankFragment();
             }
             fragment.setArguments(bundle);
-            fragmentList.add(i,fragment);
+            fragmentList.add(i, fragment);
         }
     }
+
     public void configViews()
     {
-        AppCompatActivity activity = ((AppCompatActivity)getActivity());
-        toolbar.setTitle(activity.getResources().getString(R.string.app_name));
-        activity.setSupportActionBar(toolbar);
+        AppCompatActivity activity = ((AppCompatActivity) getActivity());
+        mainToolbar.setTitle(activity.getResources().getString(R.string.app_name));
+        activity.setSupportActionBar(mainToolbar);
         activity.getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(activity, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        actionBarDrawerToggle = new ActionBarDrawerToggle(activity, mainDrawerLayout, mainToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         {
             @Override
             public void onDrawerOpened(View drawerView)
             {
                 super.onDrawerOpened(drawerView);
             }
+
             @Override
             public void onDrawerClosed(View drawerView)
             {
@@ -132,48 +129,35 @@ public class MainFragment extends Fragment
             }
         };
         actionBarDrawerToggle.syncState();
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        mainDrawerLayout.setDrawerListener(actionBarDrawerToggle);
 
-        SystemBarTintManager tintManager=new SystemBarTintManager(activity);
+        SystemBarTintManager tintManager = new SystemBarTintManager(activity);
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
         tintManager.setStatusBarTintEnabled(true);
 
-        pageAdapter = new PageAdapter(activity.getSupportFragmentManager(),pagerTitle,fragmentList);
-        viewPager.setAdapter(pageAdapter);
+        pageAdapter = new PageAdapter(activity.getSupportFragmentManager(), pagerTitle, fragmentList);
+        mainViewpager.setAdapter(pageAdapter);
 
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
-        // 将TabLayout和ViewPager进行关联，让两者联动起来
-        tabLayout.setupWithViewPager(viewPager);
-        // 设置Tablayout的Tab显示ViewPager的适配器中的getPageTitle函数获取到的标题
-        tabLayout.setTabsFromPagerAdapter(pageAdapter);
-
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PublishActivity.class);
-                startActivity(intent);
-            }
-        });
+        mainTablayout.setTabMode(TabLayout.MODE_FIXED);
+        mainTablayout.setupWithViewPager(mainViewpager);
+        mainTablayout.setTabsFromPagerAdapter(pageAdapter);
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
-        Log.i(Global.TAG,"onResume");
+        Log.i(Global.TAG, "onResume");
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
 
-        SharedPreferences account= getActivity().getSharedPreferences("account",Activity.MODE_PRIVATE);
-        if(account != null)
+        SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
+        if (account != null)
         {
             String loginKey = account.getString("loginKey", "");
-            if(loginKey.equals("1"))
+            if (loginKey.equals("1"))
             {
-                GenericDraweeHierarchyBuilder builder =new GenericDraweeHierarchyBuilder(getActivity().getResources());
+                GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(getActivity().getResources());
                 GenericDraweeHierarchy hierarchy = builder
                         .setFadeDuration(300)
                         .setPlaceholderImage(new ProgressBarDrawable())
@@ -181,17 +165,16 @@ public class MainFragment extends Fragment
                 DraweeController controller = Fresco.newDraweeControllerBuilder()
                         .setTapToRetryEnabled(true)
                         .build();
-                SimpleDraweeView img = (SimpleDraweeView)headerView.findViewById(R.id.nav_header_ava);
-                TextView name = (TextView)headerView.findViewById(R.id.nav_header_account);
-                TextView signature = (TextView)headerView.findViewById(R.id.nav_header_signature);
-                img.setImageURI(Uri.parse(account.getString("avatar","")));
+                SimpleDraweeView img = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_ava);
+                TextView name = (TextView) headerView.findViewById(R.id.nav_header_account);
+                TextView signature = (TextView) headerView.findViewById(R.id.nav_header_signature);
+                img.setImageURI(Uri.parse(account.getString("avatar", "")));
 
-                name.setText(account.getString("username",""));
-                signature.setText(account.getString("signature",""));
+                name.setText(account.getString("username", ""));
+                signature.setText(account.getString("signature", ""));
 
             }
         }
-
 
 
     }

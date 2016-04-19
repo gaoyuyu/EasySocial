@@ -1,25 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_home_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+        android:id="@+id/fragment_home_srlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/sw_recyclerView"
+            android:id="@+id/fragment_home_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="vertical"
             android:fadeScrollbars="true"
+            android:scrollbars="vertical"
             >
         </android.support.v7.widget.RecyclerView>
 
-
     </android.support.v4.widget.SwipeRefreshLayout>
+    <!--<android.support.design.widget.FloatingActionButton-->
+    <!--android:id="@+id/fragment_home_fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_gravity="bottom|end"-->
+    <!--app:layout_anchor="@+id/fragment_home_srlayout"-->
+    <!--app:layout_anchorGravity="bottom|right|end"-->
+    <!--android:src="@mipmap/ic_create"/>-->
 
-</LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fragment_home_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end|right"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:src="@mipmap/ic_create"
+        app:layout_anchor="@+id/fragment_home_layout"
+        app:layout_anchorGravity="bottom|right|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+/>
+
+
+</RelativeLayout>
