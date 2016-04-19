@@ -39,6 +39,8 @@ public class SetPicActivity extends Activity implements View.OnClickListener
 
     private BasicProgressDialog basicProgressDialog;
 
+    private static final int PUBLISH_SET_IMG_REQUEST_CODE = 500;
+
     private void assignViews()
     {
         setPicAblum = (TextView) findViewById(R.id.set_pic_ablum);
@@ -52,7 +54,7 @@ public class SetPicActivity extends Activity implements View.OnClickListener
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_pic);
-        account = getSharedPreferences("account",Activity.MODE_PRIVATE);
+        account = getSharedPreferences("account", Activity.MODE_PRIVATE);
         assignViews();
         setListener();
     }
@@ -119,7 +121,7 @@ public class SetPicActivity extends Activity implements View.OnClickListener
             {
                 Log.e(Global.TAG, "获取拍照图片成功，path=" + picFileFullName);
                 Log.e(Global.TAG, "获取拍照图片成功，path=" + new File(picFileFullName).getName());
-                new UpoadTask().execute(picFileFullName);
+                handleImg(picFileFullName);
             }
             else if (resultCode == RESULT_CANCELED)
             {
@@ -141,13 +143,33 @@ public class SetPicActivity extends Activity implements View.OnClickListener
                     String realPath = getRealPathFromURI(uri);
                     Log.e(Global.TAG, "获取相册图片成功，path=" + realPath);
                     Log.e(Global.TAG, "获取相册图片成功，path=" + new File(realPath).getName());
-                    new UpoadTask().execute(realPath);
+                    handleImg(realPath);
+
                 }
                 else
                 {
                     Log.e(Global.TAG, "从相册获取图片失败");
                 }
             }
+        }
+    }
+
+    /**
+     * 处理图片
+     * @param path 图片路径
+     */
+    private void handleImg(String path)
+    {
+        if (getIntent().getBooleanExtra("isPublish", false))
+        {
+            Intent intent = new Intent();
+            intent.putExtra("tweimg", path);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+        else
+        {
+            new UpoadTask().execute(path);
         }
     }
 
@@ -182,7 +204,7 @@ public class SetPicActivity extends Activity implements View.OnClickListener
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("loading...",basicProgressDialog);
+            Tool.startProgressDialog("loading...", basicProgressDialog);
         }
 
         @Override
@@ -195,7 +217,7 @@ public class SetPicActivity extends Activity implements View.OnClickListener
                     .build();
 
             Request request = new Request.Builder()
-                    .url(Global.HOST_URL+"Public/upload")
+                    .url(Global.HOST_URL + "Public/upload")
                     .post(requestBody)
                     .build();
             String body = null;
@@ -205,6 +227,7 @@ public class SetPicActivity extends Activity implements View.OnClickListener
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
                 body = response.body().string();
+                Log.i(Global.TAG,"Setpic-->"+body);
             }
             catch (IOException e)
             {
@@ -224,10 +247,13 @@ public class SetPicActivity extends Activity implements View.OnClickListener
                 if (0 == Tool.getRepCode(s))
                 {
                     Tool.showToast(SetPicActivity.this, (Tool.getMainJsonObj(s)).getString("data"));
-                    Log.i(Global.TAG,(Tool.getMainJsonObj(s)).getString("data"));
-                    SharedPreferences.Editor editor = account.edit();
-                    editor.putString("avatar", (Tool.getMainJsonObj(s)).getString("data"));
-                    editor.commit();
+                    Log.i(Global.TAG, (Tool.getMainJsonObj(s)).getString("data"));
+                    Intent intent = new Intent();
+                    intent.putExtra("avatar",(Tool.getMainJsonObj(s)).getString("data"));
+                    setResult(RESULT_OK,intent);
+//                    SharedPreferences.Editor editor = account.edit();
+//                    editor.putString("avatar", (Tool.getMainJsonObj(s)).getString("data"));
+//                    editor.commit();
                     finish();
                 }
                 else
@@ -239,6 +265,28 @@ public class SetPicActivity extends Activity implements View.OnClickListener
             {
                 Log.i(Global.TAG, "onPostExecute e-->" + e.toString());
             }
+        }
+    }
+
+
+    class UpdateAvatarTask extends AsyncTask<String, String, String>
+    {
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params)
+        {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s)
+        {
+            super.onPostExecute(s);
         }
     }
 

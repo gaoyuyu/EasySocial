@@ -51,6 +51,8 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
 
     private BasicProgressDialog basicProgressDialog;
 
+    private static final int MODIFY_AVATAR_REQUEST_CODE = 400;
+
     private void assignViews()
     {
         modifyToolbar = (Toolbar) findViewById(R.id.modify_toolbar);
@@ -138,7 +140,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         {
             case R.id.modify_avatar_layout:
                 intent.setClass(ModifyActivity.this, SetPicActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,MODIFY_AVATAR_REQUEST_CODE);
                 break;
             case R.id.modify_username_layout:
                 showMaterialDialog(contentView, getResources().getString(R.string.nickname), account.getString("username", ""), "username");
@@ -250,6 +252,22 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         configViews();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == MODIFY_AVATAR_REQUEST_CODE)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                String avatar = data.getStringExtra("avatar");
+                String[] params = {"avatar",avatar};
+                new UpdatePersonInfoTask(null).execute(params);
+            }
+        }
+
+    }
+
     class UpdatePersonInfoTask extends AsyncTask<String, String, String>
     {
         MaterialDialog materialDialog;
@@ -308,7 +326,11 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                     SharedPreferences.Editor editor = account.edit();
                     editor.putString(dataJsonObj.getString("key"), dataJsonObj.getString("value"));
                     editor.commit();
-                    materialDialog.dismiss();
+                    if(materialDialog != null)
+                    {
+                        materialDialog.dismiss();
+                    }
+
                     configViews();
 
                 }

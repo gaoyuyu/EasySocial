@@ -90,7 +90,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //        {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         Tweet tweet = data.get(position);
-        Log.i(Global.TAG,"-getComment_count-->"+tweet.getComment_count()+"--getFavorite_count->"+tweet.getFavorite_count());
+        Log.i(Global.TAG, "-getComment_count-->" + tweet.getComment_count() + "--getFavorite_count->" + tweet.getFavorite_count());
         itemViewHolder.itemHomeCardView.setTag(tweet);
         itemViewHolder.itemHomeAccount.setText(tweet.getUsername());
         TextPaint textPaint = itemViewHolder.itemHomeAccount.getPaint();
@@ -107,13 +107,23 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 //                .setTapToRetryEnabled(true)
 //                .build();
 
+        Log.i(Global.TAG,tweet.toString());
 
         Uri avaUri = Uri.parse(tweet.getAvatar());
-        Uri picUri = Uri.parse(tweet.getPicture());
         itemViewHolder.itemHomeAvatar.setImageURI(avaUri);
-        itemViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
-        itemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
-        itemViewHolder.itemHomeTweimg.setImageURI(picUri);
+
+        if (tweet.getPicture() == null || (tweet.getPicture()).equals(""))
+        {
+            itemViewHolder.itemHomeTweimg.setVisibility(View.GONE);
+        }
+        else
+        {
+            itemViewHolder.itemHomeTweimg.setVisibility(View.VISIBLE);
+            Uri picUri = Uri.parse(tweet.getPicture());
+            itemViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
+            itemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
+            itemViewHolder.itemHomeTweimg.setImageURI(picUri);
+        }
 
 
         itemViewHolder.itemHomeCom.setText(tweet.getComment_count());

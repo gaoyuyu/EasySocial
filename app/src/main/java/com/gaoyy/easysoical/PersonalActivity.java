@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.adapter.PageAdapter;
+import com.gaoyy.easysoical.fragment.FavoriteFragment;
+import com.gaoyy.easysoical.fragment.HomeFragment;
 import com.gaoyy.easysoical.utils.Global;
 import com.gaoyy.easysoical.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -102,11 +104,11 @@ public class PersonalActivity extends AppCompatActivity
             Fragment fragment = null;
             if(personalTitles[i].equals("我发表的"))
             {
-                fragment = new BlankFragment();
+                fragment = new HomeFragment();
             }
             else
             {
-                fragment = new BlankFragment();
+                fragment = new FavoriteFragment();
             }
             fragment.setArguments(bundle);
             fragmentList.add(fragment);

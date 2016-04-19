@@ -2,11 +2,13 @@ package com.gaoyy.easysoical.fragment;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.BlankFragment;
+import com.gaoyy.easysoical.PublishActivity;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.adapter.PageAdapter;
 import com.gaoyy.easysoical.utils.Global;
@@ -49,6 +52,8 @@ public class MainFragment extends Fragment
     private AppBarLayout appBarLayout;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private FloatingActionButton fab;
 
 //    String[] pagerTitle = {"首页","Alive Guys","Utila"};
     String[] pagerTitle = {"首页","活动","排行榜"};
@@ -85,6 +90,7 @@ public class MainFragment extends Fragment
         appBarLayout = (AppBarLayout)rootView.findViewById(R.id.appbarlayout);
         tabLayout = (TabLayout)rootView.findViewById(R.id.tablayout);
         viewPager = (ViewPager)rootView.findViewById(R.id.viewpager);
+        fab = (FloatingActionButton)rootView.findViewById(R.id.fab);
     }
     public void initData()
     {
@@ -95,7 +101,7 @@ public class MainFragment extends Fragment
             Fragment fragment = null;
             if(pagerTitle[i].equals("首页"))
             {
-                fragment = new BlankFragment();
+                fragment = new HomeFragment();
             }
             else
             {
@@ -140,6 +146,17 @@ public class MainFragment extends Fragment
         tabLayout.setupWithViewPager(viewPager);
         // 设置Tablayout的Tab显示ViewPager的适配器中的getPageTitle函数获取到的标题
         tabLayout.setTabsFromPagerAdapter(pageAdapter);
+
+        fab.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), PublishActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
