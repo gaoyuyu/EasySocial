@@ -39,8 +39,11 @@
             android:name=".SetPicActivity"
             android:theme="@style/ActivityDialog">
         </activity>
-        <activity android:name=".PublishActivity"
+        <activity
+            android:name=".PublishActivity"
             android:windowSoftInputMode="adjustResize">
+        </activity>
+        <activity android:name=".RegActivity">
         </activity>
     </application>
 

@@ -1,6 +1,7 @@
 package com.gaoyy.easysoical;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private MaterialEditText email;
     private MaterialEditText password;
     private AppCompatButton loginBtn;
+    private AppCompatButton loginRegbtn;
 
     private BasicProgressDialog basicProgressDialog;
 
@@ -53,6 +55,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         email = (MaterialEditText) findViewById(R.id.email);
         password = (MaterialEditText) findViewById(R.id.password);
         loginBtn = (AppCompatButton) findViewById(R.id.login_btn);
+        loginRegbtn = (AppCompatButton) findViewById(R.id.login_regbtn);
 
         email.setText("740514999@qq.com");
         password.setText("1qa2ws");
@@ -76,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void setListener()
     {
         loginBtn.setOnClickListener(this);
+        loginRegbtn.setOnClickListener(this);
     }
 
     @Override
@@ -85,9 +89,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (id)
         {
             case R.id.login_btn:
-
                 String[] params = {email.getText().toString(), password.getText().toString()};
                 new LoginTask().execute(params);
+                break;
+            case R.id.login_regbtn:
+                Intent intent = new Intent();
+                intent.setClass(LoginActivity.this,RegActivity.class);
+                startActivity(intent);
                 break;
         }
     }

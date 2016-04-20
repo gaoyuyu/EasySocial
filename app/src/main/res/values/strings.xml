@@ -31,4 +31,8 @@
     <string name="gender">性别</string>
     <string name="signature">个性签名</string>
     <string name="type_word">输入文字</string>
+    <string name="reg">注册</string>
+    <string name="edittext_repassword_hint">repeat password here</string>
+    <string name="edittext_username_hint">username here</string>
+    <string name="edittext_realname_hint">realname here</string>
 </resources>

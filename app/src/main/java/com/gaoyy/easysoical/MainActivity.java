@@ -142,6 +142,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 intent.setClass(MainActivity.this,SettingActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.nav_discussion:
+                intent.setClass(MainActivity.this,LoginActivity.class);
+                startActivity(intent);
+                break;
 
         }
         return true;

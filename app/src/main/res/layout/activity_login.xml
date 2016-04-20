@@ -1,66 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical"
     >
 
-    <include
-        android:id="@+id/login_toolbar"
-        layout="@layout/widget_toolbar"
-        />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/email"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:hint="@string/edittext_email_hint"
-        app:met_baseColor="@color/colorPrimary"
-        app:met_errorColor="@color/edittext_error_color"
-        app:met_floatingLabel="highlight"
-        app:met_primaryColor="@color/colorPrimary"/>
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        >
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="3dp"
-        android:hint="@string/edittext_password_hint"
-        app:met_baseColor="@color/colorPrimary"
-        app:met_errorColor="@color/edittext_error_color"
-        app:met_floatingLabel="highlight"
-        app:met_primaryColor="@color/colorPrimaryDark"/>
+        <include
+            android:id="@+id/login_toolbar"
+            layout="@layout/widget_toolbar"
+            />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/edittext_email_hint"
+            app:met_baseColor="@color/colorPrimary"
+            app:met_errorColor="@color/edittext_error_color"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/colorPrimary"/>
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="3dp"
+            android:hint="@string/edittext_password_hint"
+            app:met_baseColor="@color/colorPrimary"
+            app:met_errorColor="@color/edittext_error_color"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@color/colorPrimaryDark"/>
+
+        <com.balysv.materialripple.MaterialRippleLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:layout_marginTop="24dp"
+            android:background="@color/colorPrimary"
+            app:mrl_rippleAlpha="0.2"
+            app:mrl_rippleColor="@color/gray600"
+            app:mrl_rippleOverlay="true"
+            >
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/selector"
+                android:text="@string/login"
+                android:textColor="@color/white"/>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
+
+
+    </LinearLayout>
 
     <com.balysv.materialripple.MaterialRippleLayout
 
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:layout_marginTop="24dp"
-        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="5dp"
         app:mrl_rippleAlpha="0.2"
         app:mrl_rippleColor="@color/gray600"
         app:mrl_rippleOverlay="true"
         >
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/login_btn"
-            android:layout_width="match_parent"
+            android:id="@+id/login_regbtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:background="@drawable/selector"
-            android:text="@string/login"
-            android:textColor="@color/white"/>
-
+            android:text="@string/reg"
+            android:textColor="@color/colorAccent"
+            />
     </com.balysv.materialripple.MaterialRippleLayout>
-
-
-</LinearLayout>
+</RelativeLayout>
