@@ -1,6 +1,8 @@
 package com.gaoyy.easysoical;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -15,17 +17,22 @@ import android.view.View;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.fragment.MainFragment;
+import com.gaoyy.easysoical.utils.Tool;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
-
-    private NavigationView navigationView;
+    private DrawerLayout mainDrawerlayout;
+    private NavigationView mainNav;
     private MainFragment mainFragment;
-    private DrawerLayout drawerLayout;
+
+    private void assignViews()
+    {
+        mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
+        mainNav = (NavigationView) findViewById(R.id.main_nav);
+    }
 
     //记录当前正在使用的fragment
     private Fragment currentFragment;
-
     public Fragment getCurrentFragment()
     {
         return currentFragment;
@@ -42,23 +49,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        drawerLayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
-        View headerView = navigationView.getHeaderView(0);
-        SimpleDraweeView img = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_ava);
-        img.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+        mainNav = (NavigationView) findViewById(R.id.main_nav);
+        mainNav.setNavigationItemSelectedListener(this);
+        mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
+        View headerView = mainNav.getHeaderView(0);
+        SimpleDraweeView avatar = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_ava);
+        avatar.setOnClickListener(this);
         initFragment(savedInstanceState);
-
-
     }
 
     public void initFragment(Bundle savedInstanceState)
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mainFragment = new MainFragment();
             }
             setCurrentFragment(mainFragment);
-            ft.replace(R.id.layout_main, mainFragment).commit();
+            ft.replace(R.id.main_layout, mainFragment).commit();
         }
     }
 
@@ -97,24 +94,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     R.anim.fade_in,
                     R.anim.fade_out);
             if (!to.isAdded())
-            {    // 先判断是否被add过
-                ft.hide(from).add(R.id.layout_main, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            {
+                // 先判断是否被add过
+                ft.hide(from).add(R.id.main_layout, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
             }
             else
             {
                 ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
         }
-        drawerLayout.closeDrawer(GravityCompat.START);
+        mainDrawerlayout.closeDrawer(GravityCompat.START);
     }
 
 
     @Override
     public void onBackPressed()
     {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (mainDrawerlayout.isDrawerOpen(GravityCompat.START))
         {
-            drawerLayout.closeDrawer(GravityCompat.START);
+            mainDrawerlayout.closeDrawer(GravityCompat.START);
         }
         else
         {
@@ -132,18 +130,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id)
         {
             case R.id.nav_home:
-
+                intent.setClass(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case R.id.nav_personal:
-                intent.setClass(MainActivity.this,PersonalActivity.class);
+                intent.setClass(MainActivity.this, PersonalActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_setting:
-                intent.setClass(MainActivity.this,SettingActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.nav_discussion:
-                intent.setClass(MainActivity.this,LoginActivity.class);
+                intent.setClass(MainActivity.this, SettingActivity.class);
                 startActivity(intent);
                 break;
 
@@ -162,4 +158,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v)
+    {
+        int id = v.getId();
+        SharedPreferences account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+        switch (id)
+        {
+            case R.id.nav_header_ava:
+                String loginKey = account.getString("loginKey", "");
+                if (!(loginKey.equals("1")))
+                {
+                    Tool.showSnackbar(v, "请先登录");
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+
+                break;
+
+        }
+    }
 }

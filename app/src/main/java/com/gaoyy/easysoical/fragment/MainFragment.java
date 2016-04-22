@@ -96,7 +96,7 @@ public class MainFragment extends Fragment
             Fragment fragment = null;
             if (pagerTitle[i].equals("首页"))
             {
-                fragment = new BlankFragment();
+                fragment = new HomeFragment();
             }
             else
             {
@@ -148,7 +148,7 @@ public class MainFragment extends Fragment
     {
         super.onResume();
         Log.i(Global.TAG, "onResume");
-        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.main_nav);
         View headerView = navigationView.getHeaderView(0);
 
         SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);

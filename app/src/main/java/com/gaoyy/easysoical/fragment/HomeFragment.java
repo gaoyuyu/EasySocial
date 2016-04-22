@@ -18,6 +18,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.gaoyy.easysoical.PublishActivity;
 import com.gaoyy.easysoical.R;
@@ -186,7 +187,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                 Tweet currentTweet = data.get(position);
                 SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
                 String[] params = {currentTweet.getTid(), account.getString("aid", "")};
-                new doFavorTask().execute(params);
+                new doFavorTask(view).execute(params);
                 break;
         }
     }
@@ -210,6 +211,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         @Override
         protected LinkedList<Tweet> doInBackground(String... params)
         {
+
             LinkedList<Tweet> list = null;
             RequestBody formBody = new FormBody.Builder()
                     .add("pageNum", params[0])
@@ -270,6 +272,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 
     class doFavorTask extends AsyncTask<String, String, String>
     {
+        private View tv;
+
+        public doFavorTask(View tv)
+        {
+            this.tv = tv;
+        }
+
         @Override
         protected void onPreExecute()
         {
@@ -312,6 +321,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             if (0 == Tool.getRepCode(s))
             {
                 Tool.showToast(getActivity(), "点赞成功");
+                ((TextView)tv).setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.ic_favorite_press),null,null,null);
+
             }
             else
             {

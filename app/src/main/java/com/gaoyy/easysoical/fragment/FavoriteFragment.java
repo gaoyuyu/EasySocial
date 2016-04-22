@@ -38,8 +38,8 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
 {
 
     private View rootView;
-    private SwipeRefreshLayout favoriteSrlayout;
-    private RecyclerView favoriteRv;
+    private SwipeRefreshLayout fragmentFavoriteSrlayout;
+    private RecyclerView fragmentFavoriteRv;
     private FavoriteAdapter favoriteAdapter;
     private LinkedList<Favorite> favLists;
     private int lastVisibleItemPosition;
@@ -52,8 +52,8 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void assignViews(View rootView)
     {
-        favoriteSrlayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fragment_favorite_srlayout);
-        favoriteRv = (RecyclerView) rootView.findViewById(R.id.fragment_favorite_rv);
+        fragmentFavoriteSrlayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fragment_favorite_srlayout);
+        fragmentFavoriteRv = (RecyclerView) rootView.findViewById(R.id.fragment_favorite_rv);
     }
 
 
@@ -81,15 +81,15 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void configViews()
     {
-        favoriteSrlayout.setOnRefreshListener(this);
+        fragmentFavoriteSrlayout.setOnRefreshListener(this);
         favoriteAdapter = new FavoriteAdapter(getActivity(), favLists);
-        favoriteRv.setAdapter(favoriteAdapter);
+        fragmentFavoriteRv.setAdapter(favoriteAdapter);
 
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        favoriteRv.setLayoutManager(linearLayoutManager);
-        favoriteRv.setItemAnimator(new DefaultItemAnimator());
+        fragmentFavoriteRv.setLayoutManager(linearLayoutManager);
+        fragmentFavoriteRv.setItemAnimator(new DefaultItemAnimator());
 
-        favoriteRv.setOnScrollListener(new RecyclerView.OnScrollListener()
+        fragmentFavoriteRv.setOnScrollListener(new RecyclerView.OnScrollListener()
         {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState)
@@ -140,7 +140,7 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
         protected void onPreExecute()
         {
             super.onPreExecute();
-            favoriteSrlayout.setRefreshing(true);
+            fragmentFavoriteSrlayout.setRefreshing(true);
         }
 
         @Override
@@ -186,7 +186,7 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
         protected void onPostExecute(LinkedList<Favorite> s)
         {
             super.onPostExecute(s);
-            favoriteSrlayout.setRefreshing(false);
+            fragmentFavoriteSrlayout.setRefreshing(false);
             if (s != null)
             {
                 if (status)

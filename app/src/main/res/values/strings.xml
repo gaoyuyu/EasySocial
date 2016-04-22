@@ -35,4 +35,6 @@
     <string name="edittext_repassword_hint">repeat password here</string>
     <string name="edittext_username_hint">username here</string>
     <string name="edittext_realname_hint">realname here</string>
+    <string name="feeback">反馈</string>
+    <string name="share">分享</string>
 </resources>
