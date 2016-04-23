@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -28,13 +30,9 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private LinkedList<Tweet> data;
     private Context context;
 
-//    private static final int TYPE_ITEM = 0;  //普通Item View
-//    private static final int TYPE_FOOTER = 1;  //顶部FootView
-
     public interface OnItemClickListener
     {
         void onItemClick(View view, int position);
-//        void onItemLongClick(View view, int position);
     }
 
     private OnItemClickListener onItemClickListener;
@@ -51,33 +49,9 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.data = data;
     }
 
-//    @Override
-//    public int getItemViewType(int position)
-//    {
-//        if (position + 1 == getItemCount())
-//        {
-//            return TYPE_FOOTER;
-//        } else
-//        {
-//            return TYPE_ITEM;
-//        }
-//    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
-//        if (viewType == TYPE_FOOTER)
-//        {
-//            View rootView = inflater.inflate(R.layout.footer, parent, false);
-//            FooterViewHolder footerViewHolder = new FooterViewHolder(rootView);
-//            return footerViewHolder;
-//        } else if (viewType == TYPE_ITEM)
-//        {
-//            View rootView = inflater.inflate(R.layout.item_home, parent, false);
-//            ItemViewHolder itemViewHolder = new ItemViewHolder(rootView);
-//            return itemViewHolder;
-//        }
-//        return null;
         View rootView = inflater.inflate(R.layout.item_home, parent, false);
         ItemViewHolder itemViewHolder = new ItemViewHolder(rootView);
         return itemViewHolder;
@@ -86,8 +60,6 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
-//        if (holder instanceof ItemViewHolder)
-//        {
         ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         Tweet tweet = data.get(position);
         Log.i(Global.TAG, "-getComment_count-->" + tweet.getComment_count() + "--getFavorite_count->" + tweet.getFavorite_count());
@@ -98,14 +70,6 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemViewHolder.itemHomeDetail.setText(tweet.getCreate_time());
         itemViewHolder.itemHomeTweet.setText(tweet.getContent());
 
-//        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
-//        GenericDraweeHierarchy hierarchy = builder
-//                .setFadeDuration(300)
-//                .setProgressBarImage(new ProgressBarDrawable())
-//                .build();
-//        DraweeController controller = Fresco.newDraweeControllerBuilder()
-//                .setTapToRetryEnabled(true)
-//                .build();
 
         Log.i(Global.TAG,tweet.toString());
 
@@ -125,31 +89,31 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemViewHolder.itemHomeTweimg.setImageURI(picUri);
         }
 
+        if(tweet.getIsfavor().equals("1"))
+        {
+            itemViewHolder.itemHomeFavLabel.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_favorite_press));
+        }
+        else
+        {
+            itemViewHolder.itemHomeFavLabel.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_favorite));
+        }
 
-        itemViewHolder.itemHomeCom.setText(tweet.getComment_count());
-        itemViewHolder.itemHomeFav.setText(tweet.getFavorite_count());
+        itemViewHolder.itemHomeComCount.setText(tweet.getComment_count());
+        itemViewHolder.itemHomeFavCount.setText(tweet.getFavorite_count());
 
 
         if (onItemClickListener != null)
         {
             itemViewHolder.itemHomeCardView.setOnClickListener(new BasicOnClickListener(itemViewHolder));
             itemViewHolder.itemHomeTweimg.setOnClickListener(new BasicOnClickListener(itemViewHolder));
-            itemViewHolder.itemHomeFav.setOnClickListener(new BasicOnClickListener(itemViewHolder));
+            itemViewHolder.itemHomeFavLayout.setOnClickListener(new BasicOnClickListener(itemViewHolder));
         }
-
-
-//        } else if (holder instanceof FooterViewHolder)
-//        {
-//            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
-//            footerViewHolder.loadMoreTv.setText("数据加载中...");
-//        }
     }
 
     @Override
     public int getItemCount()
     {
         return data.size();
-//        return data.size() + 1;
     }
 
     public class BasicOnClickListener implements View.OnClickListener
@@ -173,8 +137,8 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 case R.id.item_home_tweimg:
                     onItemClickListener.onItemClick(itemViewHolder.itemHomeTweimg, itemViewHolder.getLayoutPosition());
                     break;
-                case R.id.item_home_fav:
-                    onItemClickListener.onItemClick(itemViewHolder.itemHomeFav, itemViewHolder.getLayoutPosition());
+                case R.id.item_home_fav_layout:
+                    onItemClickListener.onItemClick(itemViewHolder.itemHomeFavLayout, itemViewHolder.getLayoutPosition());
                     break;
             }
         }
@@ -192,8 +156,6 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         {
             data.addLast(newDatas.get(i));
         }
-//        notifyItemRangeInserted(0, newDatas.size());
-//        notifyItemRangeChanged(0 + newDatas.size(), getItemCount() - newDatas.size());
         notifyDataSetChanged();
     }
 
@@ -203,10 +165,15 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         {
             data.addLast(newDatas.get(i));
         }
-//        notifyItemRangeInserted(getItemCount() - 1, newDatas.size());
-//        notifyItemRangeChanged(getItemCount() - 1, getItemCount() - newDatas.size());
         notifyItemRangeInserted(getItemCount(), newDatas.size());
         notifyItemRangeChanged(getItemCount(), getItemCount() - newDatas.size());
+    }
+
+    public void updateFromPosition(int position,Tweet tweet)
+    {
+        data.remove(position);
+        data.add(position,tweet);
+        notifyItemChanged(position);
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder
@@ -216,10 +183,17 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private TextView itemHomeDetail;
         private TextView itemHomeTweet;
         private SimpleDraweeView itemHomeTweimg;
-        private TextView itemHomeFav;
-        private TextView itemHomeCom;
-        private TextView itemHomeShare;
         private CardView itemHomeCardView;
+        private LinearLayout itemHomeFavLayout;
+        private ImageView itemHomeFavLabel;
+        private TextView itemHomeFavCount;
+        private LinearLayout itemHomeComLayout;
+        private ImageView itemHomeComLabel;
+        private TextView itemHomeComCount;
+        private LinearLayout itemHomeShareLayout;
+        private ImageView itemHomeShareLabel;
+        private TextView itemHomeShareCount;
+
 
 
         public ItemViewHolder(View itemView)
@@ -231,9 +205,15 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemHomeDetail = (TextView) itemView.findViewById(R.id.item_home_detail);
             itemHomeTweet = (TextView) itemView.findViewById(R.id.item_home_tweet);
             itemHomeTweimg = (SimpleDraweeView) itemView.findViewById(R.id.item_home_tweimg);
-            itemHomeFav = (TextView) itemView.findViewById(R.id.item_home_fav);
-            itemHomeCom = (TextView) itemView.findViewById(R.id.item_home_com);
-            itemHomeShare = (TextView) itemView.findViewById(R.id.item_home_share);
+            itemHomeFavLayout = (LinearLayout) itemView.findViewById(R.id.item_home_fav_layout);
+            itemHomeFavLabel = (ImageView) itemView.findViewById(R.id.item_home_fav_label);
+            itemHomeFavCount = (TextView) itemView.findViewById(R.id.item_home_fav_count);
+            itemHomeComLayout = (LinearLayout) itemView.findViewById(R.id.item_home_com_layout);
+            itemHomeComLabel = (ImageView) itemView.findViewById(R.id.item_home_com_label);
+            itemHomeComCount = (TextView) itemView.findViewById(R.id.item_home_com_count);
+            itemHomeShareLayout = (LinearLayout) itemView.findViewById(R.id.item_home_share_layout);
+            itemHomeShareLabel = (ImageView) itemView.findViewById(R.id.item_home_share_label);
+            itemHomeShareCount = (TextView) itemView.findViewById(R.id.item_home_share_count);
         }
     }
 

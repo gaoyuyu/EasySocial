@@ -23,6 +23,34 @@ public class Tweet implements Serializable
     private String gender;
     private String avatar;
 
+    private String isfavor;
+
+    @Override
+    public String toString()
+    {
+        return "Tweet{" +
+                "tid='" + tid + '\'' +
+                ", content='" + content + '\'' +
+                ", picture='" + picture + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", favorite_count='" + favorite_count + '\'' +
+                ", comment_count='" + comment_count + '\'' +
+                ", aid='" + aid + '\'' +
+                ", username='" + username + '\'' +
+                ", realname='" + realname + '\'' +
+                ", email='" + email + '\'' +
+                ", signature='" + signature + '\'' +
+                ", gender='" + gender + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", isfavor='" + isfavor + '\'' +
+                '}';
+    }
+
+    public String getIsfavor()
+    {
+        return isfavor;
+    }
+
     public String getTid()
     {
         return tid;
@@ -88,23 +116,13 @@ public class Tweet implements Serializable
         return comment_count;
     }
 
-    @Override
-    public String toString()
+    public void setIsfavor(String isfavor)
     {
-        return "Tweet{" +
-                "tid='" + tid + '\'' +
-                ", content='" + content + '\'' +
-                ", picture='" + picture + '\'' +
-                ", create_time='" + create_time + '\'' +
-                ", favorite_count='" + favorite_count + '\'' +
-                ", comment_count='" + comment_count + '\'' +
-                ", aid='" + aid + '\'' +
-                ", username='" + username + '\'' +
-                ", realname='" + realname + '\'' +
-                ", email='" + email + '\'' +
-                ", signature='" + signature + '\'' +
-                ", gender='" + gender + '\'' +
-                ", avatar='" + avatar + '\'' +
-                '}';
+        this.isfavor = isfavor;
+    }
+
+    public void setFavorite_count(String favorite_count)
+    {
+        this.favorite_count = favorite_count;
     }
 }

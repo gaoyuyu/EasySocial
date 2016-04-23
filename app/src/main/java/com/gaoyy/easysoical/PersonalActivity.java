@@ -100,7 +100,7 @@ public class PersonalActivity extends AppCompatActivity
         for (int i=0;i<personalTitles.length;i++)
         {
             Bundle bundle = new Bundle();
-            bundle.putString("aid",account.getString("aid",""));
+            bundle.putString("isPersonal",account.getString("aid",""));
             Fragment fragment = null;
             if(personalTitles[i].equals("我发表的"))
             {

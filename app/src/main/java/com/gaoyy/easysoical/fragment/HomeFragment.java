@@ -18,7 +18,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.gaoyy.easysoical.PublishActivity;
 import com.gaoyy.easysoical.R;
@@ -55,12 +54,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     private int pageCount = -1;
     private int currentPage = 1;
 
-    private String aid = "";
 
     private BasicProgressDialog basicProgressDialog;
     private SwipeRefreshLayout fragmentHomeSrlayout;
     private RecyclerView fragmentHomeRv;
     private FloatingActionButton fragmentHomeFab;
+
+    private SharedPreferences account;
+    private String isPersonal;
 
     private void assignViews(View rootView)
     {
@@ -76,7 +77,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        aid = (getArguments().getString("aid") == null) ? "" : getArguments().getString("aid");
+        account = getActivity().getSharedPreferences("account",Activity.MODE_PRIVATE);
+        isPersonal = (getArguments().getString("isPersonal") == null) ? "" : getArguments().getString("isPersonal");
         assignViews(rootView);
         initData();
         configViews();
@@ -183,11 +185,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             case R.id.item_home_tweimg:
 
                 break;
-            case R.id.item_home_fav:
+            case R.id.item_home_fav_layout:
                 Tweet currentTweet = data.get(position);
-                SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
-                String[] params = {currentTweet.getTid(), account.getString("aid", "")};
-                new doFavorTask(view).execute(params);
+                if(currentTweet.getIsfavor().equals("1"))
+                {
+                    Tool.showSnackbar(view,"已点过赞~");
+                }
+                else
+                {
+                    SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
+                    String[] params = {currentTweet.getTid(), account.getString("aid", "")};
+                    new doFavorTask(currentTweet,position).execute(params);
+                }
                 break;
         }
     }
@@ -215,7 +224,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             LinkedList<Tweet> list = null;
             RequestBody formBody = new FormBody.Builder()
                     .add("pageNum", params[0])
-                    .add("aid", aid)
+                    .add("aid", account.getString("aid",""))
+                    .add("isPersonal",isPersonal)
                     .build();
             Request request = new Request.Builder()
                     .url(Global.HOST_URL + "Public/showTweet")
@@ -272,11 +282,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 
     class doFavorTask extends AsyncTask<String, String, String>
     {
-        private View tv;
+        private Tweet currentTweet;
 
-        public doFavorTask(View tv)
+        private int position;
+
+        public doFavorTask(Tweet currentTweet, int position)
         {
-            this.tv = tv;
+            this.currentTweet = currentTweet;
+            this.position = position;
         }
 
         @Override
@@ -320,13 +333,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             Tool.stopProgressDialog(basicProgressDialog);
             if (0 == Tool.getRepCode(s))
             {
-                Tool.showToast(getActivity(), "点赞成功");
-                ((TextView)tv).setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.mipmap.ic_favorite_press),null,null,null);
-
+                Tool.showSnackbar(rootView,"点赞成功 :)");
+                currentTweet.setIsfavor("1");
+                currentTweet.setFavorite_count((Integer.valueOf(currentTweet.getFavorite_count())+1)+"");
+                listAdapter.updateFromPosition(position,currentTweet);
             }
             else
             {
-                Tool.showToast(getActivity(), "点赞失败");
+                Tool.showSnackbar(rootView,"点赞失败 :(");
             }
         }
     }

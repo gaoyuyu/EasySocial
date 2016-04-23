@@ -21,7 +21,7 @@
             android:title="@string/feeback"/>
         <item
             android:id="@+id/nav_share"
-            android:icon="@mipmap/ic_share"
+            android:icon="@mipmap/ic_share_black"
             android:title="@string/share"/>
     </group>
 

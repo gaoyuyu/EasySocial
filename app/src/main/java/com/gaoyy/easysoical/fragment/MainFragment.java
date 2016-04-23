@@ -137,6 +137,7 @@ public class MainFragment extends Fragment
 
         pageAdapter = new PageAdapter(activity.getSupportFragmentManager(), pagerTitle, fragmentList);
         mainViewpager.setAdapter(pageAdapter);
+        mainViewpager.setOffscreenPageLimit(3);
 
         mainTablayout.setTabMode(TabLayout.MODE_FIXED);
         mainTablayout.setupWithViewPager(mainViewpager);
