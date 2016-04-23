@@ -117,7 +117,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.setting_feedback:
-
+                intent.setClass(SettingActivity.this, FeedbackActivity.class);
+                startActivity(intent);
                 break;
             case R.id.setting_about:
                 intent.setClass(SettingActivity.this,AboutActivity.class);

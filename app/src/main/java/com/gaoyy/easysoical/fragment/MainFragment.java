@@ -45,7 +45,7 @@ public class MainFragment extends Fragment
     private DrawerLayout mainDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    String[] pagerTitle = {"首页", "活动", "排行榜"};
+    String[] pagerTitle = {"首页", "排行榜"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 

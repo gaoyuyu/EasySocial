@@ -149,6 +149,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.nav_feedback:
+                intent.setClass(MainActivity.this, FeedbackActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_share:
                 break;
