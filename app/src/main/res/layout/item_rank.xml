@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_home_cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
+    card_view:cardElevation="3dp">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/comment_basic"/>
+
+        <TextView
+            android:id="@+id/item_rank_fav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:paddingBottom="3dp"
+            android:text="235"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_alignBottom="@+id/imageView"
+            android:layout_alignEnd="@+id/include"/>
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/ic_favorite_press"
+            android:id="@+id/imageView"
+            android:layout_alignTop="@+id/include"
+            android:layout_toStartOf="@+id/item_rank_fav"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+

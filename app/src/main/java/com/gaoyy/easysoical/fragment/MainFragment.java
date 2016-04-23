@@ -94,6 +94,10 @@ public class MainFragment extends Fragment
             {
                 fragment = new HomeFragment();
             }
+            else if (pagerTitle[i].equals("排行榜"))
+            {
+                fragment = new RankFragment();
+            }
             else
             {
                 fragment = new BlankFragment();
