@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,11 +22,11 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/setting_bg"
             android:layout_width="match_parent"
-            fresco:placeholderImage="@color/white174"
-            fresco:placeholderImageScaleType="fitCenter"
             android:layout_height="256dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            fresco:placeholderImage="@color/white174"
+            fresco:placeholderImageScaleType="fitCenter"
             />
 
         <RelativeLayout
@@ -37,16 +38,16 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/setting_avatar"
-                fresco:placeholderImage="@mipmap/user_icon_default_main"
-                fresco:placeholderImageScaleType="fitCenter"
-                fresco:roundAsCircle="true"
-                fresco:roundingBorderColor="@color/gray600"
-                fresco:roundingBorderWidth="2dp"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="46dp"/>
+                android:layout_marginTop="46dp"
+                fresco:placeholderImage="@mipmap/user_icon_default_main"
+                fresco:placeholderImageScaleType="fitCenter"
+                fresco:roundAsCircle="true"
+                fresco:roundingBorderColor="@color/gray600"
+                fresco:roundingBorderWidth="2dp"/>
 
             <TextView
                 android:id="@+id/setting_username"
@@ -67,8 +68,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:text="shaow@modu.com"
-                android:textColor="@color/gray"
-                android:textAppearance="?android:attr/textAppearanceMedium"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorPrimary"/>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -84,34 +85,42 @@
             android:background="@color/gray600"
             />
 
-        <RelativeLayout
-            android:background="@drawable/item_comment_selector"
-            android:id="@+id/setting_modify"
-            android:layout_width="match_parent"
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            app:mrl_rippleAlpha="0.2"
+            app:mrl_rippleColor="@color/gray600"
+            app:mrl_rippleOverlay="true"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/setting_modify"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/textView1"
-                android:layout_alignBottom="@+id/textView1"
-                android:layout_marginStart="10dp"
-                android:text="编辑信息"
-                android:textSize="17sp"/>
+                android:padding="10dp"
+                >
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="right"
-                android:text=">"
-                android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/textView1"
+                    android:layout_alignBottom="@+id/textView1"
+                    android:layout_marginStart="10dp"
+                    android:text="编辑信息"
+                    android:textSize="17sp"/>
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="right"
+                    android:text=">"
+                    android:textSize="20sp"/>
 
 
-        </RelativeLayout>
+            </RelativeLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
 
         <View
             android:layout_width="match_parent"
@@ -119,34 +128,43 @@
             android:background="@color/gray600"
             />
 
-        <RelativeLayout
-            android:background="@drawable/item_comment_selector"
-            android:id="@+id/setting_feedback"
-            android:layout_width="match_parent"
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            app:mrl_rippleAlpha="0.2"
+            app:mrl_rippleColor="@color/gray600"
+            app:mrl_rippleOverlay="true"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:id="@+id/setting_feedback"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/textView2"
-                android:layout_alignBottom="@+id/textView2"
-                android:layout_marginStart="10dp"
-                android:text="反馈"
-                android:textSize="17sp"/>
+                android:padding="10dp"
+                >
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="right"
-                android:text=">"
-                android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/textView2"
+                    android:layout_alignBottom="@+id/textView2"
+                    android:layout_marginStart="10dp"
+                    android:text="反馈"
+                    android:textSize="17sp"/>
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="right"
+                    android:text=">"
+                    android:textSize="20sp"/>
 
 
-        </RelativeLayout>
+            </RelativeLayout>
+        </com.balysv.materialripple.MaterialRippleLayout>
 
         <View
             android:layout_width="match_parent"
@@ -154,34 +172,43 @@
             android:background="@color/gray600"
             />
 
-        <RelativeLayout
-            android:background="@drawable/item_comment_selector"
-            android:id="@+id/setting_about"
-            android:layout_width="match_parent"
+        <com.balysv.materialripple.MaterialRippleLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            app:mrl_rippleAlpha="0.2"
+            app:mrl_rippleColor="@color/gray600"
+            app:mrl_rippleOverlay="true"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/setting_about"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/textView3"
-                android:layout_alignBottom="@+id/textView3"
-                android:layout_marginStart="10dp"
-                android:text="关于"
-                android:textSize="17sp"/>
+                android:padding="10dp"
+                >
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="right"
-                android:text=">"
-                android:textSize="20sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/textView3"
+                    android:layout_alignBottom="@+id/textView3"
+                    android:layout_marginStart="10dp"
+                    android:text="关于"
+                    android:textSize="17sp"/>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="right"
+                    android:text=">"
+                    android:textSize="20sp"/>
 
 
-        </RelativeLayout>
+            </RelativeLayout>
+
+        </com.balysv.materialripple.MaterialRippleLayout>
 
         <View
             android:layout_width="match_parent"
@@ -191,21 +218,31 @@
 
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/setting_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:background="@color/edittext_error_color"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:text="@string/logout"/>
-    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.balysv.materialripple.MaterialRippleLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="10dp"
+                app:mrl_rippleAlpha="0.2"
+                app:mrl_rippleColor="@color/gray600"
+                app:mrl_rippleOverlay="true"
+                >
+            <Button
+                android:id="@+id/setting_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/edittext_error_color"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/logout"/>
+            </com.balysv.materialripple.MaterialRippleLayout>
+        </RelativeLayout>
+
 
 </LinearLayout>

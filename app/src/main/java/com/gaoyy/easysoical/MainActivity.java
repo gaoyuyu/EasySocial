@@ -1,8 +1,6 @@
 package com.gaoyy.easysoical;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -135,11 +133,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finish();
                 break;
             case R.id.nav_personal:
-                intent.setClass(MainActivity.this, PersonalActivity.class);
+                if (Tool.isLogin(this))
+                {
+                    intent.setClass(MainActivity.this, PersonalActivity.class);
+                }
+                else
+                {
+                    Tool.showToast(this,"请先登录 : )");
+                    intent.setClass(MainActivity.this, LoginActivity.class);
+                }
                 startActivity(intent);
                 break;
             case R.id.nav_setting:
                 intent.setClass(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_feedback:
+                break;
+            case R.id.nav_share:
+                break;
+            case R.id.nav_about:
+                intent.setClass(MainActivity.this, AboutActivity.class);
                 startActivity(intent);
                 break;
 
@@ -162,18 +176,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClick(View v)
     {
         int id = v.getId();
-        SharedPreferences account = getSharedPreferences("account", Activity.MODE_PRIVATE);
         switch (id)
         {
             case R.id.nav_header_ava:
-                String loginKey = account.getString("loginKey", "");
-                if (!(loginKey.equals("1")))
+                if (!Tool.isLogin(this))
                 {
                     Tool.showSnackbar(v, "请先登录");
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
-
                 break;
 
         }

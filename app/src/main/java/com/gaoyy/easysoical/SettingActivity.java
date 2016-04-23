@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.utils.Global;
+import com.gaoyy.easysoical.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener
@@ -60,7 +61,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initToolbar()
     {
-        settingToolbar.setTitle("设置");
+        settingToolbar.setTitle(R.string.setting);
         setSupportActionBar(settingToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,10 +73,21 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     private void configViews()
     {
-        settingBg.setImageURI(Uri.parse(account.getString("avatar", "")));
-        settingAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
-        settingUsername.setText(account.getString("username", ""));
-        settingEmail.setText(account.getString("email", ""));
+
+        if(Tool.isLogin(this))
+        {
+            settingLogout.setVisibility(View.VISIBLE);
+            settingBg.setImageURI(Uri.parse(account.getString("avatar", "")));
+            settingAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
+            settingUsername.setText(account.getString("username", ""));
+            settingEmail.setText(account.getString("email", ""));
+        }
+        else
+        {
+            settingLogout.setVisibility(View.GONE);
+            settingUsername.setText("未登录");
+            settingEmail.setText("");
+        }
     }
 
     private void setListener()
@@ -94,17 +106,30 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         switch (id)
         {
             case R.id.setting_modify:
-                intent.setClass(SettingActivity.this,ModifyActivity.class);
-                startActivity(intent);
+                if(Tool.isLogin(this))
+                {
+                    intent.setClass(SettingActivity.this,ModifyActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Tool.showSnackbar(v,"请先登录 : )");
+                }
                 break;
             case R.id.setting_feedback:
 
                 break;
             case R.id.setting_about:
-
+                intent.setClass(SettingActivity.this,AboutActivity.class);
+                startActivity(intent);
                 break;
             case R.id.setting_logout:
-
+                SharedPreferences account = getSharedPreferences("account",Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = account.edit();
+                editor.putString("loginKey","0");
+                editor.commit();
+                intent.setClass(this,MainActivity.class);
+                startActivity(intent);
                 break;
         }
     }

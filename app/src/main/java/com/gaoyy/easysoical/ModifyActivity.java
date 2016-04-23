@@ -83,7 +83,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
 
     private void initToolbar()
     {
-        modifyToolbar.setTitle("编辑信息");
+        modifyToolbar.setTitle(R.string.modify);
         setSupportActionBar(modifyToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

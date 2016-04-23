@@ -63,7 +63,7 @@ public class ReplyActivity extends AppCompatActivity
 
     private void initToolbar()
     {
-        replyToolbar.setTitle(getResources().getString(R.string.reply));
+        replyToolbar.setTitle(R.string.reply);
         setSupportActionBar(replyToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

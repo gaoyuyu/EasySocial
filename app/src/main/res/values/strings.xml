@@ -37,4 +37,7 @@
     <string name="edittext_realname_hint">realname here</string>
     <string name="feeback">反馈</string>
     <string name="share">分享</string>
+    <string name="about">关于</string>
+    <string name="modify">编辑信息</string>
+    <string name="publish">发推文</string>
 </resources>

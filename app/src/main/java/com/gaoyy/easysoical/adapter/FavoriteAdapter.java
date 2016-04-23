@@ -51,7 +51,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Favorite favorite = data.get(position);
         favorItemViewHolder.itemHomeDetail.setVisibility(View.GONE);
         favorItemViewHolder.itemHomeAccount.setText(favorite.getFrom_name());
-//        favorItemViewHolder.itemHomeAccount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         favorItemViewHolder.itemHomeAvatar.setImageURI(Uri.parse(favorite.getTo_avatar()));
         favorItemViewHolder.itemFavoriteTime.setText(favorite.getTime());
         favorItemViewHolder.itemFavoriteText.setText("赞了我");
@@ -62,9 +61,17 @@ public class FavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         sp.setSpan(new ForegroundColorSpan(context.getResources().getColor(R.color.colorAccent)),0,toContent.length()-favorite.getTo_content().length(), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         favorItemViewHolder.itemFavoriteToContent.setText(sp);
 
-        favorItemViewHolder.itemFavoriteToPic.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
-        favorItemViewHolder.itemFavoriteToPic.setController(Tool.getCommonDraweeController(context));
-        favorItemViewHolder.itemFavoriteToPic.setImageURI(Uri.parse(favorite.getTo_picture()));
+        if(favorite.getTo_picture() == null||favorite.getTo_picture().equals(""))
+        {
+            favorItemViewHolder.itemFavoriteToPic.setVisibility(View.GONE);
+        }
+        else
+        {
+            favorItemViewHolder.itemFavoriteToPic.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
+            favorItemViewHolder.itemFavoriteToPic.setController(Tool.getCommonDraweeController(context));
+            favorItemViewHolder.itemFavoriteToPic.setImageURI(Uri.parse(favorite.getTo_picture()));
+        }
+
 
     }
 

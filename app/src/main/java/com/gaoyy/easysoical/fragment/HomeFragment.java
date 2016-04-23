@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gaoyy.easysoical.LoginActivity;
 import com.gaoyy.easysoical.PublishActivity;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.TweetDetailActivity;
@@ -155,9 +156,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         switch (id)
         {
             case R.id.fragment_home_fab:
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PublishActivity.class);
-                startActivity(intent);
+                if(Tool.isLogin(getActivity()))
+                {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), PublishActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Tool.showToast(getActivity(),"请先登录 : )");
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
         }
 
@@ -177,26 +187,46 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         switch (id)
         {
             case R.id.item_home_cardview:
-                Intent intent = new Intent(getActivity(), TweetDetailActivity.class);
-                Tweet tweet = (Tweet) ((CardView) view).getTag();
-                intent.putExtra("tweet", tweet);
-                startActivity(intent);
+                if(Tool.isLogin(getActivity()))
+                {
+                    Intent intent = new Intent(getActivity(), TweetDetailActivity.class);
+                    Tweet tweet = (Tweet) ((CardView) view).getTag();
+                    intent.putExtra("tweet", tweet);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Tool.showToast(getActivity(),"请先登录 : )");
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+
                 break;
             case R.id.item_home_tweimg:
 
                 break;
             case R.id.item_home_fav_layout:
-                Tweet currentTweet = data.get(position);
-                if(currentTweet.getIsfavor().equals("1"))
+                if(Tool.isLogin(getActivity()))
                 {
-                    Tool.showSnackbar(view,"已点过赞~");
+                    Tweet currentTweet = data.get(position);
+                    if(currentTweet.getIsfavor().equals("1"))
+                    {
+                        Tool.showSnackbar(view,"已点过赞~");
+                    }
+                    else
+                    {
+                        SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
+                        String[] params = {currentTweet.getTid(), account.getString("aid", "")};
+                        new doFavorTask(currentTweet,position).execute(params);
+                    }
                 }
                 else
                 {
-                    SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
-                    String[] params = {currentTweet.getTid(), account.getString("aid", "")};
-                    new doFavorTask(currentTweet,position).execute(params);
+                    Tool.showToast(getActivity(),"请先登录 : )");
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
                 }
+
                 break;
         }
     }

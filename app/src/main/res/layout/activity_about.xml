@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e8e8e8"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    >
+
+    <include
+        android:id="@+id/about_toolbar"
+        layout="@layout/widget_toolbar"
+        />
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e8e8e8">
+
+        <TextView
+            android:id="@+id/about_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/app_name"
+            android:textSize="32sp"/>
+
+        <ImageView
+            android:id="@+id/about_app_logo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_above="@+id/about_app_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="18dp"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/about_version_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/about_app_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="version 1.0"/>
+
+        <TextView
+            android:id="@+id/about_copyright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="24dp"
+            android:text="Github@gaoyuyu"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

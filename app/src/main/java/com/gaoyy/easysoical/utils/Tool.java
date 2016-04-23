@@ -1,6 +1,10 @@
 package com.gaoyy.easysoical.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
@@ -104,6 +108,12 @@ public class Tool
         return repCode;
     }
 
+    /**
+     * getRepInfo（若返回json中存在info）
+     *
+     * @param body
+     * @return
+     */
     public static String getRepInfo(String body)
     {
         JSONObject jsonObject = getMainJsonObj(body);
@@ -159,9 +169,12 @@ public class Tool
         return (int) (pxValue / scale + 0.5f);
     }
 
-
-
-
+    /**
+     * getCommonGenericDraweeHierarchy
+     *
+     * @param context
+     * @return
+     */
     public static GenericDraweeHierarchy getCommonGenericDraweeHierarchy(Context context)
     {
         GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
@@ -171,6 +184,13 @@ public class Tool
                 .build();
         return hierarchy;
     }
+
+    /**
+     * getCommonDraweeController
+     *
+     * @param context
+     * @return
+     */
     public static DraweeController getCommonDraweeController(Context context)
     {
         GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
@@ -180,9 +200,71 @@ public class Tool
         return controller;
     }
 
+    /**
+     * getOkHttpClient
+     *
+     * @return
+     */
     public static OkHttpClient getOkHttpClient()
     {
         OkHttpClient client = new OkHttpClient();
         return client;
+    }
+
+    /**
+     * getVersionName 获取版本名
+     * @param context
+     * @return
+     */
+    public static String getVersionName(Context context)
+    {
+        return getPackageInfo(context).versionName;
+    }
+
+    /**
+     * getVersionCode 获取版本号
+     * @param context
+     * @return
+     */
+    public static int getVersionCode(Context context)
+    {
+        return getPackageInfo(context).versionCode;
+    }
+
+    private static PackageInfo getPackageInfo(Context context)
+    {
+        PackageInfo pi = null;
+        try
+        {
+            PackageManager pm = context.getPackageManager();
+            pi = pm.getPackageInfo(context.getPackageName(),
+                    PackageManager.GET_CONFIGURATIONS);
+
+            return pi;
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return pi;
+    }
+
+    /**
+     * 是否登录
+     * @param context
+     * @return true 已登录 fasle 未登录
+     */
+    public static boolean isLogin(Context context)
+    {
+        SharedPreferences account = context.getSharedPreferences("account", Activity.MODE_PRIVATE);
+        String loginKey = account.getString("loginKey","");
+        if(loginKey.equals("")||(!loginKey.equals("1")))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 }

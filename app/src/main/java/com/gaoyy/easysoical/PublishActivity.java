@@ -78,7 +78,7 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initToolbar()
     {
-        publishToolbar.setTitle("发推文");
+        publishToolbar.setTitle(R.string.publish);
         setSupportActionBar(publishToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -21,16 +21,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.drawable.ProgressBarDrawable;
-import com.facebook.drawee.generic.GenericDraweeHierarchy;
-import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysoical.BlankFragment;
 import com.gaoyy.easysoical.R;
 import com.gaoyy.easysoical.adapter.PageAdapter;
 import com.gaoyy.easysoical.utils.Global;
+import com.gaoyy.easysoical.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
@@ -110,7 +106,7 @@ public class MainFragment extends Fragment
     public void configViews()
     {
         AppCompatActivity activity = ((AppCompatActivity) getActivity());
-        mainToolbar.setTitle(activity.getResources().getString(R.string.app_name));
+        mainToolbar.setTitle(R.string.app_name);
         activity.setSupportActionBar(mainToolbar);
         activity.getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -151,29 +147,23 @@ public class MainFragment extends Fragment
         Log.i(Global.TAG, "onResume");
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.main_nav);
         View headerView = navigationView.getHeaderView(0);
-
         SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
+        SimpleDraweeView img = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_ava);
+        TextView name = (TextView) headerView.findViewById(R.id.nav_header_account);
+        TextView signature = (TextView) headerView.findViewById(R.id.nav_header_signature);
+
         if (account != null)
         {
-            String loginKey = account.getString("loginKey", "");
-            if (loginKey.equals("1"))
+            if (Tool.isLogin(getActivity()))
             {
-                GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(getActivity().getResources());
-                GenericDraweeHierarchy hierarchy = builder
-                        .setFadeDuration(300)
-                        .setPlaceholderImage(new ProgressBarDrawable())
-                        .build();
-                DraweeController controller = Fresco.newDraweeControllerBuilder()
-                        .setTapToRetryEnabled(true)
-                        .build();
-                SimpleDraweeView img = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_ava);
-                TextView name = (TextView) headerView.findViewById(R.id.nav_header_account);
-                TextView signature = (TextView) headerView.findViewById(R.id.nav_header_signature);
                 img.setImageURI(Uri.parse(account.getString("avatar", "")));
-
                 name.setText(account.getString("username", ""));
                 signature.setText(account.getString("signature", ""));
-
+            }
+            else
+            {
+                name.setText("未登录");
+                signature.setText("");
             }
         }
 
