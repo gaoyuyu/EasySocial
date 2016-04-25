@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysoical.R;
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.FavoriteAdapter;
 import com.gaoyy.easysocial.bean.Favorite;
 import com.gaoyy.easysocial.utils.Tool;

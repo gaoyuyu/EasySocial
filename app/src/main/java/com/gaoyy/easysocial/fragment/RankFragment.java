@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.gaoyy.easysocial.bean.Rank;
 import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysoical.R;
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.RankAdapter;
 import com.gaoyy.easysocial.utils.Tool;
 import com.google.gson.Gson;

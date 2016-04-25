@@ -1,4 +1,4 @@
-package com.gaoyy.easysoical;
+package com.gaoyy.easysocial;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

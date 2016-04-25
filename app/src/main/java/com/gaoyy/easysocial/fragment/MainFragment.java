@@ -26,7 +26,7 @@ import com.gaoyy.easysocial.BlankFragment;
 import com.gaoyy.easysocial.adapter.PageAdapter;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
-import com.gaoyy.easysoical.R;
+import com.gaoyy.easysocial.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;

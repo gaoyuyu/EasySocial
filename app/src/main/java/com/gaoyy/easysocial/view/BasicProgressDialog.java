@@ -5,7 +5,7 @@ import android.content.Context;
 import android.view.Gravity;
 import android.widget.TextView;
 
-import com.gaoyy.easysoical.R;
+import com.gaoyy.easysocial.R;
 
 public class BasicProgressDialog extends Dialog
 {

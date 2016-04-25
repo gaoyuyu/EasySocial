@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gaoyy.easysoical.R;
 import com.gaoyy.easysocial.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 

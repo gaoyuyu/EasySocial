@@ -1,4 +1,4 @@
-package com.gaoyy.easysoical;
+package com.gaoyy.easysocial;
 
 import org.junit.Test;
 

@@ -24,7 +24,7 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.bean.Tweet;
-import com.gaoyy.easysoical.R;
+import com.gaoyy.easysocial.R;
 
 import java.util.LinkedList;
 

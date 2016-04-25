@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.gaoyy.easysoical.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 public class FeedbackActivity extends AppCompatActivity

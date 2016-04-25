@@ -13,7 +13,6 @@ import android.view.View;
 
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
-import com.gaoyy.easysoical.R;
 import com.gaoyy.easysocial.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.rengwuxian.materialedittext.MaterialEditText;

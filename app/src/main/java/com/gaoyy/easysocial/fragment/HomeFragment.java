@@ -24,7 +24,7 @@ import com.gaoyy.easysocial.PublishActivity;
 import com.gaoyy.easysocial.bean.Tweet;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
-import com.gaoyy.easysoical.R;
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.TweetDetailActivity;
 import com.gaoyy.easysocial.adapter.ListAdapter;
 import com.gaoyy.easysocial.utils.Tool;

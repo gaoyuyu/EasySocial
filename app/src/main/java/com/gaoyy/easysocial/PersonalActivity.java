@@ -23,7 +23,6 @@ import com.gaoyy.easysocial.adapter.PageAdapter;
 import com.gaoyy.easysocial.fragment.FavoriteFragment;
 import com.gaoyy.easysocial.fragment.HomeFragment;
 import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysoical.R;
 import com.gaoyy.easysocial.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 

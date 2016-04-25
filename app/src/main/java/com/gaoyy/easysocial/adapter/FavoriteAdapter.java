@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.bean.Favorite;
-import com.gaoyy.easysoical.R;
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.utils.Tool;
 
 import java.util.LinkedList;

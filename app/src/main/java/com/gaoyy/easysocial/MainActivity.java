@@ -16,7 +16,6 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.fragment.MainFragment;
 import com.gaoyy.easysocial.utils.Tool;
-import com.gaoyy.easysoical.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
