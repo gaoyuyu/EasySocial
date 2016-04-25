@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,9 +23,9 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.bean.Tweet;
-import com.gaoyy.easysocial.R;
 
 import java.util.LinkedList;
 
@@ -164,6 +165,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comHeaderViewHolder.itemHomeDetail.setText(tweet.getCreate_time());
             comHeaderViewHolder.itemHomeTweet.setText(tweet.getContent());
 
+            comHeaderViewHolder.itemHomeFavCount.setText(tweet.getFavorite_count());
+            comHeaderViewHolder.itemHomeComCount.setText(tweet.getComment_count());
+
             Uri avaUri = Uri.parse(tweet.getAvatar());
             comHeaderViewHolder.itemHomeAvatar.setImageURI(avaUri);
 
@@ -287,6 +291,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         private SimpleDraweeView itemHomeAvatar;
         private TextView itemHomeAccount;
         private TextView itemHomeDetail;
+        private LinearLayout itemHomeFavLayout;
+        private ImageView itemHomeFavLabel;
+        private TextView itemHomeFavCount;
+        private LinearLayout itemHomeComLayout;
+        private ImageView itemHomeComLabel;
+        private TextView itemHomeComCount;
+        private LinearLayout itemHomeShareLayout;
+        private ImageView itemHomeShareLabel;
+        private TextView itemHomeShareCount;
+
 
         private View botline;
 
@@ -299,6 +313,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemHomeTweet = (TextView) itemView.findViewById(R.id.item_home_tweet);
             itemHomeTweimg = (SimpleDraweeView) itemView.findViewById(R.id.item_home_tweimg);
             botline = itemView.findViewById(R.id.comment_main_botline);
+
+            itemHomeFavLayout = (LinearLayout) itemView.findViewById(R.id.item_home_fav_layout);
+            itemHomeFavLabel = (ImageView) itemView.findViewById(R.id.item_home_fav_label);
+            itemHomeFavCount = (TextView) itemView.findViewById(R.id.item_home_fav_count);
+            itemHomeComLayout = (LinearLayout) itemView.findViewById(R.id.item_home_com_layout);
+            itemHomeComLabel = (ImageView) itemView.findViewById(R.id.item_home_com_label);
+            itemHomeComCount = (TextView) itemView.findViewById(R.id.item_home_com_count);
+            itemHomeShareLayout = (LinearLayout) itemView.findViewById(R.id.item_home_share_layout);
+            itemHomeShareLabel = (ImageView) itemView.findViewById(R.id.item_home_share_label);
+            itemHomeShareCount = (TextView) itemView.findViewById(R.id.item_home_share_count);
         }
     }
 }
