@@ -49,12 +49,14 @@ public class AboutActivity extends AppCompatActivity
         tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
         tintManager.setStatusBarTintEnabled(true);
     }
+
     private void configViews()
     {
         aboutAppName.setText(R.string.app_name);
         aboutAppLogo.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
-        aboutVersionName.setText("version "+Tool.getVersionName(this));
+        aboutVersionName.setText("version " + Tool.getVersionName(this));
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {

@@ -1,6 +1,7 @@
 package com.gaoyy.easysocial;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,8 +14,8 @@ import android.widget.EditText;
 
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.gaoyy.easysocial.utils.Tool;
+import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.io.IOException;
@@ -108,6 +109,7 @@ public class ReplyActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
     class SendTask extends AsyncTask<String, String, String>
     {
 
@@ -154,7 +156,15 @@ public class ReplyActivity extends AppCompatActivity
             if (0 == Tool.getRepCode(s))
             {
                 Tool.showToast(ReplyActivity.this, "发送成功");
+
+                if( -1 != getIntent().getIntExtra("position",-1))
+                {
+                    Intent intent = new Intent();
+                    intent.putExtra("position",getIntent().getIntExtra("position",-1));
+                    setResult(RESULT_OK,intent);
+                }
                 finish();
+
             }
             else
             {

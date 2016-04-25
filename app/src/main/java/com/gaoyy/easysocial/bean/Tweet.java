@@ -25,6 +25,7 @@ public class Tweet implements Serializable
 
     private String isfavor;
 
+
     @Override
     public String toString()
     {
@@ -124,5 +125,10 @@ public class Tweet implements Serializable
     public void setFavorite_count(String favorite_count)
     {
         this.favorite_count = favorite_count;
+    }
+
+    public void setComment_count(String comment_count)
+    {
+        this.comment_count = comment_count;
     }
 }

@@ -21,13 +21,15 @@ import android.view.ViewGroup;
 
 import com.gaoyy.easysocial.LoginActivity;
 import com.gaoyy.easysocial.PublishActivity;
-import com.gaoyy.easysocial.bean.Tweet;
-import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.gaoyy.easysocial.R;
+import com.gaoyy.easysocial.ReplyActivity;
 import com.gaoyy.easysocial.TweetDetailActivity;
 import com.gaoyy.easysocial.adapter.ListAdapter;
+import com.gaoyy.easysocial.bean.Comment;
+import com.gaoyy.easysocial.bean.Tweet;
+import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
+import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,7 +49,7 @@ import okhttp3.Response;
 public class HomeFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ListAdapter.OnItemClickListener
 {
     private View rootView;
-    private LinkedList<Tweet> data;
+    private LinkedList<Tweet> tweetList;
     private ListAdapter listAdapter;
     private LinearLayoutManager linearLayoutManager;
     private int lastVisibleItemPosition;
@@ -64,6 +66,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     private SharedPreferences account;
     private String isPersonal;
 
+    private static final int REPLY_LANDLORD_REQUEST_CODE = 600;
+
     private void assignViews(View rootView)
     {
         fragmentHomeSrlayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fragment_home_srlayout);
@@ -78,7 +82,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        account = getActivity().getSharedPreferences("account",Activity.MODE_PRIVATE);
+        account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
         isPersonal = (getArguments().getString("isPersonal") == null) ? "" : getArguments().getString("isPersonal");
         assignViews(rootView);
         initData();
@@ -89,15 +93,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     }
 
 
-
     public void initData()
     {
-        data = new LinkedList<Tweet>();
+        tweetList = new LinkedList<Tweet>();
     }
 
     public void configViews()
     {
-        listAdapter = new ListAdapter(getActivity(), data);
+        listAdapter = new ListAdapter(getActivity(), tweetList);
         fragmentHomeRv.setAdapter(listAdapter);
         //设置布局
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -156,7 +159,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         switch (id)
         {
             case R.id.fragment_home_fab:
-                if(Tool.isLogin(getActivity()))
+                if (Tool.isLogin(getActivity()))
                 {
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), PublishActivity.class);
@@ -164,7 +167,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                 }
                 else
                 {
-                    Tool.showToast(getActivity(),"请先登录 : )");
+                    Tool.showToast(getActivity(), "请先登录 : )");
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 }
@@ -184,53 +187,75 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     public void onItemClick(View view, int position)
     {
         int id = view.getId();
+        Intent intent = new Intent();
         switch (id)
         {
             case R.id.item_home_cardview:
-                if(Tool.isLogin(getActivity()))
+                if (Tool.isLogin(getActivity()))
                 {
-                    Intent intent = new Intent(getActivity(), TweetDetailActivity.class);
+                    intent.setClass(getActivity(), TweetDetailActivity.class);
                     Tweet tweet = (Tweet) ((CardView) view).getTag();
                     intent.putExtra("tweet", tweet);
                     startActivity(intent);
                 }
                 else
                 {
-                    Tool.showToast(getActivity(),"请先登录 : )");
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    Tool.showToast(getActivity(), "请先登录 : )");
+                    intent.setClass(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 }
 
                 break;
-            case R.id.item_home_tweimg:
-
+            case R.id.item_home_com_layout:
+                Comment comment = new Comment();
+                comment.setTid(tweetList.get(position).getTid());
+                intent.putExtra("comment", comment);
+                intent.putExtra("position", position);
+                intent.setClass(getActivity(), ReplyActivity.class);
+                startActivityForResult(intent,REPLY_LANDLORD_REQUEST_CODE);
                 break;
             case R.id.item_home_fav_layout:
-                if(Tool.isLogin(getActivity()))
+                if (Tool.isLogin(getActivity()))
                 {
-                    Tweet currentTweet = data.get(position);
-                    if(currentTweet.getIsfavor().equals("1"))
+                    Tweet currentTweet = tweetList.get(position);
+                    if (currentTweet.getIsfavor().equals("1"))
                     {
-                        Tool.showSnackbar(view,"已点过赞~");
+                        Tool.showSnackbar(view, "已点过赞~");
                     }
                     else
                     {
                         SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
                         String[] params = {currentTweet.getTid(), account.getString("aid", "")};
-                        new doFavorTask(currentTweet,position).execute(params);
+                        new doFavorTask(currentTweet, position).execute(params);
                     }
                 }
                 else
                 {
-                    Tool.showToast(getActivity(),"请先登录 : )");
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    Tool.showToast(getActivity(), "请先登录 : )");
+                    intent.setClass(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 }
-
                 break;
         }
     }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        Log.e("TAG", "onActivityResult");
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REPLY_LANDLORD_REQUEST_CODE)
+        {
+            if(resultCode == getActivity().RESULT_OK)
+            {
+                int position = data.getIntExtra("position",-1);
+                Log.i(Global.TAG,"=onActivityResult=frag==>"+position);
+                Tweet tweet = tweetList.get(position);
+                tweet.setComment_count(""+(Integer.valueOf(tweet.getComment_count())+1));
+                listAdapter.updateFromPosition(position,tweet);
+            }
+        }
 
+    }
     class HomeTask extends AsyncTask<String, String, LinkedList<Tweet>>
     {
         private boolean status;
@@ -254,8 +279,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             LinkedList<Tweet> list = null;
             RequestBody formBody = new FormBody.Builder()
                     .add("pageNum", params[0])
-                    .add("aid", account.getString("aid",""))
-                    .add("isPersonal",isPersonal)
+                    .add("aid", account.getString("aid", ""))
+                    .add("isPersonal", isPersonal)
                     .build();
             Request request = new Request.Builder()
                     .url(Global.HOST_URL + "Public/showTweet")
@@ -363,14 +388,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             Tool.stopProgressDialog(basicProgressDialog);
             if (0 == Tool.getRepCode(s))
             {
-                Tool.showSnackbar(rootView,"点赞成功 :)");
+                Tool.showSnackbar(rootView, "点赞成功 :)");
                 currentTweet.setIsfavor("1");
-                currentTweet.setFavorite_count((Integer.valueOf(currentTweet.getFavorite_count())+1)+"");
-                listAdapter.updateFromPosition(position,currentTweet);
+                currentTweet.setFavorite_count((Integer.valueOf(currentTweet.getFavorite_count()) + 1) + "");
+                listAdapter.updateFromPosition(position, currentTweet);
             }
             else
             {
-                Tool.showSnackbar(rootView,"点赞失败 :(");
+                Tool.showSnackbar(rootView, "点赞失败 :(");
             }
         }
     }
