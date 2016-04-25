@@ -15,39 +15,39 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        <activity android:name="com.gaoyy.easysocial.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".LoginActivity">
+        <activity android:name="com.gaoyy.easysocial.MainActivity"/>
+        <activity android:name="com.gaoyy.easysocial.LoginActivity">
         </activity>
-        <activity android:name=".TweetDetailActivity">
+        <activity android:name="com.gaoyy.easysocial.TweetDetailActivity">
         </activity>
-        <activity android:name=".ReplyActivity">
+        <activity android:name="com.gaoyy.easysocial.ReplyActivity">
         </activity>
-        <activity android:name=".PersonalActivity">
+        <activity android:name="com.gaoyy.easysocial.PersonalActivity">
         </activity>
-        <activity android:name=".SettingActivity">
+        <activity android:name="com.gaoyy.easysocial.SettingActivity">
         </activity>
-        <activity android:name=".ModifyActivity">
+        <activity android:name="com.gaoyy.easysocial.ModifyActivity">
         </activity>
         <activity
-            android:name=".SetPicActivity"
+            android:name="com.gaoyy.easysocial.SetPicActivity"
             android:theme="@style/ActivityDialog">
         </activity>
         <activity
-            android:name=".PublishActivity"
+            android:name="com.gaoyy.easysocial.PublishActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name=".RegActivity">
+        <activity android:name="com.gaoyy.easysocial.RegActivity">
         </activity>
-        <activity android:name=".AboutActivity">
+        <activity android:name="com.gaoyy.easysocial.AboutActivity">
         </activity>
-        <activity android:name=".FeedbackActivity">
+        <activity android:name="com.gaoyy.easysocial.FeedbackActivity">
         </activity>
     </application>
 
