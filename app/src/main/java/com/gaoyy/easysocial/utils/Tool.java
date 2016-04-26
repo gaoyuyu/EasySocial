@@ -283,7 +283,7 @@ public class Tool
         oks.setTitleUrl(context.getString(R.string.github));
         oks.setText(text);
         oks.setUrl(context.getString(R.string.github));
-        oks.setComment("我是测试评论文本");
+//        oks.setComment("我是测试评论文本");
         oks.setImageUrl(imgUrl);
         oks.setSite(context.getString(R.string.app_name));
         oks.setSiteUrl(context.getString(R.string.github));
