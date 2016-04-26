@@ -236,6 +236,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                     startActivity(intent);
                 }
                 break;
+            case R.id.item_home_share_layout:
+                Tool.showShare(getActivity(),tweetList.get(position).getPicture(),tweetList.get(position).getContent());
+                break;
         }
     }
     @Override

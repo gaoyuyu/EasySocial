@@ -108,6 +108,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemViewHolder.itemHomeTweimg.setOnClickListener(new BasicOnClickListener(itemViewHolder));
             itemViewHolder.itemHomeFavLayout.setOnClickListener(new BasicOnClickListener(itemViewHolder));
             itemViewHolder.itemHomeComLayout.setOnClickListener(new BasicOnClickListener(itemViewHolder));
+            itemViewHolder.itemHomeShareLayout.setOnClickListener(new BasicOnClickListener(itemViewHolder));
         }
     }
 
@@ -143,6 +144,9 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     break;
                 case R.id.item_home_com_layout:
                     onItemClickListener.onItemClick(itemViewHolder.itemHomeComLayout, itemViewHolder.getLayoutPosition());
+                    break;
+                case R.id.item_home_share_layout:
+                    onItemClickListener.onItemClick(itemViewHolder.itemHomeShareLayout, itemViewHolder.getLayoutPosition());
                     break;
             }
         }

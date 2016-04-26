@@ -42,4 +42,5 @@
     <string name="publish">发推文</string>
     <string name="feedback">反馈</string>
     <string name="submit_question">Wish you to submit problems by sending mail or @GitHub during the use of the Applcaition</string>
+    <string name="github">https://github.com/gaoyuyu/EasySocial</string>
 </resources>

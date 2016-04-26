@@ -15,11 +15,14 @@ import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import okhttp3.OkHttpClient;
 
 /**
@@ -213,6 +216,7 @@ public class Tool
 
     /**
      * getVersionName 获取版本名
+     *
      * @param context
      * @return
      */
@@ -223,6 +227,7 @@ public class Tool
 
     /**
      * getVersionCode 获取版本号
+     *
      * @param context
      * @return
      */
@@ -251,14 +256,15 @@ public class Tool
 
     /**
      * 是否登录
+     *
      * @param context
      * @return true 已登录 fasle 未登录
      */
     public static boolean isLogin(Context context)
     {
         SharedPreferences account = context.getSharedPreferences("account", Activity.MODE_PRIVATE);
-        String loginKey = account.getString("loginKey","");
-        if(loginKey.equals("")||(!loginKey.equals("1")))
+        String loginKey = account.getString("loginKey", "");
+        if (loginKey.equals("") || (!loginKey.equals("1")))
         {
             return false;
         }
@@ -266,5 +272,21 @@ public class Tool
         {
             return true;
         }
+    }
+
+    public static  void showShare(Context context,String imgUrl,String text)
+    {
+        ShareSDK.initSDK(context);
+        OnekeyShare oks = new OnekeyShare();
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle(context.getString(R.string.app_name));
+        oks.setTitleUrl(context.getString(R.string.github));
+        oks.setText(text);
+        oks.setUrl(context.getString(R.string.github));
+        oks.setComment("我是测试评论文本");
+        oks.setImageUrl(imgUrl);
+        oks.setSite(context.getString(R.string.app_name));
+        oks.setSiteUrl(context.getString(R.string.github));
+        oks.show(context);
     }
 }
