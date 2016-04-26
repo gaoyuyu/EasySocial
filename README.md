@@ -361,3 +361,6 @@ step2：getRawX() and getRawY()
 step3：show popuwindow
     showPopupWindow(view, position, rawX, rawY);
 ````
+####2016.4.26
+ShareSDK assets Location<br>
+![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/assets.png)
