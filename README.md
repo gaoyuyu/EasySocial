@@ -1,5 +1,6 @@
 # EasySocial
 EasySocial
+![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/splash.png)
 <br>
 Learn Here：[How to Build Project](http://www.jianshu.com/p/d9e4ddd1c530)
 #### 2016.2.18
