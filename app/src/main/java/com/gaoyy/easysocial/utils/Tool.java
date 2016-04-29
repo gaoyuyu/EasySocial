@@ -274,7 +274,7 @@ public class Tool
         }
     }
 
-    public static  void showShare(Context context,String imgUrl,String text)
+    public static void showShare(Context context, String imgUrl, String text)
     {
         ShareSDK.initSDK(context);
         OnekeyShare oks = new OnekeyShare();
@@ -283,10 +283,22 @@ public class Tool
         oks.setTitleUrl(context.getString(R.string.github));
         oks.setText(text);
         oks.setUrl(context.getString(R.string.github));
-//        oks.setComment("我是测试评论文本");
         oks.setImageUrl(imgUrl);
         oks.setSite(context.getString(R.string.app_name));
         oks.setSiteUrl(context.getString(R.string.github));
         oks.show(context);
+
+//        ShareSDK.initSDK(context);
+//        OnekeyShare oks = new OnekeyShare();
+//        // 关闭sso授权
+//        oks.disableSSOWhenAuthorize();
+//        oks.setTitle(context.getString(R.string.app_name));
+//        oks.setTitleUrl(context.getString(R.string.github));
+//        oks.setComment(context.getString(R.string.submit_question));
+//        oks.setSite(context.getString(R.string.app_name));
+//        oks.setText(context.getString(R.string.submit_question));
+//        oks.setImageUrl(imgUrl);
+//        oks.show(context);
+
     }
 }
