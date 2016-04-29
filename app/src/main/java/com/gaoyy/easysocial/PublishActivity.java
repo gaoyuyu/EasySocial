@@ -209,13 +209,10 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
             Tool.stopProgressDialog(basicProgressDialog);
             try
             {
+                Tool.showToast(PublishActivity.this, (Tool.getMainJsonObj(s)).getString("data"));
                 if (0 == Tool.getRepCode(s))
                 {
-                    Tool.showToast(PublishActivity.this, (Tool.getMainJsonObj(s)).getString("data"));
-                }
-                else
-                {
-                    Tool.showToast(PublishActivity.this, (Tool.getMainJsonObj(s)).getString("data"));
+                    finish();
                 }
             }
             catch (Exception e)
