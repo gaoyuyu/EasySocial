@@ -10,7 +10,7 @@ issue：1、NavigationView设置Menu后不显示title
 <br>
 solution：1、NavigationView设置app:itemTextColor属性
 <br>
-![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/splash.png)
+![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/20160218.png)
 <br>
 #### 2016.2.19
 UI：`多个Fragment多个ToolBar`，更改TabLayout色调
