@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,10 +15,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.gaoyy.easysocial.utils.Tool;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.gaoyy.easysocial.view.BasicProgressDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,9 +29,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class PublishActivity extends AppCompatActivity implements View.OnClickListener
+public class PublishActivity extends BaseActivity implements View.OnClickListener
 {
-
 
     private static final int PUBLISH_SET_IMG = 500;
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/*");
@@ -49,8 +47,18 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
     private BasicProgressDialog basicProgressDialog;
     private SharedPreferences account;
 
-    private void assignViews()
+
+    @Override
+    public void initContentView()
     {
+        setContentView(R.layout.activity_publish);
+        account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         publishToolbar = (Toolbar) findViewById(R.id.publish_toolbar);
         publishEdittext = (EditText) findViewById(R.id.publish_edittext);
         publishBottombar = (RelativeLayout) findViewById(R.id.publish_bottombar);
@@ -76,20 +84,17 @@ public class PublishActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void initToolbar()
+    @Override
+    protected void initToolbar()
     {
-        publishToolbar.setTitle(R.string.publish);
-        setSupportActionBar(publishToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(publishToolbar, R.string.publish, true, colors);
     }
 
-    private void setListener()
+    @Override
+    protected void setListener()
     {
+        super.setListener();
         publishSetimg.setOnClickListener(this);
         publishSend.setOnClickListener(this);
         publishClose.setOnClickListener(this);

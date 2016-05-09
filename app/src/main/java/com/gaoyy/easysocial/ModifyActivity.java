@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,10 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.gaoyy.easysocial.utils.Tool;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONException;
@@ -35,7 +33,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ModifyActivity extends AppCompatActivity implements View.OnClickListener
+public class ModifyActivity extends BaseActivity implements View.OnClickListener
 {
     private Toolbar modifyToolbar;
     private RelativeLayout modifyAvatarLayout;
@@ -53,8 +51,18 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
 
     private static final int MODIFY_AVATAR_REQUEST_CODE = 400;
 
-    private void assignViews()
+
+    @Override
+    public void initContentView()
     {
+        setContentView(R.layout.activity_modify);
+        account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         modifyToolbar = (Toolbar) findViewById(R.id.modify_toolbar);
         modifyAvatarLayout = (RelativeLayout) findViewById(R.id.modify_avatar_layout);
         modifyAvatar = (SimpleDraweeView) findViewById(R.id.modify_avatar);
@@ -68,41 +76,29 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         basicProgressDialog = BasicProgressDialog.create(this);
     }
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void initToolbar()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify);
-        account = getSharedPreferences("account", Activity.MODE_PRIVATE);
-        assignViews();
-        initToolbar();
-        //configViews()放在onResume()中执行
-//        configViews();
-        setListener();
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(modifyToolbar, R.string.about, true, colors);
     }
 
-    private void initToolbar()
+    @Override
+    protected void setListener()
     {
-        modifyToolbar.setTitle(R.string.modify);
-        setSupportActionBar(modifyToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
-    }
-
-    private void setListener()
-    {
+        super.setListener();
         modifyAvatarLayout.setOnClickListener(this);
         modifyUsernameLayout.setOnClickListener(this);
         modifyGenderLayout.setOnClickListener(this);
         modifySignatureLayout.setOnClickListener(this);
     }
 
-    private void configViews()
+
+    @Override
+    protected void configViews()
     {
+        super.configViews();
         modifyAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
         modifyUsername.setText(account.getString("username", ""));
         if (account.getString("gender", "").equals("1"))
@@ -140,7 +136,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         {
             case R.id.modify_avatar_layout:
                 intent.setClass(ModifyActivity.this, SetPicActivity.class);
-                startActivityForResult(intent,MODIFY_AVATAR_REQUEST_CODE);
+                startActivityForResult(intent, MODIFY_AVATAR_REQUEST_CODE);
                 break;
             case R.id.modify_username_layout:
                 showMaterialDialog(contentView, getResources().getString(R.string.nickname), account.getString("username", ""), "username");
@@ -177,13 +173,13 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
             {
                 female.setChecked(true);
             }
-            materialDialog.setPositiveButton("确定", new PositiveOnClickListener(materialDialog,key,radioGroup,null));
+            materialDialog.setPositiveButton("确定", new PositiveOnClickListener(materialDialog, key, radioGroup, null));
         }
         else
         {
             MaterialEditText materialEditText = (MaterialEditText) contentView.findViewById(R.id.dialog_edittext);
             materialEditText.setText(old);
-            materialDialog.setPositiveButton("确定", new PositiveOnClickListener(materialDialog,key,null,materialEditText));
+            materialDialog.setPositiveButton("确定", new PositiveOnClickListener(materialDialog, key, null, materialEditText));
         }
 
 
@@ -199,44 +195,44 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         materialDialog.show();
     }
 
-    class PositiveOnClickListener implements  View.OnClickListener
+    class PositiveOnClickListener implements View.OnClickListener
     {
         private MaterialDialog materialDialog;
         private String key;
         private RadioGroup radioGroup;
         private MaterialEditText materialEditText;
 
-        public PositiveOnClickListener(MaterialDialog materialDialog,  String key,RadioGroup radioGroup,MaterialEditText materialEditText)
+        public PositiveOnClickListener(MaterialDialog materialDialog, String key, RadioGroup radioGroup, MaterialEditText materialEditText)
         {
             this.materialDialog = materialDialog;
             this.key = key;
             this.radioGroup = radioGroup;
-            this.materialEditText=materialEditText;
+            this.materialEditText = materialEditText;
         }
 
         @Override
         public void onClick(View v)
         {
 
-            if(materialEditText == null)
+            if (materialEditText == null)
             {
                 String value = null;
                 int id = radioGroup.getCheckedRadioButtonId();
-                if(id == R.id.dialog_male)
+                if (id == R.id.dialog_male)
                 {
                     value = "1";
                 }
                 else
                 {
-                    value="2";
+                    value = "2";
                 }
-                String[] params = {key,value};
+                String[] params = {key, value};
                 new UpdatePersonInfoTask(materialDialog).execute(params);
             }
-            else if(radioGroup == null)
+            else if (radioGroup == null)
             {
-                Log.i(Global.TAG,"materialEditText.getText().toString()--->"+materialEditText.getText().toString());
-                String[] params = {key,materialEditText.getText().toString()};
+                Log.i(Global.TAG, "materialEditText.getText().toString()--->" + materialEditText.getText().toString());
+                String[] params = {key, materialEditText.getText().toString()};
                 new UpdatePersonInfoTask(materialDialog).execute(params);
             }
 
@@ -256,12 +252,12 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == MODIFY_AVATAR_REQUEST_CODE)
+        if (requestCode == MODIFY_AVATAR_REQUEST_CODE)
         {
-            if(resultCode == RESULT_OK)
+            if (resultCode == RESULT_OK)
             {
                 String avatar = data.getStringExtra("avatar");
-                String[] params = {"avatar",avatar};
+                String[] params = {"avatar", avatar};
                 new UpdatePersonInfoTask(null).execute(params);
             }
         }
@@ -287,7 +283,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected String doInBackground(String... params)
         {
-            Log.i(Global.TAG,account.getString("aid", "")+"----"+params[0]+"----"+params[1]);
+            Log.i(Global.TAG, account.getString("aid", "") + "----" + params[0] + "----" + params[1]);
             RequestBody formBody = new FormBody.Builder()
                     .add("aid", account.getString("aid", ""))
                     .add("key", params[0])
@@ -326,7 +322,7 @@ public class ModifyActivity extends AppCompatActivity implements View.OnClickLis
                     SharedPreferences.Editor editor = account.edit();
                     editor.putString(dataJsonObj.getString("key"), dataJsonObj.getString("value"));
                     editor.commit();
-                    if(materialDialog != null)
+                    if (materialDialog != null)
                     {
                         materialDialog.dismiss();
                     }

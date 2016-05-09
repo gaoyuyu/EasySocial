@@ -1,8 +1,6 @@
 package com.gaoyy.easysocial;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -11,10 +9,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.gaoyy.easysocial.utils.Tool;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONException;
@@ -26,7 +24,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RegActivity extends AppCompatActivity implements TextWatcher, View.OnClickListener
+public class RegActivity extends BaseActivity implements TextWatcher, View.OnClickListener
 {
 
     private Toolbar regToolbar;
@@ -45,8 +43,17 @@ public class RegActivity extends AppCompatActivity implements TextWatcher, View.
 
     private BasicProgressDialog basicProgressDialog;
 
-    private void assignViews()
+
+    @Override
+    public void initContentView()
     {
+        setContentView(R.layout.activity_reg);
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         regToolbar = (Toolbar) findViewById(R.id.reg_toolbar);
         regEmail = (MaterialEditText) findViewById(R.id.reg_email);
         regUsername = (MaterialEditText) findViewById(R.id.reg_username);
@@ -57,37 +64,20 @@ public class RegActivity extends AppCompatActivity implements TextWatcher, View.
         basicProgressDialog = BasicProgressDialog.create(this);
     }
 
+    @Override
+    protected void initToolbar()
+    {
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(regToolbar, R.string.reg, true, colors);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void setListener()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reg);
-        assignViews();
-        initToolbar();
-        setListener();
-        getInputData();
-
-
-    }
-
-    private void initToolbar()
-    {
-        regToolbar.setTitle(R.string.reg);
-        setSupportActionBar(regToolbar);
-        //设置返回键可用
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
-    }
-
-    private void setListener()
-    {
+        super.setListener();
         regRepassword.addTextChangedListener(this);
         regBtn.setOnClickListener(this);
+        getInputData();
     }
 
     private void getInputData()

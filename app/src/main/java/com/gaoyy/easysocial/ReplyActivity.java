@@ -4,19 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.io.IOException;
 
@@ -25,32 +23,30 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class ReplyActivity extends AppCompatActivity
+public class ReplyActivity extends BaseActivity
 {
     private Toolbar replyToolbar;
     private EditText replyEdit;
     private Comment comment;
     private BasicProgressDialog basicProgressDialog;
 
-
     private boolean isChild;
 
-    private void assignViews()
+
+    @Override
+    public void initContentView()
     {
-        replyToolbar = (Toolbar) findViewById(R.id.reply_toolbar);
-        replyEdit = (EditText) findViewById(R.id.reply_edit);
-        basicProgressDialog = BasicProgressDialog.create(this);
+        setContentView(R.layout.activity_reply);
+        comment = (Comment) getIntent().getSerializableExtra("comment");
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void assignViews()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reply);
-        comment = (Comment) getIntent().getSerializableExtra("comment");
-        assignViews();
-        initToolbar();
-        setHintText();
+        super.assignViews();
+        replyToolbar = (Toolbar) findViewById(R.id.reply_toolbar);
+        replyEdit = (EditText) findViewById(R.id.reply_edit);
+        basicProgressDialog = BasicProgressDialog.create(this);
     }
 
     private void setHintText()
@@ -62,18 +58,19 @@ public class ReplyActivity extends AppCompatActivity
         }
     }
 
-    private void initToolbar()
+    @Override
+    protected void initToolbar()
     {
-        replyToolbar.setTitle(R.string.reply);
-        setSupportActionBar(replyToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(replyToolbar, R.string.reply, true, colors);
     }
 
+    @Override
+    protected void configViews()
+    {
+        super.configViews();
+        setHintText();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

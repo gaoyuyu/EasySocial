@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.json.JSONObject;
@@ -27,7 +25,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener
+public class LoginActivity extends BaseActivity implements View.OnClickListener
 {
 
     private Toolbar loginToolbar;
@@ -39,45 +37,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private BasicProgressDialog basicProgressDialog;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public void initContentView()
     {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        assignViews();
-        initToolbar();
-        setListener();
-
     }
 
-    private void assignViews()
+    @Override
+    protected void assignViews()
     {
+        super.assignViews();
         loginToolbar = (Toolbar) findViewById(R.id.login_toolbar);
         email = (MaterialEditText) findViewById(R.id.email);
         password = (MaterialEditText) findViewById(R.id.password);
         loginBtn = (AppCompatButton) findViewById(R.id.login_btn);
         loginRegbtn = (AppCompatButton) findViewById(R.id.login_regbtn);
+        basicProgressDialog = BasicProgressDialog.create(this);
 
+    }
+
+
+    @Override
+    protected void initToolbar()
+    {
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(loginToolbar, R.string.login, true, colors);
+    }
+
+    @Override
+    protected void configViews()
+    {
+        super.configViews();
         email.setText("740514999@qq.com");
         password.setText("1qa2ws");
-
-        basicProgressDialog = BasicProgressDialog.create(this);
     }
 
-    public void initToolbar()
+    @Override
+    protected void setListener()
     {
-        loginToolbar.setTitle(R.string.login);
-        setSupportActionBar(loginToolbar);
-        //设置返回键可用
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
-    }
-
-    private void setListener()
-    {
+        super.setListener();
         loginBtn.setOnClickListener(this);
         loginRegbtn.setOnClickListener(this);
     }
@@ -94,7 +91,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.login_regbtn:
                 Intent intent = new Intent();
-                intent.setClass(LoginActivity.this,RegActivity.class);
+                intent.setClass(LoginActivity.this, RegActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -139,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG,body);
+                Log.i(Global.TAG, body);
             }
             catch (Exception e)
             {

@@ -301,4 +301,55 @@ public class Tool
 //        oks.show(context);
 
     }
+
+    public static int[] getThemeColors(Context context)
+    {
+        int[] colors = new int[2];
+        SharedPreferences sbc = context.getSharedPreferences("sbc",Activity.MODE_PRIVATE);
+        int key = sbc.getInt("color",-1);
+        switch (key)
+        {
+            case 0:
+                colors[0] = R.color.indigo_colorPrimary;
+                colors[1] = R.color.indigo_colorPrimaryDark;
+                break;
+            case 1:
+                colors[0] = R.color.light_green_colorPrimary;
+                colors[1] = R.color.light_green_colorPrimaryDark;
+                break;
+            case 2:
+                colors[0] = R.color.blue_colorPrimary;
+                colors[1] = R.color.blue_colorPrimaryDark;
+                break;
+            case 3:
+                colors[0] = R.color.pink_colorPrimary;
+                colors[1] = R.color.pink_colorPrimaryDark;
+                break;
+            case 4:
+                colors[0] = R.color.deep_orange_colorPrimary;
+                colors[1] = R.color.deep_orange_colorPrimaryDark;
+                break;
+            case 5:
+                colors[0] = R.color.green_colorPrimary;
+                colors[1] = R.color.green_colorPrimaryDark;
+                break;
+            case 6:
+                colors[0] = R.color.purple_colorPrimary;
+                colors[1] = R.color.purple_colorPrimaryDark;
+                break;
+            case 7:
+                colors[0] = R.color.orange_colorPrimary;
+                colors[1] = R.color.orange_colorPrimaryDark;
+                break;
+            case 8:
+                colors[0] = R.color.deep_purple_colorPrimary;
+                colors[1] = R.color.deep_purple_colorPrimaryDark;
+                break;
+            default:
+                colors[0] = R.color.colorPrimary;
+                colors[1] = R.color.colorPrimaryDark;
+                break;
+        }
+        return colors;
+    }
 }

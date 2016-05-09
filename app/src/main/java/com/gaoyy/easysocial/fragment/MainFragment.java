@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.gaoyy.easysocial.BlankFragment;
 import com.gaoyy.easysocial.adapter.PageAdapter;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
@@ -92,11 +91,11 @@ public class MainFragment extends Fragment
             Fragment fragment = null;
             if (pagerTitle[i].equals("首页"))
             {
-                fragment = new HomeFragment();
+                fragment = new BlankFragment();
             }
             else if (pagerTitle[i].equals("排行榜"))
             {
-                fragment = new RankFragment();
+                fragment = new BlankFragment();
             }
             else
             {

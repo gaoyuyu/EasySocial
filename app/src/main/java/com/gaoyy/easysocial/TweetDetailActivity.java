@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,14 +20,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.gaoyy.easysocial.adapter.CommentAdapter;
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.bean.Tweet;
 import com.gaoyy.easysocial.utils.Global;
-import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.gaoyy.easysocial.utils.Tool;
+import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.json.JSONObject;
 
@@ -40,7 +39,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TweetDetailActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, CommentAdapter.OnItemClickListener, CommentAdapter.OnTouchListener
+public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, CommentAdapter.OnItemClickListener, CommentAdapter.OnTouchListener
 {
     private LinearLayout tweetDetailLayout;
     private Toolbar tweetDetailToolbar;
@@ -63,8 +62,18 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
     private int lastVisibleItemPosition;
 
 
-    private void assignViews()
+    @Override
+    public void initContentView()
     {
+        setContentView(R.layout.activity_tweet_detail);
+        tweet = (Tweet) getIntent().getSerializableExtra("tweet");
+        Log.i(Global.TAG, "TWEET-->" + tweet.toString());
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         tweetDetailLayout = (LinearLayout) findViewById(R.id.tweet_detail_layout);
         tweetDetailToolbar = (Toolbar) findViewById(R.id.tweet_detail_toolbar);
         tweetDetailSrlayout = (SwipeRefreshLayout) findViewById(R.id.tweet_detail_srlayout);
@@ -78,9 +87,7 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tweet_detail);
-        tweet = (Tweet) getIntent().getSerializableExtra("tweet");
-        Log.i(Global.TAG, "TWEET-->" + tweet.toString());
+
         assignViews();
         initToolbar();
         initData();
@@ -90,37 +97,25 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
 
     }
 
+//    @Override
+//    protected void onResume()
+//    {
+//        super.onResume();
+//        Log.i(Global.TAG, "TweetDetailActivity onResume");
+//        new CommentTask(true).execute(String.valueOf(currentPage));
+//    }
+
     @Override
-    protected void onResume()
+    protected void initToolbar()
     {
-        super.onResume();
-        Log.i(Global.TAG, "TweetDetailActivity onResume");
-        new CommentTask(true).execute(String.valueOf(currentPage));
-
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(tweetDetailToolbar, R.string.none_title, true, colors);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    protected void configViews()
     {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void initToolbar()
-    {
-        tweetDetailToolbar.setTitle("");
-        setSupportActionBar(tweetDetailToolbar);
-        //设置返回键可用
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
-    }
-
-
-    private void configViews()
-    {
+        super.configViews();
         tweetDetailSrlayout.setOnRefreshListener(this);
         commentAdapter = new CommentAdapter(this, commentList, tweet);
         tweetDetailRv.setAdapter(commentAdapter);
@@ -154,16 +149,22 @@ public class TweetDetailActivity extends AppCompatActivity implements SwipeRefre
                 lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
             }
         });
+
+        new CommentTask(true).execute(String.valueOf(currentPage));
     }
 
-    private void setListener()
+    @Override
+    protected void setListener()
     {
+        super.setListener();
         commentAdapter.setOnTouchListener(this);
         commentAdapter.setOnItemClickListener(this);
     }
 
-    private void initData()
+    @Override
+    protected void initData()
     {
+        super.initData();
         commentList = new LinkedList<Comment>();
     }
 

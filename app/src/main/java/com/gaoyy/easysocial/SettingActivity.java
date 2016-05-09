@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,11 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.gaoyy.easysocial.utils.Global;
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Tool;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener
+public class SettingActivity extends BaseActivity implements View.OnClickListener
 {
     private Toolbar settingToolbar;
     private SimpleDraweeView settingBg;
@@ -30,9 +27,19 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     private RelativeLayout settingFeedback;
     private RelativeLayout settingAbout;
     private Button settingLogout;
+    private SharedPreferences account;
 
-    private void assignViews()
+    @Override
+    public void initContentView()
     {
+        setContentView(R.layout.activity_setting);
+        account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         settingToolbar = (Toolbar) findViewById(R.id.setting_toolbar);
         settingBg = (SimpleDraweeView) findViewById(R.id.setting_bg);
         settingAvatar = (SimpleDraweeView) findViewById(R.id.setting_avatar);
@@ -45,35 +52,30 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    private SharedPreferences account;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+
         assignViews();
         initToolbar();
         setListener();
     }
 
-    private void initToolbar()
+    @Override
+    protected void initToolbar()
     {
-        settingToolbar.setTitle(R.string.setting);
-        setSupportActionBar(settingToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(settingToolbar, R.string.setting, true, colors);
     }
 
-    private void configViews()
+    @Override
+    protected void configViews()
     {
-
+        super.configViews();
         if(Tool.isLogin(this))
         {
             settingLogout.setVisibility(View.VISIBLE);
@@ -90,8 +92,10 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void setListener()
+    @Override
+    protected void setListener()
     {
+        super.setListener();
         settingModify.setOnClickListener(this);
         settingFeedback.setOnClickListener(this);
         settingAbout.setOnClickListener(this);
@@ -147,11 +151,4 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Log.i(Global.TAG,"SettingActivity onResume");
-        configViews();
-    }
 }

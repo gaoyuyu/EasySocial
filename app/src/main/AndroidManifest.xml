@@ -32,6 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.gaoyy.easysocial.MainActivity"/>
+        <activity android:name="com.gaoyy.easysocial.base.BaseActivity"/>
         <activity android:name="com.gaoyy.easysocial.LoginActivity">
         </activity>
         <activity android:name="com.gaoyy.easysocial.TweetDetailActivity">

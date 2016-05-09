@@ -1,16 +1,14 @@
 package com.gaoyy.easysocial;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Tool;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class AboutActivity extends AppCompatActivity
+public class AboutActivity extends BaseActivity
 {
     private Toolbar aboutToolbar;
     private TextView aboutAppName;
@@ -18,8 +16,17 @@ public class AboutActivity extends AppCompatActivity
     private TextView aboutVersionName;
     private TextView aboutCopyright;
 
-    private void assignViews()
+
+    @Override
+    public void initContentView()
     {
+        setContentView(R.layout.activity_about);
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         aboutToolbar = (Toolbar) findViewById(R.id.about_toolbar);
         aboutAppName = (TextView) findViewById(R.id.about_app_name);
         aboutAppLogo = (ImageView) findViewById(R.id.about_app_logo);
@@ -28,30 +35,16 @@ public class AboutActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void initToolbar()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        assignViews();
-        initToolbar();
-        configViews();
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(aboutToolbar,R.string.about,true,colors);
     }
 
-    public void initToolbar()
+    @Override
+    protected void configViews()
     {
-        aboutToolbar.setTitle(R.string.about);
-        setSupportActionBar(aboutToolbar);
-        //设置返回键可用
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
-    }
-
-    private void configViews()
-    {
+        super.configViews();
         aboutAppName.setText(R.string.app_name);
         aboutAppLogo.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
         aboutVersionName.setText("version " + Tool.getVersionName(this));

@@ -1,42 +1,33 @@
 package com.gaoyy.easysocial;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.gaoyy.easysocial.base.BaseActivity;
+import com.gaoyy.easysocial.utils.Tool;
 
-public class FeedbackActivity extends AppCompatActivity
+public class FeedbackActivity extends BaseActivity
 {
     private Toolbar feedbackToolbar;
 
-    private void assignViews()
+    @Override
+    public void initContentView()
     {
+        setContentView(R.layout.activity_feedback);
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         feedbackToolbar = (Toolbar) findViewById(R.id.feedback_toolbar);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void initToolbar()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedback);
-        assignViews();
-        initToolbar();
-
-    }
-
-    public void initToolbar()
-    {
-        feedbackToolbar.setTitle(R.string.feedback);
-        setSupportActionBar(feedbackToolbar);
-        //设置返回键可用
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
-        tintManager.setStatusBarTintEnabled(true);
+        int[] colors = Tool.getThemeColors(this);
+        super.initToolbar(feedbackToolbar,R.string.feedback,true,colors);
     }
 
     @Override

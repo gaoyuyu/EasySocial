@@ -11,7 +11,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,6 +19,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.adapter.PageAdapter;
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.fragment.FavoriteFragment;
 import com.gaoyy.easysocial.fragment.HomeFragment;
 import com.gaoyy.easysocial.utils.Global;
@@ -35,7 +35,7 @@ import java.util.List;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class PersonalActivity extends AppCompatActivity
+public class PersonalActivity extends BaseActivity
 {
     private CoordinatorLayout personalCoordinatorlayout;
     private AppBarLayout personalAppbarlayout;
@@ -52,7 +52,7 @@ public class PersonalActivity extends AppCompatActivity
     private TextView personalHeaderFavoriteCount;
     private ImageView personalHeaderGender;
 
-    private String[] personalTitles = {"我发表的","赞"};
+    private String[] personalTitles = {"我发表的", "赞"};
     private List<Fragment> fragmentList;
 
     private SharedPreferences account;
@@ -60,10 +60,17 @@ public class PersonalActivity extends AppCompatActivity
     private PageAdapter pageAdapter;
 
 
-
-
-    private void assignViews()
+    @Override
+    public void initContentView()
     {
+        setContentView(R.layout.activity_personal);
+        account = getSharedPreferences("account", Activity.MODE_PRIVATE);
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         personalCoordinatorlayout = (CoordinatorLayout) findViewById(R.id.personal_coordinatorlayout);
         personalAppbarlayout = (AppBarLayout) findViewById(R.id.personal_appbarlayout);
         personalCollapsinglayout = (CollapsingToolbarLayout) findViewById(R.id.personal_collapsinglayout);
@@ -80,30 +87,19 @@ public class PersonalActivity extends AppCompatActivity
     }
 
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void initData()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal);
-        account= getSharedPreferences("account", Activity.MODE_PRIVATE);
-        assignViews();
-        initData();
-        initToolbar();
-        configViews();
-        new PersonalCountTask().execute();
-
-    }
-
-    private void initData()
-    {
+        super.initData();
         fragmentList = new ArrayList<Fragment>();
-        for (int i=0;i<personalTitles.length;i++)
+        for (int i = 0; i < personalTitles.length; i++)
         {
             Bundle bundle = new Bundle();
-            bundle.putString("isPersonal",account.getString("aid",""));
-            bundle.putString("aid",account.getString("aid",""));
+            bundle.putString("isPersonal", account.getString("aid", ""));
+            bundle.putString("aid", account.getString("aid", ""));
             Fragment fragment = null;
-            if(personalTitles[i].equals("我发表的"))
+            if (personalTitles[i].equals("我发表的"))
             {
                 fragment = new HomeFragment();
             }
@@ -117,27 +113,39 @@ public class PersonalActivity extends AppCompatActivity
     }
 
 
-    private void initToolbar()
+    @Override
+    protected void executeTask()
     {
+        super.executeTask();
+        new PersonalCountTask().execute();
+    }
+
+    @Override
+    protected void initToolbar()
+    {
+        super.initToolbar();
+        int[] colors = Tool.getThemeColors(this);
         personalCollapsinglayout.setTitleEnabled(false);
-        personalToolbar.setTitle(getResources().getString(R.string.person_center));
+        personalToolbar.setTitle(R.string.person_center);
         personalToolbar.setBackgroundColor(getResources().getColor(R.color.transparent));
         setSupportActionBar(personalToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        tintManager.setStatusBarTintResource(colors[1]);
         tintManager.setStatusBarTintEnabled(true);
     }
 
-    private void configViews()
+    @Override
+    protected void configViews()
     {
+        super.configViews();
         personalHeaderAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
-        personalHeaderName.setText(account.getString("username",""));
+        personalHeaderName.setText(account.getString("username", ""));
 
 
-        pageAdapter = new PageAdapter(getSupportFragmentManager(),personalTitles,fragmentList);
+        pageAdapter = new PageAdapter(getSupportFragmentManager(), personalTitles, fragmentList);
         personalViewpager.setAdapter(pageAdapter);
 
         personalTablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -145,8 +153,8 @@ public class PersonalActivity extends AppCompatActivity
         personalTablayout.setTabsFromPagerAdapter(pageAdapter);
 
 
-        String gender =account.getString("gender","");
-        if(gender.equals("1"))
+        String gender = account.getString("gender", "");
+        if (gender.equals("1"))
         {
             personalHeaderGender.setImageDrawable(getResources().getDrawable(R.mipmap.ic_male));
         }
@@ -169,7 +177,7 @@ public class PersonalActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    class PersonalCountTask  extends AsyncTask<String, String, String>
+    class PersonalCountTask extends AsyncTask<String, String, String>
     {
         @Override
         protected String doInBackground(String... params)
@@ -183,7 +191,7 @@ public class PersonalActivity extends AppCompatActivity
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG,body);
+                Log.i(Global.TAG, body);
             }
             catch (Exception e)
             {
@@ -203,8 +211,8 @@ public class PersonalActivity extends AppCompatActivity
                     JSONObject dataJsonObj = Tool.getDataJsonObj(s);
                     int tweetCount = dataJsonObj.getInt("personal_tweet_count");
                     int favCount = dataJsonObj.getInt("personal_fav_count");
-                    personalHeaderTweetCount.setText(tweetCount+"");
-                    personalHeaderFavoriteCount.setText(favCount+"");
+                    personalHeaderTweetCount.setText(tweetCount + "");
+                    personalHeaderFavoriteCount.setText(favCount + "");
                 }
             }
             catch (Exception e)

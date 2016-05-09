@@ -8,29 +8,24 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.fragment.MainFragment;
 import com.gaoyy.easysocial.utils.Tool;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
     private DrawerLayout mainDrawerlayout;
     private NavigationView mainNav;
     private MainFragment mainFragment;
 
-    private void assignViews()
-    {
-        mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
-        mainNav = (NavigationView) findViewById(R.id.main_nav);
-    }
-
     //记录当前正在使用的fragment
     private Fragment currentFragment;
+
     public Fragment getCurrentFragment()
     {
         return currentFragment;
@@ -42,22 +37,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public void initContentView()
     {
-        super.onCreate(savedInstanceState);
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
-        mainNav = (NavigationView) findViewById(R.id.main_nav);
-        mainNav.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void assignViews()
+    {
+        super.assignViews();
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
+        mainNav = (NavigationView) findViewById(R.id.main_nav);
+        mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
+    }
+
+    @Override
+    protected void setListener()
+    {
+        super.setListener();
+        mainNav.setNavigationItemSelectedListener(this);
         View headerView = mainNav.getHeaderView(0);
         SimpleDraweeView avatar = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_ava);
         avatar.setOnClickListener(this);
-        initFragment(savedInstanceState);
     }
 
-    public void initFragment(Bundle savedInstanceState)
+    @Override
+    protected void initFragment(Bundle savedInstanceState)
     {
+        super.initFragment(savedInstanceState);
         //判断activity是否重建，如果不是，则不需要重新建立fragment.
         if (savedInstanceState == null)
         {
@@ -71,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.replace(R.id.main_layout, mainFragment).commit();
         }
     }
+
 
     /**
      * 当fragment进行切换时，采用隐藏与显示的方法加载fragment以防止数据的重复加载
@@ -118,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item)
@@ -139,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 else
                 {
-                    Tool.showToast(this,"请先登录 : )");
+                    Tool.showToast(this, "请先登录 : )");
                     intent.setClass(MainActivity.this, LoginActivity.class);
                 }
                 startActivity(intent);
