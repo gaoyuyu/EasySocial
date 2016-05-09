@@ -1,6 +1,8 @@
 package com.gaoyy.easysocial;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,12 +19,16 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.fragment.MainFragment;
 import com.gaoyy.easysocial.utils.Tool;
+import com.github.siyamed.shapeimageview.CircularImageView;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
     private DrawerLayout mainDrawerlayout;
     private NavigationView mainNav;
     private MainFragment mainFragment;
+    private SharedPreferences sbc;
 
     //记录当前正在使用的fragment
     private Fragment currentFragment;
@@ -41,6 +48,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     {
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
+        sbc = getSharedPreferences("sbc", Activity.MODE_PRIVATE);
     }
 
     @Override
@@ -162,6 +170,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 break;
             case R.id.nav_share:
                 break;
+            case R.id.nav_theme:
+                showMaterialDialog();
+                break;
             case R.id.nav_about:
                 intent.setClass(MainActivity.this, AboutActivity.class);
                 startActivity(intent);
@@ -169,6 +180,54 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         }
         return true;
+    }
+
+    private void showMaterialDialog()
+    {
+        View contentView = LayoutInflater.from(this).inflate(R.layout.dialog_pick_color, null);
+        final MaterialDialog materialDialog = new MaterialDialog(this)
+                .setTitle("主题")
+                .setContentView(contentView);
+        CircularImageView indigoColor = (CircularImageView) contentView.findViewById(R.id.indigo_color);
+        CircularImageView lightGreenColor = (CircularImageView) contentView.findViewById(R.id.light_green_color);
+        CircularImageView blueColor = (CircularImageView) contentView.findViewById(R.id.blue_color);
+        CircularImageView pinkColor = (CircularImageView) contentView.findViewById(R.id.pink_color);
+        CircularImageView deepOrangeColor = (CircularImageView) contentView.findViewById(R.id.deep_orange_color);
+        CircularImageView greenColor = (CircularImageView) contentView.findViewById(R.id.green_color);
+        CircularImageView purpleColor = (CircularImageView) contentView.findViewById(R.id.purple_color);
+        CircularImageView orangeColor = (CircularImageView) contentView.findViewById(R.id.orange_color);
+        CircularImageView deepPurpleColor = (CircularImageView) contentView.findViewById(R.id.deep_purple_color);
+
+        indigoColor.setOnClickListener(this);
+        lightGreenColor.setOnClickListener(this);
+        blueColor.setOnClickListener(this);
+        pinkColor.setOnClickListener(this);
+        deepOrangeColor.setOnClickListener(this);
+        greenColor.setOnClickListener(this);
+        purpleColor.setOnClickListener(this);
+        orangeColor.setOnClickListener(this);
+        deepPurpleColor.setOnClickListener(this);
+
+        materialDialog.setPositiveButton("恢复默认", new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                materialDialog.dismiss();
+                SharedPreferences.Editor editor = sbc.edit();
+                editor.putInt("color",-1);
+                editor.commit();
+                finish();
+                Intent intent = new Intent(MainActivity.this,MainActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+        materialDialog.show();
+
+
     }
 
     @Override
@@ -185,7 +244,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void onClick(View v)
     {
+        SharedPreferences.Editor editor = sbc.edit();
         int id = v.getId();
+        Intent restartIntent = new Intent(this,MainActivity.class);
         switch (id)
         {
             case R.id.nav_header_ava:
@@ -196,7 +257,54 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     startActivity(intent);
                 }
                 break;
+            case R.id.indigo_color:
+                editor.putInt("color",0);
+                finish();
+                startActivity(restartIntent);
+                break;
+            case R.id.light_green_color:
+                editor.putInt("color",1);
+                finish();
+                startActivity(restartIntent);
+                break;
+            case R.id.blue_color:
+                editor.putInt("color",2);
+                finish();
+                startActivity(restartIntent);
+                break;
+            case R.id.pink_color:
+                editor.putInt("color",3);
+                finish();
+                startActivity(restartIntent);
+                break;
+            case R.id.deep_orange_color:
+                editor.putInt("color",4);
+                finish();
+                startActivity(restartIntent);
+                break;
+            case R.id.green_color:
+                editor.putInt("color",5);
+                finish();
+                startActivity(restartIntent);
+                break;
+            case R.id.purple_color:
+                editor.putInt("color",6);
+                finish();
+                startActivity(restartIntent);
+                break;
+            case R.id.orange_color:
+                editor.putInt("color",7);
+                finish();
+                startActivity(restartIntent);
+                break;
+            case R.id.deep_purple_color:
+                editor.putInt("color",8);
+                finish();
+                startActivity(restartIntent);
+                break;
 
         }
+        editor.commit();
+
     }
 }

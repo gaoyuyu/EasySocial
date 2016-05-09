@@ -108,8 +108,12 @@ public class MainFragment extends Fragment
 
     public void configViews()
     {
+        int[] colors = Tool.getThemeColors(getActivity());
+
+
         AppCompatActivity activity = ((AppCompatActivity) getActivity());
         mainToolbar.setTitle(R.string.app_name);
+        mainToolbar.setBackgroundColor(getActivity().getResources().getColor(colors[0]));
         activity.setSupportActionBar(mainToolbar);
         activity.getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -131,13 +135,15 @@ public class MainFragment extends Fragment
         mainDrawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         SystemBarTintManager tintManager = new SystemBarTintManager(activity);
-        tintManager.setStatusBarTintResource(R.color.colorPrimaryDark);
+        tintManager.setStatusBarTintResource(colors[1]);
         tintManager.setStatusBarTintEnabled(true);
 
         pageAdapter = new PageAdapter(activity.getSupportFragmentManager(), pagerTitle, fragmentList);
         mainViewpager.setAdapter(pageAdapter);
         mainViewpager.setOffscreenPageLimit(3);
 
+
+        mainTablayout.setBackgroundColor(getActivity().getResources().getColor(colors[0]));
         mainTablayout.setTabMode(TabLayout.MODE_FIXED);
         mainTablayout.setupWithViewPager(mainViewpager);
         mainTablayout.setTabsFromPagerAdapter(pageAdapter);

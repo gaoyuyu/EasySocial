@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/indigo_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/indigo_colorPrimary"
+            />
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/light_green_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/light_green_colorPrimary"
+            />
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/blue_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/blue_colorPrimary"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/pink_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/pink_colorPrimary"
+            />
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/deep_orange_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/deep_orange_colorPrimary"
+            />
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/green_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/green_colorPrimary"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/purple_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/purple_colorPrimary"
+            />
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/orange_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/orange_colorPrimary"
+            />
+
+        <com.github.siyamed.shapeimageview.CircularImageView
+            android:id="@+id/deep_purple_color"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@color/deep_purple_colorPrimary"
+            />
+    </LinearLayout>
+</LinearLayout>
+
