@@ -1,6 +1,7 @@
 package com.gaoyy.easysocial;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -13,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,7 +47,7 @@ public class PersonalActivity extends BaseActivity
     private ViewPager personalViewpager;
 
 
-    private ImageView personalHeaderBg;
+    private SimpleDraweeView personalHeaderBg;
     private SimpleDraweeView personalHeaderAvatar;
     private TextView personalHeaderName;
     private TextView personalHeaderTweetCount;
@@ -58,6 +60,8 @@ public class PersonalActivity extends BaseActivity
     private SharedPreferences account;
 
     private PageAdapter pageAdapter;
+
+    private static final int PERSONAL_SET_BG = 450;
 
 
     @Override
@@ -78,14 +82,14 @@ public class PersonalActivity extends BaseActivity
         personalTablayout = (TabLayout) findViewById(R.id.personal_tablayout);
         personalViewpager = (ViewPager) findViewById(R.id.personal_viewpager);
 
-        personalHeaderBg = (ImageView) findViewById(R.id.personal_header_bg);
+        personalHeaderBg = (SimpleDraweeView) findViewById(R.id.personal_header_bg);
         personalHeaderAvatar = (SimpleDraweeView) findViewById(R.id.personal_header_avatar);
         personalHeaderName = (TextView) findViewById(R.id.personal_header_name);
         personalHeaderTweetCount = (TextView) findViewById(R.id.personal_header_tweet_count);
         personalHeaderFavoriteCount = (TextView) findViewById(R.id.personal_header_favorite_count);
         personalHeaderGender = (ImageView) findViewById(R.id.personal_header_gender);
-    }
 
+    }
 
 
     @Override
@@ -126,6 +130,7 @@ public class PersonalActivity extends BaseActivity
         super.initToolbar();
         int[] colors = Tool.getThemeColors(this);
         personalCollapsinglayout.setTitleEnabled(false);
+        personalCollapsinglayout.setContentScrimColor(getResources().getColor(colors[0]));
         personalToolbar.setTitle(R.string.person_center);
         personalToolbar.setBackgroundColor(getResources().getColor(R.color.transparent));
         setSupportActionBar(personalToolbar);
@@ -143,6 +148,11 @@ public class PersonalActivity extends BaseActivity
         super.configViews();
         personalHeaderAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
         personalHeaderName.setText(account.getString("username", ""));
+
+        if (!account.getString("personalbg", "").equals(""))
+        {
+            personalHeaderBg.setImageURI(Uri.parse("file://" + account.getString("personalbg", "")));
+        }
 
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), personalTitles, fragmentList);
@@ -165,6 +175,19 @@ public class PersonalActivity extends BaseActivity
     }
 
     @Override
+    protected void setListener()
+    {
+        super.setListener();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.personal_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int itemId = item.getItemId();
@@ -173,9 +196,34 @@ public class PersonalActivity extends BaseActivity
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.menu_personal_setbg:
+                Intent intent = new Intent();
+                intent.setClass(this, SetPicActivity.class);
+                intent.putExtra("isPublish", true);
+                startActivityForResult(intent, PERSONAL_SET_BG);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PERSONAL_SET_BG)
+        {
+            if (resultCode == RESULT_OK)
+            {
+                String path = data.getStringExtra("tweimg");
+                SharedPreferences.Editor editor = account.edit();
+                editor.putString("personalbg", path);
+                editor.commit();
+                personalHeaderBg.setImageURI(Uri.parse("file://" + path));
+            }
+        }
+    }
+
 
     class PersonalCountTask extends AsyncTask<String, String, String>
     {

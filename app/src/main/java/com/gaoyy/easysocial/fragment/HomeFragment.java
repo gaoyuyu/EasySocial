@@ -354,7 +354,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("请求数据中...", basicProgressDialog);
+            Tool.startProgressDialog(getResources().getString(R.string.request), basicProgressDialog);
         }
 
         @Override

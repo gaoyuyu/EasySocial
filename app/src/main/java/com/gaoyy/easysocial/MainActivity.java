@@ -3,6 +3,7 @@ package com.gaoyy.easysocial;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.fragment.MainFragment;
+import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.github.siyamed.shapeimageview.CircularImageView;
 
@@ -29,6 +32,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NavigationView mainNav;
     private MainFragment mainFragment;
     private SharedPreferences sbc;
+    private SharedPreferences account;
 
     //记录当前正在使用的fragment
     private Fragment currentFragment;
@@ -49,6 +53,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Fresco.initialize(this);
         setContentView(R.layout.activity_main);
         sbc = getSharedPreferences("sbc", Activity.MODE_PRIVATE);
+        account = getSharedPreferences("account", Activity.MODE_PRIVATE);
     }
 
     @Override
@@ -58,6 +63,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
         mainNav = (NavigationView) findViewById(R.id.main_nav);
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
+
+    }
+
+
+    @Override
+    protected void configViewsOnResume()
+    {
+        super.configViewsOnResume();
+        Log.i(Global.TAG,"bg onresume");
+        View headerView = mainNav.getHeaderView(0);
+        SimpleDraweeView navHeaderBg = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_bg);
+        if (!account.getString("personalbg", "").equals(""))
+        {
+            navHeaderBg.setImageURI(Uri.parse("file://" + account.getString("personalbg", "")));
+        }
+
+
     }
 
     @Override
@@ -188,6 +210,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         View contentView = LayoutInflater.from(this).inflate(R.layout.dialog_pick_color, null);
         final MaterialDialog materialDialog = new MaterialDialog(this)
                 .setTitle("主题")
+                .setCanceledOnTouchOutside(true)
                 .setContentView(contentView);
         CircularImageView indigoColor = (CircularImageView) contentView.findViewById(R.id.indigo_color);
         CircularImageView lightGreenColor = (CircularImageView) contentView.findViewById(R.id.light_green_color);
@@ -216,10 +239,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             {
                 materialDialog.dismiss();
                 SharedPreferences.Editor editor = sbc.edit();
-                editor.putInt("color",-1);
+                editor.putInt("color", -1);
                 editor.commit();
                 finish();
-                Intent intent = new Intent(MainActivity.this,MainActivity.class);
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent);
 
             }
@@ -247,7 +270,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     {
         SharedPreferences.Editor editor = sbc.edit();
         int id = v.getId();
-        Intent restartIntent = new Intent(this,MainActivity.class);
+        Intent restartIntent = new Intent(this, MainActivity.class);
         switch (id)
         {
             case R.id.nav_header_ava:
@@ -259,47 +282,47 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
                 break;
             case R.id.indigo_color:
-                editor.putInt("color",0);
+                editor.putInt("color", 0);
                 finish();
                 startActivity(restartIntent);
                 break;
             case R.id.light_green_color:
-                editor.putInt("color",1);
+                editor.putInt("color", 1);
                 finish();
                 startActivity(restartIntent);
                 break;
             case R.id.blue_color:
-                editor.putInt("color",2);
+                editor.putInt("color", 2);
                 finish();
                 startActivity(restartIntent);
                 break;
             case R.id.pink_color:
-                editor.putInt("color",3);
+                editor.putInt("color", 3);
                 finish();
                 startActivity(restartIntent);
                 break;
             case R.id.deep_orange_color:
-                editor.putInt("color",4);
+                editor.putInt("color", 4);
                 finish();
                 startActivity(restartIntent);
                 break;
             case R.id.green_color:
-                editor.putInt("color",5);
+                editor.putInt("color", 5);
                 finish();
                 startActivity(restartIntent);
                 break;
             case R.id.purple_color:
-                editor.putInt("color",6);
+                editor.putInt("color", 6);
                 finish();
                 startActivity(restartIntent);
                 break;
             case R.id.orange_color:
-                editor.putInt("color",7);
+                editor.putInt("color", 7);
                 finish();
                 startActivity(restartIntent);
                 break;
             case R.id.deep_purple_color:
-                editor.putInt("color",8);
+                editor.putInt("color", 8);
                 finish();
                 startActivity(restartIntent);
                 break;

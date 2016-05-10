@@ -73,9 +73,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    protected void configViews()
+    protected void configViewsOnResume()
     {
-        super.configViews();
+        super.configViewsOnResume();
         if(Tool.isLogin(this))
         {
             settingLogout.setVisibility(View.VISIBLE);

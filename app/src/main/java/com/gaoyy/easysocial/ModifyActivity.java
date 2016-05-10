@@ -81,7 +81,7 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
     protected void initToolbar()
     {
         int[] colors = Tool.getThemeColors(this);
-        super.initToolbar(modifyToolbar, R.string.about, true, colors);
+        super.initToolbar(modifyToolbar, R.string.modify, true, colors);
     }
 
     @Override
@@ -96,9 +96,9 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
 
 
     @Override
-    protected void configViews()
+    protected void configViewsOnResume()
     {
-        super.configViews();
+        super.configViewsOnResume();
         modifyAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
         modifyUsername.setText(account.getString("username", ""));
         if (account.getString("gender", "").equals("1"))
@@ -156,6 +156,7 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
     {
         final MaterialDialog materialDialog = new MaterialDialog(this)
                 .setTitle(title)
+                .setCanceledOnTouchOutside(true)
                 .setContentView(contentView);
 
         if (title.equals(getResources().getString(R.string.gender)))
@@ -277,7 +278,7 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("loading...", basicProgressDialog);
+            Tool.startProgressDialog(getResources().getString(R.string.loading), basicProgressDialog);
         }
 
         @Override

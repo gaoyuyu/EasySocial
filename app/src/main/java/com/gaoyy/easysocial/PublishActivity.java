@@ -168,7 +168,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("loading...", basicProgressDialog);
+            Tool.startProgressDialog(getResources().getString(R.string.loading), basicProgressDialog);
         }
 
         @Override

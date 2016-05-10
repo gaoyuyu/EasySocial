@@ -173,7 +173,7 @@ public class RegActivity extends BaseActivity implements TextWatcher, View.OnCli
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("loading...", basicProgressDialog);
+            Tool.startProgressDialog(getResources().getString(R.string.loading), basicProgressDialog);
         }
 
         @Override

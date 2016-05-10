@@ -204,7 +204,7 @@ public class SetPicActivity extends Activity implements View.OnClickListener
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("loading...", basicProgressDialog);
+            Tool.startProgressDialog(getResources().getString(R.string.loading), basicProgressDialog);
         }
 
         @Override

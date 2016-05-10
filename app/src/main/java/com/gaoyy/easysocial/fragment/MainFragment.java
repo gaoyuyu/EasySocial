@@ -91,11 +91,11 @@ public class MainFragment extends Fragment
             Fragment fragment = null;
             if (pagerTitle[i].equals("首页"))
             {
-                fragment = new BlankFragment();
+                fragment = new HomeFragment();
             }
             else if (pagerTitle[i].equals("排行榜"))
             {
-                fragment = new BlankFragment();
+                fragment = new RankFragment();
             }
             else
             {

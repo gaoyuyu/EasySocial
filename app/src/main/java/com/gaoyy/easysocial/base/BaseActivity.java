@@ -22,6 +22,7 @@ public abstract class BaseActivity extends AppCompatActivity
         assignViews();
         initToolbar();
         initData();
+        configViews();
         setListener();
         initFragment(savedInstanceState);
         executeTask();
@@ -102,6 +103,14 @@ public abstract class BaseActivity extends AppCompatActivity
     protected void onResume()
     {
         super.onResume();
-        configViews();
+        configViewsOnResume();
+    }
+
+    /**
+     * may override this method in onResume
+     */
+    protected void configViewsOnResume()
+    {
+
     }
 }

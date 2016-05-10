@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
@@ -33,6 +34,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     private MaterialEditText password;
     private AppCompatButton loginBtn;
     private AppCompatButton loginRegbtn;
+    private MaterialRippleLayout loginMrlayout;
 
     private BasicProgressDialog basicProgressDialog;
 
@@ -50,6 +52,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         email = (MaterialEditText) findViewById(R.id.email);
         password = (MaterialEditText) findViewById(R.id.password);
         loginBtn = (AppCompatButton) findViewById(R.id.login_btn);
+        loginMrlayout = (MaterialRippleLayout)findViewById(R.id.login_mrlayout);
         loginRegbtn = (AppCompatButton) findViewById(R.id.login_regbtn);
         basicProgressDialog = BasicProgressDialog.create(this);
 
@@ -60,6 +63,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
     protected void initToolbar()
     {
         int[] colors = Tool.getThemeColors(this);
+        loginMrlayout.setBackgroundColor(getResources().getColor(colors[0]));
         super.initToolbar(loginToolbar, R.string.login, true, colors);
     }
 
@@ -116,7 +120,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("Login...", basicProgressDialog);
+            Tool.startProgressDialog(getResources().getString(R.string.logining), basicProgressDialog);
         }
 
         @Override
@@ -168,6 +172,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
                     editor.putString("signature", dataJsonObj.getString("signature"));
                     editor.putString("gender", dataJsonObj.getString("gender"));
                     editor.putString("avatar", dataJsonObj.getString("avatar"));
+                    editor.putString("personal", "");
                     editor.commit();
                     Tool.showToast(LoginActivity.this, "登录成功");
                     finish();

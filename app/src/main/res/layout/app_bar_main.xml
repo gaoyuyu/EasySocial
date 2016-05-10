@@ -26,7 +26,7 @@
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/white"
             app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="@color/tab_text_color"/>
+            app:tabTextColor="@color/white"/>
 
         <!--Tab被选中字体的颜色-->
         <!--app:tabSelectedTextColor="@android:color/holo_blue_bright"-->

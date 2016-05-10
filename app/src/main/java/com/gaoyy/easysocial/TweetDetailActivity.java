@@ -3,7 +3,6 @@ package com.gaoyy.easysocial;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -83,27 +82,13 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
     }
 
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void configViewsOnResume()
     {
-        super.onCreate(savedInstanceState);
-
-        assignViews();
-        initToolbar();
-        initData();
-        configViews();
-        setListener();
-
-
+        super.configViewsOnResume();
+        new CommentTask(true).execute(String.valueOf(currentPage));
     }
-
-//    @Override
-//    protected void onResume()
-//    {
-//        super.onResume();
-//        Log.i(Global.TAG, "TweetDetailActivity onResume");
-//        new CommentTask(true).execute(String.valueOf(currentPage));
-//    }
 
     @Override
     protected void initToolbar()

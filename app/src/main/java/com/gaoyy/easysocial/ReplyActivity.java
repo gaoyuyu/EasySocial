@@ -114,7 +114,7 @@ public class ReplyActivity extends BaseActivity
         protected void onPreExecute()
         {
             super.onPreExecute();
-            Tool.startProgressDialog("Sending...", basicProgressDialog);
+            Tool.startProgressDialog(getResources().getString(R.string.sending), basicProgressDialog);
         }
 
         @Override
