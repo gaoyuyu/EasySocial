@@ -274,6 +274,12 @@ public class Tool
         }
     }
 
+    /**
+     * 带文本和图片
+     * @param context
+     * @param imgUrl
+     * @param text
+     */
     public static void showShare(Context context, String imgUrl, String text)
     {
         ShareSDK.initSDK(context);
@@ -300,6 +306,23 @@ public class Tool
 //        oks.setImageUrl(imgUrl);
 //        oks.show(context);
 
+    }
+
+    /**
+     *无文本无图片
+     * @param context
+     */
+    public static void showShare(Context context)
+    {
+        ShareSDK.initSDK(context);
+        OnekeyShare oks = new OnekeyShare();
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle(context.getString(R.string.app_name));
+        oks.setTitleUrl(context.getString(R.string.github));
+        oks.setUrl(context.getString(R.string.github));
+        oks.setSite(context.getString(R.string.app_name));
+        oks.setSiteUrl(context.getString(R.string.github));
+        oks.show(context);
     }
 
     public static int[] getThemeColors(Context context)

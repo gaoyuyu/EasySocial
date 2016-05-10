@@ -169,6 +169,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 startActivity(intent);
                 break;
             case R.id.nav_share:
+                Tool.showShare(this);
                 break;
             case R.id.nav_theme:
                 showMaterialDialog();
