@@ -244,6 +244,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 finish();
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
             }
         });
@@ -285,46 +286,55 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 editor.putInt("color", 0);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case R.id.light_green_color:
                 editor.putInt("color", 1);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case R.id.blue_color:
                 editor.putInt("color", 2);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case R.id.pink_color:
                 editor.putInt("color", 3);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case R.id.deep_orange_color:
                 editor.putInt("color", 4);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case R.id.green_color:
                 editor.putInt("color", 5);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case R.id.purple_color:
                 editor.putInt("color", 6);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case R.id.orange_color:
                 editor.putInt("color", 7);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
             case R.id.deep_purple_color:
                 editor.putInt("color", 8);
                 finish();
                 startActivity(restartIntent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
 
         }
