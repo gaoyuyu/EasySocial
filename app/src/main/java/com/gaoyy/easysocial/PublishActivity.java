@@ -89,6 +89,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
     {
         int[] colors = Tool.getThemeColors(this);
         super.initToolbar(publishToolbar, R.string.publish, true, colors);
+        publishBottombar.setBackgroundColor(getResources().getColor(colors[0]));
     }
 
     @Override
