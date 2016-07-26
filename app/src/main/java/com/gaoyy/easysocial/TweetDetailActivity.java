@@ -169,6 +169,11 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
             case R.id.item_comment_layout:
                 showPopupWindow(view, position, rawX, rawY);
                 break;
+            case R.id.item_home_tweimg:
+                Intent intent = new Intent();
+                intent.putExtra("url",tweet.getPicture());
+                intent.setClass(this,PhotoActivity.class);
+                startActivity(intent);
         }
     }
 

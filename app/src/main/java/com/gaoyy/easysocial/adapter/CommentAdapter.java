@@ -152,14 +152,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         else if (holder instanceof ComHeaderViewHolder)
         {
-            GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
-            GenericDraweeHierarchy hierarchy = builder
-                    .setFadeDuration(300)
-                    .setProgressBarImage(new ProgressBarDrawable())
-                    .build();
-            DraweeController controller = Fresco.newDraweeControllerBuilder()
-                    .setTapToRetryEnabled(true)
-                    .build();
             ComHeaderViewHolder comHeaderViewHolder = (ComHeaderViewHolder) holder;
 
             comHeaderViewHolder.itemHomeAccount.setText(tweet.getUsername());
@@ -184,17 +176,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Float height = Float.valueOf(tweet.getPic_height());
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Tool.px2dip(context,width),Tool.px2dip(context,height));
                 comHeaderViewHolder.itemHomeTweimg.setLayoutParams(lp);
-                comHeaderViewHolder.itemHomeTweimg.setHierarchy(hierarchy);
-                comHeaderViewHolder.itemHomeTweimg.setController(controller);
+                comHeaderViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
+                comHeaderViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
                 comHeaderViewHolder.itemHomeTweimg.setImageURI(picUri);
             }
-
-
-
             comHeaderViewHolder.botline.setVisibility(View.VISIBLE);
-
             TextPaint textPaint = comHeaderViewHolder.itemHomeAccount.getPaint();
             textPaint.setFakeBoldText(true);
+
+            if(onItemClickListener != null)
+            {
+                comHeaderViewHolder.itemHomeTweimg.setOnClickListener(new HeaderOnClickListener(comHeaderViewHolder));
+            }
         }
     }
 
@@ -238,6 +231,29 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
     }
+
+    public class HeaderOnClickListener implements View.OnClickListener
+    {
+        ComHeaderViewHolder comHeaderViewHolder;
+
+        public HeaderOnClickListener(ComHeaderViewHolder comHeaderViewHolder)
+        {
+            this.comHeaderViewHolder = comHeaderViewHolder;
+        }
+
+        @Override
+        public void onClick(View v)
+        {
+            int id = v.getId();
+            switch (id)
+            {
+                case R.id.item_home_tweimg:
+                    onItemClickListener.onItemClick(comHeaderViewHolder.itemHomeTweimg, comHeaderViewHolder.getLayoutPosition());
+                    break;
+            }
+        }
+    }
+
 
 
     public void addItem(LinkedList<Comment> newDatas)

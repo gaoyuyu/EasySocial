@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gaoyy.easysocial.LoginActivity;
+import com.gaoyy.easysocial.PhotoActivity;
 import com.gaoyy.easysocial.PublishActivity;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.ReplyActivity;
@@ -190,6 +191,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         Intent intent = new Intent();
         switch (id)
         {
+            case R.id.item_home_tweimg:
+                intent.putExtra("url",tweetList.get(position).getPicture());
+                intent.setClass(getActivity(),PhotoActivity.class);
+                startActivity(intent);
+                break;
             case R.id.item_home_cardview:
                 if (Tool.isLogin(getActivity()))
                 {
@@ -204,7 +210,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                     intent.setClass(getActivity(), LoginActivity.class);
                     startActivity(intent);
                 }
-
                 break;
             case R.id.item_home_com_layout:
                 Comment comment = new Comment();

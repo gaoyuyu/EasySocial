@@ -6,17 +6,16 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <!-- 蓝牙分享所需的权限 -->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
         android:allowBackup="true"
@@ -24,70 +23,71 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.gaoyy.easysocial.SplashActivity">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.gaoyy.easysocial.MainActivity"/>
-        <activity android:name="com.gaoyy.easysocial.base.BaseActivity"/>
-        <activity android:name="com.gaoyy.easysocial.LoginActivity">
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".base.BaseActivity"/>
+        <activity android:name=".LoginActivity">
         </activity>
-        <activity android:name="com.gaoyy.easysocial.TweetDetailActivity">
+        <activity android:name=".TweetDetailActivity">
         </activity>
-        <activity android:name="com.gaoyy.easysocial.ReplyActivity">
+        <activity android:name=".ReplyActivity">
         </activity>
-        <activity android:name="com.gaoyy.easysocial.PersonalActivity">
+        <activity android:name=".PersonalActivity">
         </activity>
-        <activity android:name="com.gaoyy.easysocial.SettingActivity">
+        <activity android:name=".SettingActivity">
         </activity>
-        <activity android:name="com.gaoyy.easysocial.ModifyActivity">
+        <activity android:name=".ModifyActivity">
         </activity>
         <activity
-            android:name="com.gaoyy.easysocial.SetPicActivity"
+            android:name=".SetPicActivity"
             android:theme="@style/ActivityDialog">
         </activity>
         <activity
-            android:name="com.gaoyy.easysocial.PublishActivity"
+            android:name=".PublishActivity"
             android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity android:name="com.gaoyy.easysocial.RegActivity">
+        <activity android:name=".RegActivity">
         </activity>
-        <activity android:name="com.gaoyy.easysocial.AboutActivity">
+        <activity android:name=".AboutActivity">
         </activity>
-        <activity android:name="com.gaoyy.easysocial.FeedbackActivity">
+        <activity android:name=".FeedbackActivity">
         </activity>
-
-
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
-                <data android:scheme="tencent100371282" />
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="tencent100371282"/>
+
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
             <!-- 调用新浪原生SDK，需要注册的回调activity -->
             <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity android:name=".PhotoActivity">
+        </activity>
     </application>
 
 </manifest>
