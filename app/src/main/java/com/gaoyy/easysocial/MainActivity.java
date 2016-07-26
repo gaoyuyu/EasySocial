@@ -71,12 +71,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void configViewsOnResume()
     {
         super.configViewsOnResume();
+        mainNav.getMenu().findItem(R.id.nav_home).setChecked(true);
         Log.i(Global.TAG,"bg onresume");
         View headerView = mainNav.getHeaderView(0);
         SimpleDraweeView navHeaderBg = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_bg);
         if (!account.getString("personalbg", "").equals(""))
         {
-            navHeaderBg.setImageURI(Uri.parse("file://" + account.getString("personalbg", "")));
+            //navHeaderBg.setImageURI(Uri.parse("file://" + account.getString("personalbg", "")));
         }
 
 
@@ -166,9 +167,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (id)
         {
             case R.id.nav_home:
-                intent.setClass(MainActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                if(!item.isChecked())
+                {
+                    intent.setClass(MainActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 break;
             case R.id.nav_personal:
                 if (Tool.isLogin(this))

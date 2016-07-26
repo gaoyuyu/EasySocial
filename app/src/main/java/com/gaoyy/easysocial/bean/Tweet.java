@@ -12,6 +12,10 @@ public class Tweet implements Serializable
     private String content;
     private String picture;
     private String create_time;
+    private String pic_width;
+    private String pic_height;
+
+
     private String favorite_count;
     private String comment_count;
     //账户信息
@@ -25,27 +29,6 @@ public class Tweet implements Serializable
 
     private String isfavor;
 
-
-    @Override
-    public String toString()
-    {
-        return "Tweet{" +
-                "tid='" + tid + '\'' +
-                ", content='" + content + '\'' +
-                ", picture='" + picture + '\'' +
-                ", create_time='" + create_time + '\'' +
-                ", favorite_count='" + favorite_count + '\'' +
-                ", comment_count='" + comment_count + '\'' +
-                ", aid='" + aid + '\'' +
-                ", username='" + username + '\'' +
-                ", realname='" + realname + '\'' +
-                ", email='" + email + '\'' +
-                ", signature='" + signature + '\'' +
-                ", gender='" + gender + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", isfavor='" + isfavor + '\'' +
-                '}';
-    }
 
     public String getIsfavor()
     {
@@ -130,5 +113,38 @@ public class Tweet implements Serializable
     public void setComment_count(String comment_count)
     {
         this.comment_count = comment_count;
+    }
+
+    public String getPic_width()
+    {
+        return pic_width;
+    }
+
+    public String getPic_height()
+    {
+        return pic_height;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Tweet{" +
+                "tid='" + tid + '\'' +
+                ", content='" + content + '\'' +
+                ", picture='" + picture + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", pic_width='" + pic_width + '\'' +
+                ", pic_height='" + pic_height + '\'' +
+                ", favorite_count='" + favorite_count + '\'' +
+                ", comment_count='" + comment_count + '\'' +
+                ", aid='" + aid + '\'' +
+                ", username='" + username + '\'' +
+                ", realname='" + realname + '\'' +
+                ", email='" + email + '\'' +
+                ", signature='" + signature + '\'' +
+                ", gender='" + gender + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", isfavor='" + isfavor + '\'' +
+                '}';
     }
 }

@@ -26,6 +26,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.bean.Tweet;
+import com.gaoyy.easysocial.utils.Tool;
 
 import java.util.LinkedList;
 
@@ -178,6 +179,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             else
             {
                 Uri picUri = Uri.parse(tweet.getPicture());
+
+                Float width = Float.valueOf(tweet.getPic_width());
+                Float height = Float.valueOf(tweet.getPic_height());
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Tool.px2dip(context,width),Tool.px2dip(context,height));
+                comHeaderViewHolder.itemHomeTweimg.setLayoutParams(lp);
                 comHeaderViewHolder.itemHomeTweimg.setHierarchy(hierarchy);
                 comHeaderViewHolder.itemHomeTweimg.setController(controller);
                 comHeaderViewHolder.itemHomeTweimg.setImageURI(picUri);

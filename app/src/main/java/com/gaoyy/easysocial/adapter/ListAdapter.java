@@ -84,6 +84,10 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         {
             itemViewHolder.itemHomeTweimg.setVisibility(View.VISIBLE);
             Uri picUri = Uri.parse(tweet.getPicture());
+            Float width = Float.valueOf(tweet.getPic_width());
+            Float height = Float.valueOf(tweet.getPic_height());
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Tool.px2dip(context,width),Tool.px2dip(context,height));
+            itemViewHolder.itemHomeTweimg.setLayoutParams(lp);
             itemViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
             itemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
             itemViewHolder.itemHomeTweimg.setImageURI(picUri);

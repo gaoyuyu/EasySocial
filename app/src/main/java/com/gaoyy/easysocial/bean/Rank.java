@@ -10,6 +10,8 @@ public class Rank
     private String picture;
     private String content;
     private String create_time;
+    private String pic_width;
+    private String pic_height;
     private String username;
     private String realname;
     private String email;
@@ -84,6 +86,16 @@ public class Rank
         return count;
     }
 
+    public String getPic_width()
+    {
+        return pic_width;
+    }
+
+    public String getPic_height()
+    {
+        return pic_height;
+    }
+
     @Override
     public String toString()
     {
@@ -93,6 +105,8 @@ public class Rank
                 ", picture='" + picture + '\'' +
                 ", content='" + content + '\'' +
                 ", create_time='" + create_time + '\'' +
+                ", pic_width='" + pic_width + '\'' +
+                ", pic_height='" + pic_height + '\'' +
                 ", username='" + username + '\'' +
                 ", realname='" + realname + '\'' +
                 ", email='" + email + '\'' +

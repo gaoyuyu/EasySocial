@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -62,6 +63,10 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         else
         {
             rankItemViewHolder.itemHomeTweimg.setVisibility(View.VISIBLE);
+            Float width = Float.valueOf(rank.getPic_width());
+            Float height = Float.valueOf(rank.getPic_height());
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Tool.px2dip(context,width),Tool.px2dip(context,height));
+            rankItemViewHolder.itemHomeTweimg.setLayoutParams(lp);
             rankItemViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
             rankItemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
             rankItemViewHolder.itemHomeTweimg.setImageURI(Uri.parse(rank.getPicture()));

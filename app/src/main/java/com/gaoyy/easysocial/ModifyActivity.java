@@ -99,6 +99,12 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
     protected void configViewsOnResume()
     {
         super.configViewsOnResume();
+        UpdateData();
+
+    }
+
+    private void UpdateData()
+    {
         modifyAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
         modifyUsername.setText(account.getString("username", ""));
         if (account.getString("gender", "").equals("1"))
@@ -110,7 +116,6 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
             modifyGender.setText("女");
         }
         modifySignature.setText(account.getString("signature", ""));
-
     }
 
     @Override
@@ -241,13 +246,6 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Log.i(Global.TAG, "ModifyActivity onResume");
-        configViews();
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -328,7 +326,8 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
                         materialDialog.dismiss();
                     }
 
-                    configViews();
+                    //更新UI数据
+                    UpdateData();
 
                 }
                 else
