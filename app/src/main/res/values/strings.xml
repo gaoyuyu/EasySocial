@@ -17,6 +17,7 @@
     <string name="tweet">推文</string>
     <string name="favorite">赞</string>
     <string name="avatar">头像</string>
+    <string name="comment">评论</string>
     <string name="nickname">昵称</string>
 
     <string name="form_camera">相机拍照</string>

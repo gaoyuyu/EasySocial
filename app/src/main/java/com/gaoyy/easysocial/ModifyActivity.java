@@ -105,7 +105,9 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
 
     private void UpdateData()
     {
+        Log.i(Global.TAG,"UpdateData");
         modifyAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
+        Log.i(Global.TAG,"UpdateData ava-->"+account.getString("avatar", ""));
         modifyUsername.setText(account.getString("username", ""));
         if (account.getString("gender", "").equals("1"))
         {

@@ -5,8 +5,93 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     app:layout_collapseMode="pin"
     app:layout_scrollFlags="scroll|enterAlways"
-    />
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    >
+
+    <LinearLayout
+        android:id="@+id/toolbar_detail_layout"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        >
+
+        <LinearLayout
+            android:id="@+id/toolbar_favorite_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:id="@+id/toolbar_favorite_label"
+                android:layout_marginRight="2dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@mipmap/ic_favorite_white"/>
+
+            <TextView
+                android:id="@+id/toolbar_favorite_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="12"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/toolbar_comment_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_marginRight="2dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@mipmap/ic_textsms_white"/>
+
+            <TextView
+                android:id="@+id/toolbar_comment_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="12"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/toolbar_share_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:src="@mipmap/ic_share_white"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.Toolbar>

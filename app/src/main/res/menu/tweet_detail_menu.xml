@@ -2,8 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menu_tweet_detail_favour"
+        android:icon="@mipmap/ic_favorite_white"
+        android:title="@string/favorite"
+        app:showAsAction="always|withText"/>
+    <item
         android:id="@+id/menu_tweet_detail_comment"
         android:icon="@mipmap/ic_textsms_white"
-        android:title="@string/app_name"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/comment"
+        app:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/menu_tweet_detail_share"
+        android:icon="@mipmap/ic_share_white"
+        android:title="@string/share"
+        app:showAsAction="always|withText"/>
 </menu>
