@@ -44,7 +44,7 @@ public class MainFragment extends Fragment
     private DrawerLayout mainDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    String[] pagerTitle = {"首页", "排行榜"};
+    String[] pagerTitle = {"首页", "排行榜","视频"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 
@@ -96,6 +96,10 @@ public class MainFragment extends Fragment
             else if (pagerTitle[i].equals("排行榜"))
             {
                 fragment = new RankFragment();
+            }
+            else if (pagerTitle[i].equals("视频"))
+            {
+                fragment = new VideoListFragment();
             }
             else
             {

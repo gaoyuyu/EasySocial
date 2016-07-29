@@ -158,9 +158,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             comHeaderViewHolder.itemHomeDetail.setText(tweet.getCreate_time());
             comHeaderViewHolder.itemHomeTweet.setText(tweet.getContent());
 
-            comHeaderViewHolder.itemHomeFavCount.setText(tweet.getFavorite_count());
-            comHeaderViewHolder.itemHomeComCount.setText(tweet.getComment_count());
-
+            comHeaderViewHolder.itemHomeComLayout.setVisibility(View.GONE);
+            comHeaderViewHolder.itemHomeFavLayout.setVisibility(View.GONE);
+            comHeaderViewHolder.itemHomeShareLayout.setVisibility(View.GONE);
             Uri avaUri = Uri.parse(tweet.getAvatar());
             comHeaderViewHolder.itemHomeAvatar.setImageURI(avaUri);
 
