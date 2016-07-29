@@ -68,6 +68,5 @@ public class VideoPlayActivity extends BaseActivity
     protected void onDestroy()
     {
         super.onDestroy();
-        videoView.des
     }
 }
