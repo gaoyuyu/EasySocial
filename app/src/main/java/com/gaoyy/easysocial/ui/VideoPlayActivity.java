@@ -1,5 +1,6 @@
 package com.gaoyy.easysocial.ui;
 
+import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.widget.MediaController;
@@ -16,7 +17,7 @@ public class VideoPlayActivity extends BaseActivity
     public void initContentView()
     {
         setContentView(R.layout.activity_video_play);
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//强制为横屏
     }
 
     @Override
@@ -53,7 +54,6 @@ public class VideoPlayActivity extends BaseActivity
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra)
             {
-                Tool.showToast(VideoPlayActivity.this,"what==>"+what);
                 return false;
             }
         });
