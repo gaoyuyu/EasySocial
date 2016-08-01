@@ -212,12 +212,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                 }
                 break;
             case R.id.item_home_com_layout:
-                Comment comment = new Comment();
-                comment.setTid(tweetList.get(position).getTid());
-                intent.putExtra("comment", comment);
-                intent.putExtra("position", position);
-                intent.setClass(getActivity(), ReplyActivity.class);
-                startActivityForResult(intent,REPLY_LANDLORD_REQUEST_CODE);
+                if(Tool.isLogin(getActivity()))
+                {
+                    Comment comment = new Comment();
+                    comment.setTid(tweetList.get(position).getTid());
+                    intent.putExtra("comment", comment);
+                    intent.putExtra("position", position);
+                    intent.setClass(getActivity(), ReplyActivity.class);
+                    startActivityForResult(intent,REPLY_LANDLORD_REQUEST_CODE);
+                }
+                else
+                {
+                    Tool.showToast(getActivity(), "请先登录 : )");
+                    intent.setClass(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }
+
                 break;
             case R.id.item_home_fav_layout:
                 if (Tool.isLogin(getActivity()))
@@ -287,7 +297,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             LinkedList<Tweet> list = null;
             RequestBody formBody = new FormBody.Builder()
                     .add("pageNum", params[0])
-                    .add("aid", account.getString("aid", ""))
+                    .add("aid", Tool.isLogin(getActivity())?account.getString("aid", ""):"")
                     .add("isPersonal", isPersonal)
                     .build();
             Request request = new Request.Builder()
