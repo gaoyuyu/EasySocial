@@ -1,17 +1,12 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
-import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
-import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 
 public class VideoPlayActivity extends BaseActivity

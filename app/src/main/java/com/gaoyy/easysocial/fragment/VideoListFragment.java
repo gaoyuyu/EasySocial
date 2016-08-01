@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gaoyy.easysocial.R;
-import com.gaoyy.easysocial.VideoPlayActivity;
+import com.gaoyy.easysocial.ui.VideoPlayActivity;
 import com.gaoyy.easysocial.adapter.VideoListAdapter;
 import com.gaoyy.easysocial.bean.Video;
 import com.gaoyy.easysocial.utils.Global;

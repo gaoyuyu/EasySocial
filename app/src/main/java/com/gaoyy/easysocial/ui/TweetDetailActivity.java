@@ -1,4 +1,4 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.CommentAdapter;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.bean.Comment;

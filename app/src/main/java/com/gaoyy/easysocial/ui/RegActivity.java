@@ -1,4 +1,4 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
 import android.os.AsyncTask;
 import android.support.v7.widget.AppCompatButton;
@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;

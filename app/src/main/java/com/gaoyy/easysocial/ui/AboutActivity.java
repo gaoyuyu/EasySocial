@@ -1,10 +1,11 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Tool;
 

@@ -1,4 +1,4 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 

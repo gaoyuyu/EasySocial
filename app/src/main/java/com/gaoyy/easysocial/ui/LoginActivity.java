@@ -1,4 +1,4 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.balysv.materialripple.MaterialRippleLayout;
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;

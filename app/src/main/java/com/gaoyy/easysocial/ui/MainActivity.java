@@ -1,9 +1,8 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,6 +17,7 @@ import android.view.View;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.fragment.MainFragment;
 import com.gaoyy.easysocial.utils.Global;

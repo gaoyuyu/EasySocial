@@ -1,4 +1,4 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.gaoyy.easysocial.utils.Tool;

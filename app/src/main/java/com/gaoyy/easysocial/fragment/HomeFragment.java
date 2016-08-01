@@ -19,12 +19,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gaoyy.easysocial.LoginActivity;
-import com.gaoyy.easysocial.PhotoActivity;
-import com.gaoyy.easysocial.PublishActivity;
+import com.gaoyy.easysocial.ui.LoginActivity;
+import com.gaoyy.easysocial.ui.PhotoActivity;
+import com.gaoyy.easysocial.ui.PublishActivity;
 import com.gaoyy.easysocial.R;
-import com.gaoyy.easysocial.ReplyActivity;
-import com.gaoyy.easysocial.TweetDetailActivity;
+import com.gaoyy.easysocial.ui.ReplyActivity;
+import com.gaoyy.easysocial.ui.TweetDetailActivity;
 import com.gaoyy.easysocial.adapter.ListAdapter;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.bean.Tweet;

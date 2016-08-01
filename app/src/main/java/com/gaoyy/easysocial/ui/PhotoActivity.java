@@ -1,4 +1,4 @@
-package com.gaoyy.easysocial;
+package com.gaoyy.easysocial.ui;
 
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Tool;
 
