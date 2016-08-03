@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/fragment_guide_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Find Yourself"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:textStyle="normal|bold"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/fragment_guide_mrlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_guide_center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="93dp"
+        app:mrl_rippleAlpha="0.2"
+        app:mrl_rippleColor="@color/gray600"
+        app:mrl_rippleOverlay="true"
+        android:visibility="invisible"
+        >
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/fragment_guide_btn"
+            android:layout_width="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/selector"
+            android:text="All In Here!"
+            android:textColor="@color/white"/>
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+</RelativeLayout>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="guide">
+        <item>Find Yourself</item>
+        <item>Rebuild Yourself</item>
+        <item>Strengthen Yourself</item>
+    </string-array>
+</resources>

@@ -88,10 +88,12 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity android:name=".ui.PhotoActivity">
         </activity>
-        <activity android:name=".ui.VideoPlayActivity"
-                  android:launchMode="singleTask"
-                  android:screenOrientation="portrait"
-            >
+        <activity
+            android:name=".ui.VideoPlayActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".ui.GuideActivity">
         </activity>
     </application>
 
