@@ -177,8 +177,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Tool.px2dip(context,width),Tool.px2dip(context,height));
                 comHeaderViewHolder.itemHomeTweimg.setLayoutParams(lp);
                 comHeaderViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
-                comHeaderViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
-                comHeaderViewHolder.itemHomeTweimg.setImageURI(picUri);
+                comHeaderViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(picUri,comHeaderViewHolder.itemHomeTweimg));
             }
             comHeaderViewHolder.botline.setVisibility(View.VISIBLE);
             TextPaint textPaint = comHeaderViewHolder.itemHomeAccount.getPaint();

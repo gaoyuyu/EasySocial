@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,11 @@ import com.facebook.drawee.drawable.ProgressBarDrawable;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ImageDecodeOptions;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 
@@ -197,15 +203,28 @@ public class Tool
 
     /**
      * getCommonDraweeController
-     *
-     * @param context
+     * @param picUri
+     * @param img
      * @return
      */
-    public static DraweeController getCommonDraweeController(Context context)
+    public static DraweeController getCommonDraweeController(Uri picUri, SimpleDraweeView img)
     {
-        GenericDraweeHierarchyBuilder builder = new GenericDraweeHierarchyBuilder(context.getResources());
+        ImageDecodeOptions decodeOptions = ImageDecodeOptions.newBuilder()
+                .setUseLastFrameForPreview(true)
+                .build();
+        ImageRequest request = ImageRequestBuilder
+                .newBuilderWithSource(picUri)
+                .setImageDecodeOptions(decodeOptions)
+                .setAutoRotateEnabled(true)
+                .setLocalThumbnailPreviewsEnabled(true)
+                .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.DISK_CACHE)
+                .setProgressiveRenderingEnabled(false)
+                .setResizeOptions(new ResizeOptions(800, 600))
+                .build();
+
         DraweeController controller = Fresco.newDraweeControllerBuilder()
-                .setTapToRetryEnabled(true)
+                .setImageRequest(request)
+                .setOldController(img.getController())
                 .build();
         return controller;
     }

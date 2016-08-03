@@ -11,7 +11,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ImageDecodeOptions;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.gaoyy.easysocial.bean.Rank;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.utils.Global;
@@ -68,8 +74,7 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Tool.px2dip(context,width),Tool.px2dip(context,height));
             rankItemViewHolder.itemHomeTweimg.setLayoutParams(lp);
             rankItemViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
-            rankItemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
-            rankItemViewHolder.itemHomeTweimg.setImageURI(Uri.parse(rank.getPicture()));
+            rankItemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(Uri.parse(rank.getPicture()),rankItemViewHolder.itemHomeTweimg));
         }
 
     }

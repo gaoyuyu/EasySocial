@@ -68,8 +68,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else
         {
             favorItemViewHolder.itemFavoriteToPic.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
-            favorItemViewHolder.itemFavoriteToPic.setController(Tool.getCommonDraweeController(context));
-            favorItemViewHolder.itemFavoriteToPic.setImageURI(Uri.parse(favorite.getTo_picture()));
+            favorItemViewHolder.itemFavoriteToPic.setController(Tool.getCommonDraweeController(Uri.parse(favorite.getTo_picture()),favorItemViewHolder.itemFavoriteToPic));
         }
 
 

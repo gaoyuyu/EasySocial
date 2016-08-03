@@ -13,7 +13,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ImageDecodeOptions;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.gaoyy.easysocial.bean.Tweet;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
@@ -89,8 +95,7 @@ public class ListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(Tool.px2dip(context,width),Tool.px2dip(context,height));
             itemViewHolder.itemHomeTweimg.setLayoutParams(lp);
             itemViewHolder.itemHomeTweimg.setHierarchy(Tool.getCommonGenericDraweeHierarchy(context));
-            itemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(context));
-            itemViewHolder.itemHomeTweimg.setImageURI(picUri);
+            itemViewHolder.itemHomeTweimg.setController(Tool.getCommonDraweeController(picUri,itemViewHolder.itemHomeTweimg));
         }
 
         if(tweet.getIsfavor().equals("1"))
