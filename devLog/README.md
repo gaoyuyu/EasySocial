@@ -17,12 +17,11 @@ Learn Here：[How to Build Project](http://www.jianshu.com/p/d9e4ddd1c530)
 
 
 
-###<span id="1">2016.2.18</span>
+<span id="1">2016.2.18</span>
 Material Design UI初始化
 
 > (DrawerLayout+NavigationView,CoordinatorLayout+AppBarLayout+Toolbar+TabLayout,
 FloatingActionButton)
->
 > issue：NavigationView设置Menu后不显示title
 > solution：NavigationView设置app:itemTextColor属性
 
@@ -58,6 +57,7 @@ UI：`多个Fragment多个ToolBar`，更改TabLayout色调
 > 参考blog：
 [仿知乎程序（二）fragment的切换以及toolbar在不同页面下显示的menu不同](http://blog.csdn.net/chenguang79/article/details/49486723)<br>
 [Android Fragment 你应该知道的一切](http://blog.csdn.net/lmj623565791/article/details/42628537)
+
 ```Java
     //记录当前正在使用的fragment
     private Fragment isFragment;
@@ -106,7 +106,7 @@ UI：`多个Fragment多个ToolBar`，更改TabLayout色调
  - MaterialDialog：[drakeet/MaterialDialog](https://github.com/drakeet/MaterialDialog)
  - MaterialEditText：[rengwuxian/MaterialEditText](https://github.com/rengwuxian/MaterialEditText)
 
-Basic Usage：<br>
+Basic Usage：
 ```Java
 dependencies {
     //other dependencies
@@ -319,9 +319,9 @@ public boolean onCreateOptionsMenu(Menu menu)
         classpath 'com.android.tools.build:gradle:2.0.0-beta2'
     }
 ```
+
 ###<span id="6">2016.3.11</span>
 添加okHttp库
-
  - [okhttp](https://github.com/square/okhttp)
  - [okhttp Wiki](https://github.com/square/okhttp/wiki)
 ```Java
