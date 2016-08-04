@@ -1,19 +1,34 @@
-# EasySocial
-EasySocial<br>
+# EasySocial Dev Log
+
+EasySocial
 ![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/splash.png)
-<br>
 Learn Here：[How to Build Project](http://www.jianshu.com/p/d9e4ddd1c530)
-#### 2016.2.18
-Material Design UI初始化(DrawerLayout+NavigationView,CoordinatorLayout+AppBarLayout+Toolbar+TabLayout,
+
+ - [2016.2.18](#1)
+ - [2016.2.19](#2)
+ - [2016.3.1](#3)
+ - [2016.3.2](#4)
+ - [2016.3.10](#5)
+ - [2016.3.11](#6)
+ - [2016.3.23](#7)
+ - [2016.4.11](#8)
+ - [2016.4.26](#9)
+ - [2016.8.4](#10)
+
+
+
+###<span id="1">2016.2.18</span>
+Material Design UI初始化
+
+> (DrawerLayout+NavigationView,CoordinatorLayout+AppBarLayout+Toolbar+TabLayout,
 FloatingActionButton)
-<br>
-issue：1、NavigationView设置Menu后不显示title
-<br>
-solution：1、NavigationView设置app:itemTextColor属性
-<br>
+>
+> issue：NavigationView设置Menu后不显示title
+> solution：NavigationView设置app:itemTextColor属性
+
 ![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/20160218.png)
-<br>
-#### 2016.2.19
+
+###<span id="2">2016.2.19</span>
 UI：`多个Fragment多个ToolBar`，更改TabLayout色调
 ```Java
 <LinearLayout>
@@ -36,10 +51,12 @@ UI：`多个Fragment多个ToolBar`，更改TabLayout色调
 	</DrawerLayout>
 </LinearLayout>
 ```
-将`<CoordinatorLayout />`,也就是app_bar_main.xml抽离出来，由MainFragment来填充。
+将`<CoordinatorLayout />`，也就是app_bar_main.xml抽离出来，由MainFragment来填充。
 切换Fragment的不再是简单的replace(),之后commit(),而是hide(),show(),性能更好。
-当然，在初始化MainFragment的时候是用了replace。<br>
-参考blog：[仿知乎程序（二）fragment的切换以及toolbar在不同页面下显示的menu不同](http://blog.csdn.net/chenguang79/article/details/49486723)<br>
+当然，在初始化MainFragment的时候是用了replace。
+
+> 参考blog：
+[仿知乎程序（二）fragment的切换以及toolbar在不同页面下显示的menu不同](http://blog.csdn.net/chenguang79/article/details/49486723)<br>
 [Android Fragment 你应该知道的一切](http://blog.csdn.net/lmj623565791/article/details/42628537)
 ```Java
     //记录当前正在使用的fragment
@@ -82,13 +99,13 @@ UI：`多个Fragment多个ToolBar`，更改TabLayout色调
         }
     }
 ```
-####2016.3.1
-Ripple：[material-ripple](https://github.com/balysv/material-ripple)
-<br>
-MaterialDialog:[drakeet/MaterialDialog](https://github.com/drakeet/MaterialDialog)
-<br>
-MaterialEditText:[rengwuxian/MaterialEditText](https://github.com/rengwuxian/MaterialEditText)
-<br>
+
+###<span id="3">2016.3.1</span>
+
+ - Ripple：[material-ripple](https://github.com/balysv/material-ripple)
+ - MaterialDialog：[drakeet/MaterialDialog](https://github.com/drakeet/MaterialDialog)
+ - MaterialEditText：[rengwuxian/MaterialEditText](https://github.com/rengwuxian/MaterialEditText)
+
 Basic Usage：<br>
 ```Java
 dependencies {
@@ -125,8 +142,8 @@ final MaterialDialog mMaterialDialog = new MaterialDialog(MainActivity.this);
                 neButton.setTextColor(getResources().getColor(R.color.colorAccent));
                 poButton.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 ```
-####2016.3.2
-在Fragment中的toolbar中设置返回键<br>
+###<span id="4">2016.3.2</span>
+在Fragment中的toolbar中设置返回键
 ```Java
     public void initToolbar()
     {
@@ -137,12 +154,11 @@ final MaterialDialog mMaterialDialog = new MaterialDialog(MainActivity.this);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 ```
-<br>
-设置后toolbar左上角会出现“返回”箭头，对toolbar的返回键的监听需要在其父Activity中重写`onOptionsItemSelected(MenuItem item)`<br>
+设置后toolbar左上角会出现“返回”箭头，对toolbar的返回键的监听需要在其父Activity中重写`onOptionsItemSelected(MenuItem item)`
 ```Java
-    
+
     in Activity
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -155,10 +171,10 @@ final MaterialDialog mMaterialDialog = new MaterialDialog(MainActivity.this);
     }
 ```
 
-关于v4包Fragment和非v4包Fragment使用切换动画:[Android Activity和Fragment的转场动画](http://www.cnblogs.com/mengdd/p/3494041.html)
-####2016.3.10
+> 关于v4包Fragment和非v4包Fragment使用切换动画:[Android Activity和Fragment的转场动画](http://www.cnblogs.com/mengdd/p/3494041.html)
+
+###<span id="5">2016.3.10</span>
 一、toolbar中设置SearchView（仿微信点击Search按钮跳转到SearchActivity）
-<br>
 1、MainActivity中设置menu
 ```Java
 menu.xml
@@ -249,10 +265,10 @@ public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
-        
+
         MenuItem menuItem = menu.findItem(R.id.ic_search_view);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-        
+
         menuItem.collapseActionView();
         menuItem.expandActionView();
         //监听SearchView的输入内容
@@ -295,19 +311,19 @@ public boolean onCreateOptionsMenu(Menu menu)
     }
 ```
 四、解决Plugin is too old,please update to a more recent version,or set ANDROID_DAILY_OVERRIDE..
-[jcenter gradle](https://jcenter.bintray.com/com/android/tools/build/gradle/) 查看最新版本的gradle，修改project下的build.gradle的classpath
-目前最新2.0.0-beta2
 
+> [jcenter gradle](https://jcenter.bintray.com/com/android/tools/build/gradle/) 查看最新版本的gradle，修改project下的build.gradle的classpath
+目前最新2.0.0-beta2
 ```Java
     dependencies {
         classpath 'com.android.tools.build:gradle:2.0.0-beta2'
     }
 ```
-####2016.3.11
-添加okHttp库<br>
-[okhttp](https://github.com/square/okhttp)<br>
-->[okhttp Wiki](https://github.com/square/okhttp/wiki)
+###<span id="6">2016.3.11</span>
+添加okHttp库
 
+ - [okhttp](https://github.com/square/okhttp)
+ - [okhttp Wiki](https://github.com/square/okhttp/wiki)
 ```Java
  --demo
                 Request request = new Request.Builder()
@@ -340,17 +356,19 @@ public boolean onCreateOptionsMenu(Menu menu)
                     }
                 });
 ```
-####2016.3.23
-Activity最顶层布局必须`android:fitsSystemWindows="true"`，之后再设置SystemBarTintManager
-####2016.4.11
+###<span id="7">2016.3.23</span>
+> Activity最顶层布局必须`android:fitsSystemWindows="true"`，之后再设置SystemBarTintManager
+
+###<span id="8">2016.4.11</span>
+
 PopupWindow在实际的点击位置显示<br>
-资料：[android之View坐标系（view获取自身坐标的方法和点击事件中坐标的获取）](http://blog.csdn.net/jason0539/article/details/42743531)<br>
-<br>
-````Java
+资料：[android之View坐标系（view获取自身坐标的方法和点击事件中坐标的获取）](http://blog.csdn.net/jason0539/article/details/42743531)
+
+```Java
 step1：setOnTouchListener and  setOnItemClickListener
         commentAdapter.setOnTouchListener(this);
         commentAdapter.setOnItemClickListener(this);
-        
+
 step2：getRawX() and getRawY()
     @Override
     public void onTouch(View v, MotionEvent event)
@@ -358,10 +376,92 @@ step2：getRawX() and getRawY()
         rawX = (int) event.getRawX();
         rawY = (int) event.getRawY();
     }
-    
+
 step3：show popuwindow
     showPopupWindow(view, position, rawX, rawY);
-````
-####2016.4.26
+```
+###<span id="9">2016.4.26</span>
 ShareSDK assets Location<br>
 ![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/assets.png)
+###<span id="10">2016.8.4</span>
+- 滑动时颜色渐变ViewPager
+
+> blog：http://www.jianshu.com/p/c8ac4ed18896
+
+```Java
+private SystemBarTintManager tintManager;
+private int[] colors = {R.color.indigo_colorPrimary, 	  R.color.purple_colorPrimaryDark, R.color.blue_colorPrimaryDark};
+public ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+...
+tintManager = new SystemBarTintManager(this);
+tintManager.setStatusBarTintResource(colors[0]);
+tintManager.setStatusBarTintEnabled(true);
+guideViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+{
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels)
+    {
+        int nextPosition = position + 1;
+        int color = (Integer) argbEvaluator.evaluate(positionOffset, getPageColor(position, colors),
+                getPageColor(nextPosition, colors));
+        guideViewpager.setBackgroundColor(color);
+        tintManager.setStatusBarTintColor(color);
+    }
+
+    @Override
+    public void onPageSelected(int position)
+    {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state)
+    {
+
+    }
+});
+
+private int getPageColor(int position, int[] color)
+{
+    if (position > (color.length - 1))
+    {
+        return Color.TRANSPARENT;
+    }
+    return getResources().getColor(color[position]);
+
+}
+```
+- Fresco 设置
+
+> 多图请求及图片复用：http://www.fresco-cn.org/docs/requesting-multiple-images.html
+> 缩放和旋转图片：http://www.fresco-cn.org/docs/resizing-rotating.html
+> 图片请求(Image Requests)：http://www.fresco-cn.org/docs/image-requests.html
+> setLowestPermittedRequestLevel允许设置一个最低请求级别，请求级别和上面对应地有以下几个取值:
+BITMAP_MEMORY_CACHE
+ENCODED_MEMORY_CACHE
+DISK_CACHE
+FULL_FETCH
+如果你需要立即取到一个图片，或者在相对比较短时间内取到图片，否则就不显示的情况下，这非常有用。
+
+```Java
+ImageDecodeOptions decodeOptions = ImageDecodeOptions.newBuilder()
+        .setUseLastFrameForPreview(true)
+        .build();
+ImageRequest request = ImageRequestBuilder
+        .newBuilderWithSource(picUri)
+        .setImageDecodeOptions(decodeOptions)
+        .setAutoRotateEnabled(true)
+        .setLocalThumbnailPreviewsEnabled(true)
+        .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.DISK_CACHE)
+        .setProgressiveRenderingEnabled(false)
+        .setResizeOptions(new ResizeOptions(800, 600))
+        .build();
+
+DraweeController controller = Fresco.newDraweeControllerBuilder()
+        .setImageRequest(request)
+        .setOldController(img.getController())
+        .build();
+```
+
+
+

@@ -16,8 +16,8 @@ public class GuideActivity extends BaseActivity
 
     private ViewPager guideViewpager;
     private GuidePagerAdapter guidePagerAdapter;
-    SystemBarTintManager tintManager;
-    int[] colors = {R.color.indigo_colorPrimary, R.color.purple_colorPrimaryDark, R.color.blue_colorPrimaryDark};
+    private SystemBarTintManager tintManager;
+    private int[] colors = {R.color.indigo_colorPrimary, R.color.purple_colorPrimaryDark, R.color.blue_colorPrimaryDark};
     public ArgbEvaluator argbEvaluator = new ArgbEvaluator();
 
     @Override
