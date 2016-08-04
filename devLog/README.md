@@ -10,9 +10,10 @@ Learn Here：[How to Build Project](http://www.jianshu.com/p/d9e4ddd1c530)
 ###2016.2.18
 Material Design UI初始化
 > DrawerLayout+NavigationView,CoordinatorLayout+AppBarLayout+Toolbar+TabLayout,
-FloatingActionButton
+FloatingActionButton<br>
 > issue：NavigationView设置Menu后不显示title<br>
 > solution：NavigationView设置app:itemTextColor属性<br>
+
 ![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/20160218.png)
 
 ###2016.2.19
