@@ -1,34 +1,23 @@
 # EasySocial Dev Log
 
 EasySocial
+
 ![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/splash.png)
+
 Learn Here：[How to Build Project](http://www.jianshu.com/p/d9e4ddd1c530)
 
- - [2016.2.18](#1)
- - [2016.2.19](#2)
- - [2016.3.1](#3)
- - [2016.3.2](#4)
- - [2016.3.10](#5)
- - [2016.3.11](#6)
- - [2016.3.23](#7)
- - [2016.4.11](#8)
- - [2016.4.26](#9)
- - [2016.8.4](#10)
 
-
-
-<span id="1">2016.2.18</span>
+###2016.2.18
 Material Design UI初始化
-
-> (DrawerLayout+NavigationView,CoordinatorLayout+AppBarLayout+Toolbar+TabLayout,
-FloatingActionButton)
-> issue：NavigationView设置Menu后不显示title
-> solution：NavigationView设置app:itemTextColor属性
-
+> DrawerLayout+NavigationView,CoordinatorLayout+AppBarLayout+Toolbar+TabLayout,
+FloatingActionButton
+> issue：NavigationView设置Menu后不显示title<br>
+> solution：NavigationView设置app:itemTextColor属性<br>
 ![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/20160218.png)
 
-###<span id="2">2016.2.19</span>
+###2016.2.19
 UI：`多个Fragment多个ToolBar`，更改TabLayout色调
+
 ```Java
 <LinearLayout>
 
@@ -50,15 +39,17 @@ UI：`多个Fragment多个ToolBar`，更改TabLayout色调
 	</DrawerLayout>
 </LinearLayout>
 ```
+
 将`<CoordinatorLayout />`，也就是app_bar_main.xml抽离出来，由MainFragment来填充。
 切换Fragment的不再是简单的replace(),之后commit(),而是hide(),show(),性能更好。
 当然，在初始化MainFragment的时候是用了replace。
 
-> 参考blog：
-[仿知乎程序（二）fragment的切换以及toolbar在不同页面下显示的menu不同](http://blog.csdn.net/chenguang79/article/details/49486723)<br>
-[Android Fragment 你应该知道的一切](http://blog.csdn.net/lmj623565791/article/details/42628537)
+> 参考blog：<br>
+> [仿知乎程序（二）fragment的切换以及toolbar在不同页面下显示的menu不同](http://blog.csdn.net/chenguang79/article/details/49486723)<br>
+> [Android Fragment 你应该知道的一切](http://blog.csdn.net/lmj623565791/article/details/42628537)<br>
 
 ```Java
+
     //记录当前正在使用的fragment
     private Fragment isFragment;
     ....
@@ -100,7 +91,7 @@ UI：`多个Fragment多个ToolBar`，更改TabLayout色调
     }
 ```
 
-###<span id="3">2016.3.1</span>
+###2016.3.1
 
  - Ripple：[material-ripple](https://github.com/balysv/material-ripple)
  - MaterialDialog：[drakeet/MaterialDialog](https://github.com/drakeet/MaterialDialog)
@@ -142,7 +133,7 @@ final MaterialDialog mMaterialDialog = new MaterialDialog(MainActivity.this);
                 neButton.setTextColor(getResources().getColor(R.color.colorAccent));
                 poButton.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
 ```
-###<span id="4">2016.3.2</span>
+###2016.3.2
 在Fragment中的toolbar中设置返回键
 ```Java
     public void initToolbar()
@@ -173,7 +164,7 @@ final MaterialDialog mMaterialDialog = new MaterialDialog(MainActivity.this);
 
 > 关于v4包Fragment和非v4包Fragment使用切换动画:[Android Activity和Fragment的转场动画](http://www.cnblogs.com/mengdd/p/3494041.html)
 
-###<span id="5">2016.3.10</span>
+###2016.3.10
 一、toolbar中设置SearchView（仿微信点击Search按钮跳转到SearchActivity）
 1、MainActivity中设置menu
 ```Java
@@ -320,7 +311,7 @@ public boolean onCreateOptionsMenu(Menu menu)
     }
 ```
 
-###<span id="6">2016.3.11</span>
+###2016.3.11
 添加okHttp库
  - [okhttp](https://github.com/square/okhttp)
  - [okhttp Wiki](https://github.com/square/okhttp/wiki)
@@ -356,10 +347,10 @@ public boolean onCreateOptionsMenu(Menu menu)
                     }
                 });
 ```
-###<span id="7">2016.3.23</span>
+###2016.3.23
 > Activity最顶层布局必须`android:fitsSystemWindows="true"`，之后再设置SystemBarTintManager
 
-###<span id="8">2016.4.11</span>
+###2016.4.11
 
 PopupWindow在实际的点击位置显示<br>
 资料：[android之View坐标系（view获取自身坐标的方法和点击事件中坐标的获取）](http://blog.csdn.net/jason0539/article/details/42743531)
@@ -380,10 +371,10 @@ step2：getRawX() and getRawY()
 step3：show popuwindow
     showPopupWindow(view, position, rawX, rawY);
 ```
-###<span id="9">2016.4.26</span>
+###2016.4.26
 ShareSDK assets Location<br>
 ![image](https://github.com/gaoyuyu/EasySocial/raw/master/screenshots/assets.png)
-###<span id="10">2016.8.4</span>
+###2016.8.4
 - 滑动时颜色渐变ViewPager
 
 > blog：http://www.jianshu.com/p/c8ac4ed18896
@@ -433,15 +424,15 @@ private int getPageColor(int position, int[] color)
 ```
 - Fresco 设置
 
-> 多图请求及图片复用：http://www.fresco-cn.org/docs/requesting-multiple-images.html
-> 缩放和旋转图片：http://www.fresco-cn.org/docs/resizing-rotating.html
-> 图片请求(Image Requests)：http://www.fresco-cn.org/docs/image-requests.html
-> setLowestPermittedRequestLevel允许设置一个最低请求级别，请求级别和上面对应地有以下几个取值:
-BITMAP_MEMORY_CACHE
-ENCODED_MEMORY_CACHE
-DISK_CACHE
-FULL_FETCH
-如果你需要立即取到一个图片，或者在相对比较短时间内取到图片，否则就不显示的情况下，这非常有用。
+> 多图请求及图片复用：http://www.fresco-cn.org/docs/requesting-multiple-images.html<br>
+> 缩放和旋转图片：http://www.fresco-cn.org/docs/resizing-rotating.html<br>
+> 图片请求(Image Requests)：http://www.fresco-cn.org/docs/image-requests.html<br>
+> setLowestPermittedRequestLevel允许设置一个最低请求级别，请求级别和上面对应地有以下几个取值:<br>
+> BITMAP_MEMORY_CACHE<br>
+> ENCODED_MEMORY_CACHE<br>
+> DISK_CACHE<br>
+> FULL_FETCH<br>
+> 如果你需要立即取到一个图片，或者在相对比较短时间内取到图片，否则就不显示的情况下，这非常有用。<br>
 
 ```Java
 ImageDecodeOptions decodeOptions = ImageDecodeOptions.newBuilder()
