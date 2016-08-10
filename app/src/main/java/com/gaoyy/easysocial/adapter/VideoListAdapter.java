@@ -22,6 +22,9 @@ import com.gaoyy.easysocial.utils.Tool;
 
 import java.util.LinkedList;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
+
 /**
  * Created by gaoyy on 2016/7/29 0029.
  */
@@ -72,9 +75,11 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Video video = data.get(position);
         Log.i(Global.TAG,"video==>"+video.toString());
 
-        new SetVideoCoverTask(videoItemViewHolder).execute(video.getVideo_url());
+//        new SetVideoCoverTask(videoItemViewHolder).execute(video.getVideo_url());
         videoItemViewHolder.itemVideoListTitle.setText(video.getVideo_title());
         videoItemViewHolder.itemVideoListTime.setText(video.getTime());
+        videoItemViewHolder.itemJCVideoView.setUp(video.getVideo_url()
+                , JCVideoPlayerStandard.SCREEN_LAYOUT_LIST, "");
         if(onItemClickListener != null)
         {
             videoItemViewHolder.itemVideoListCardview.setOnClickListener(new VideoOnClickListener(videoItemViewHolder));
@@ -157,7 +162,8 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     {
         private CardView itemVideoListCardview;
         private RelativeLayout itemVideoListBg;
-        private ImageView imageView2;
+//        private ImageView imageView2;
+        private JCVideoPlayerStandard itemJCVideoView;
         private TextView itemVideoListTitle;
         private TextView itemVideoListTime;
 
@@ -167,7 +173,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             itemVideoListCardview = (CardView) itemView.findViewById(R.id.item_video_list_cardview);
             itemVideoListBg = (RelativeLayout) itemView.findViewById(R.id.item_video_list_bg);
-            imageView2 = (ImageView) itemView.findViewById(R.id.imageView2);
+//            imageView2 = (ImageView) itemView.findViewById(R.id.imageView2);
+
+            itemJCVideoView = (JCVideoPlayerStandard) itemView.findViewById(R.id.item_jc_videoview);
             itemVideoListTitle = (TextView) itemView.findViewById(R.id.item_video_list_title);
             itemVideoListTime = (TextView) itemView.findViewById(R.id.item_video_list_time);
         }

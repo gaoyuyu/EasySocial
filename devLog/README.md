@@ -454,6 +454,27 @@ DraweeController controller = Fresco.newDraweeControllerBuilder()
         .setOldController(img.getController())
         .build();
 ```
+###2016.8.10
+- 修改gradle版本2.1.0
+- 增加视频播放器lib：https://github.com/lipangit/JieCaoVideoPlayer
+
+> 1、添加jcvideoplayer-lib：Project->Open Module Settings-> + ->select library dir
+> 2、build.gradle
+     ``` Java
+         //If you can not start app, you cancel the annotation
+         //如果app无法启动,请取消下面的注释
+         //Other ABIs: optional
+         //    compile 'tv.danmaku.ijk.media:ijkplayer-armv5:0.6.0'
+         compile 'tv.danmaku.ijk.media:ijkplayer-arm64:0.6.0'
+         compile 'tv.danmaku.ijk.media:ijkplayer-x86:0.6.0'
+         compile 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.6.0'
+         //ExoPlayer as IMediaPlayer: optional, experimental
+         //compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.6.0'
+     ```
+> 3、AndroidManifest.xml：
+     ```Java
+         <uses-sdk tools:overrideLibrary="com.example.ijkplayer_x86_64,tv.danmaku.ijk.media.player_arm64"/>
+     ```
 
 
 

@@ -217,7 +217,7 @@ public class Tool
                 .setImageDecodeOptions(decodeOptions)
                 .setAutoRotateEnabled(true)
                 .setLocalThumbnailPreviewsEnabled(true)
-                .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.DISK_CACHE)
+                .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
                 .setProgressiveRenderingEnabled(false)
                 .setResizeOptions(new ResizeOptions(800, 600))
                 .build();

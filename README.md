@@ -32,7 +32,10 @@ Local版（推荐）：https://github.com/gaoyuyu/EasySocial-Server/
 
 ####视频
 
-* 当初的想法是使用优酷的播放器播放优酷的视频，由于Demo一直没调通，就在[APIStore](http://apistore.baidu.com/apiworks/servicedetail/2279.html) 找的接口自己存到数据库里面，日后会改善（总感觉好Low！）。
+* ~~当初的想法是使用优酷的播放器播放优酷的视频，由于Demo一直没调通，就在[APIStore](http://apistore.baidu.com/apiworks/servicedetail/2279.html) 找的接口自己存到数据库里面，日后会改善（总感觉好Low！）。~~
+* 新增[lipangit/JieCaoVideoPlayer](https://github.com/lipangit/JieCaoVideoPlayer)
+* 视频真实URL不稳定，调整为`从网站下载视频存到服务器地址`，数据库存储视频地址和标题。
+*  _视频播放涉及版权问题，此处为自用学习_
 
 
 ###开源项目说明
