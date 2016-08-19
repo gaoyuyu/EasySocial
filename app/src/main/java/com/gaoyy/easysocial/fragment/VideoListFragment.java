@@ -1,7 +1,6 @@
 package com.gaoyy.easysocial.fragment;
 
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gaoyy.easysocial.R;
-import com.gaoyy.easysocial.ui.VideoPlayActivity;
 import com.gaoyy.easysocial.adapter.VideoListAdapter;
 import com.gaoyy.easysocial.bean.Video;
 import com.gaoyy.easysocial.utils.Global;
@@ -39,7 +37,7 @@ import okhttp3.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class VideoListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,VideoListAdapter.OnItemClickListener
+public class VideoListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
 
     private View rootView;
@@ -63,8 +61,7 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.fragment_video_list, container, false);
         assignViews(rootView);
@@ -135,23 +132,6 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
     private void setListener()
     {
         fragmentVideoListSrlayout.setOnRefreshListener(this);
-        videoListAdapter.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onItemClick(View view, int position)
-    {
-        int id = view.getId();
-        Intent intent = new Intent();
-        switch (id)
-        {
-            case R.id.item_video_list_cardview:
-                intent.putExtra("video",videoList.get(position).getVideo_url());
-                intent.setClass(getActivity(), VideoPlayActivity.class);
-                startActivity(intent);
-                break;
-        }
-
     }
 
     @Override
