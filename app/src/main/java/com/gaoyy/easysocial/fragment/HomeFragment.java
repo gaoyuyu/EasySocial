@@ -1,6 +1,8 @@
 package com.gaoyy.easysocial.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -67,7 +69,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     private SharedPreferences account;
     private String isPersonal;
 
-    private static final int REPLY_LANDLORD_REQUEST_CODE = 600;
+    private static final int REPLY_REQUEST_CODE = 600;
 
     private void assignViews(View rootView)
     {
@@ -219,7 +221,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                     intent.putExtra("comment", comment);
                     intent.putExtra("position", position);
                     intent.setClass(getActivity(), ReplyActivity.class);
-                    startActivityForResult(intent,REPLY_LANDLORD_REQUEST_CODE);
+                    startActivityForResult(intent,REPLY_REQUEST_CODE);
                 }
                 else
                 {
@@ -261,7 +263,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     {
         Log.e("TAG", "onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REPLY_LANDLORD_REQUEST_CODE)
+        if(requestCode == REPLY_REQUEST_CODE)
         {
             if(resultCode == getActivity().RESULT_OK)
             {
@@ -417,4 +419,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             }
         }
     }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        Log.i(Global.TAG,"HomeFragment onResume");
+    }
+    public class SocialCountReceiver extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+
+        }
+    }
+
 }

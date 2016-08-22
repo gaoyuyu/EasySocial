@@ -154,13 +154,32 @@ public class ReplyActivity extends BaseActivity
             if (0 == Tool.getRepCode(s))
             {
                 Tool.showToast(ReplyActivity.this, "发送成功");
-
+                Intent intent = new Intent();
+                /**
+                 * 刷新HomeFragment的数据
+                 */
                 if( -1 != getIntent().getIntExtra("position",-1))
                 {
-                    Intent intent = new Intent();
                     intent.putExtra("position",getIntent().getIntExtra("position",-1));
-                    setResult(RESULT_OK,intent);
                 }
+                else
+                {
+                    try
+                    {
+                        String favCount =  (Tool.getDataJsonObj(s)).getString("favCount");
+                        String comCount =  (Tool.getDataJsonObj(s)).getString("comCount");
+                        String isfavor =  (Tool.getDataJsonObj(s)).getString("isfavor");
+                        intent.putExtra("favCount",favCount);
+                        intent.putExtra("comCount",comCount);
+                        intent.putExtra("isfavor",isfavor);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.i(Global.TAG, "catch Exception when get FAV&COM count：" + e.toString());
+                    }
+                }
+
+                setResult(RESULT_OK,intent);
                 finish();
 
             }

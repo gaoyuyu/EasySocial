@@ -44,7 +44,7 @@ public class MainFragment extends Fragment
     private DrawerLayout mainDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    String[] pagerTitle = {"首页", "排行榜","视频"};
+    String[] pagerTitle = {"首页", "排行榜","视频","scanPlugn"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 
@@ -113,7 +113,6 @@ public class MainFragment extends Fragment
     public void configViews()
     {
         int[] colors = Tool.getThemeColors(getActivity());
-
 
         AppCompatActivity activity = ((AppCompatActivity) getActivity());
         mainToolbar.setTitle(R.string.app_name);

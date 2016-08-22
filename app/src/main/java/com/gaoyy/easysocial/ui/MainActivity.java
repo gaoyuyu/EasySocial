@@ -204,6 +204,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 intent.setClass(MainActivity.this, AboutActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.nav_plugin:
+                intent.setClass(MainActivity.this, PluginListActivity.class);
+                startActivity(intent);
+                break;
 
         }
         return true;

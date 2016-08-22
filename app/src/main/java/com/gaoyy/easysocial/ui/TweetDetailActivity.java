@@ -72,6 +72,8 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
 
     private int lastVisibleItemPosition;
 
+    private static int COM_DETAIL_REQUEST_CODE = 701;
+
 
     @Override
     public void initContentView()
@@ -115,10 +117,6 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
     protected void configViewsOnResume()
     {
         super.configViewsOnResume();
-        toolbarDetailLayout.setVisibility(View.VISIBLE);
-        toolbarFavoriteCount.setText(tweet.getFavorite_count());
-        toolbarCommentCount.setText(tweet.getComment_count());
-        new CommentTask(true).execute(String.valueOf(currentPage));
     }
 
     @Override
@@ -166,6 +164,9 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
             }
         });
 
+        toolbarDetailLayout.setVisibility(View.VISIBLE);
+        toolbarFavoriteCount.setText(tweet.getFavorite_count());
+        toolbarCommentCount.setText(tweet.getComment_count());
         new CommentTask(true).execute(String.valueOf(currentPage));
     }
 
@@ -257,7 +258,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
                 comment.setTid(tweet.getTid());
                 intent.putExtra("comment", comment);
                 intent.setClass(TweetDetailActivity.this, ReplyActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,COM_DETAIL_REQUEST_CODE);
                 break;
             case R.id.toolbar_share_layout:
                 Tool.showShare(this,tweet.getPicture(),tweet.getContent());
@@ -265,6 +266,26 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == COM_DETAIL_REQUEST_CODE)
+        {
+            if(resultCode == RESULT_OK)
+            {
+                Log.i(Global.TAG,"COM_DETAIL_REQUEST_CODE=onActivityResult=frag==>");
+                toolbarFavoriteCount.setText(data.getStringExtra("favCount"));
+                toolbarCommentCount.setText(data.getStringExtra("comCount"));
+                if(data.getStringExtra("comCount").equals("1"))
+                {
+                    toolbarFavoriteLabel.setImageDrawable(TweetDetailActivity.this.getResources().getDrawable(R.mipmap.ic_favorite_press));
+                }
+                new CommentTask(true).execute(String.valueOf(1));
+            }
+        }
+    }
 
     private class PopOnClickListener implements View.OnClickListener
     {
@@ -285,7 +306,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
             intent.putExtra("comment", commentList.get(position - 1));
             intent.putExtra("isChild", true);
             intent.setClass(TweetDetailActivity.this, ReplyActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent,COM_DETAIL_REQUEST_CODE);
 
         }
     }

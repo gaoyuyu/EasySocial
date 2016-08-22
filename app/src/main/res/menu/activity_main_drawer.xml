@@ -28,6 +28,10 @@
             android:icon="@mipmap/ic_theme"
             android:title="@string/change_theme"/>
         <item
+            android:id="@+id/nav_plugin"
+            android:icon="@mipmap/ic_plugin"
+            android:title="@string/plugin"/>
+        <item
             android:id="@+id/nav_about"
             android:icon="@mipmap/ic_about"
             android:title="@string/about"/>
