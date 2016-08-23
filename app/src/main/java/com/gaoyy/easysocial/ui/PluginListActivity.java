@@ -1,16 +1,28 @@
 package com.gaoyy.easysocial.ui;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
-import android.support.v7.widget.GridLayoutManager;
+import android.os.Environment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.PluginListAdapter;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.bean.Plugin;
+import com.gaoyy.easysocial.utils.DividerItemDecoration;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
@@ -19,9 +31,16 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.NumberFormat;
 import java.util.List;
 
+import me.drakeet.materialdialog.MaterialDialog;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
@@ -31,6 +50,51 @@ public class PluginListActivity extends BaseActivity
     private Toolbar pluginInToolbar;
     private BasicProgressDialog basicProgressDialog;
     private List<Plugin> pluginList = null;
+    private long mDownloadId = 0;
+    private DownloadManager mDownloadManager = null;
+    private ProgressBar dialogProgressBar;
+    private View dialogView;
+    private MaterialDialog materialDialog;
+    private TextView dialogRate;
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver()
+    {
+
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            int max = intent.getIntExtra("max",-1);
+            int total = intent.getIntExtra("total",-1);
+            dialogProgressBar.setMax(max);
+            dialogProgressBar.setProgress(total);
+            NumberFormat numberFormat = NumberFormat.getInstance();
+            // 设置精确到小数点后2位
+            numberFormat.setMaximumFractionDigits(2);
+            String rate = numberFormat.format((float)total/(float)max*100);
+            dialogRate.setText(rate+"%");
+            if(total == max)
+            {
+                materialDialog.dismiss();
+            }
+
+        }
+    };
+
+    @Override
+    protected void configViewsOnResume()
+    {
+        super.configViewsOnResume();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.intent.action.UPDATE_PROGRESS_BROADCAST");
+        registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        unregisterReceiver(mReceiver);
+    }
 
     @Override
     public void initContentView()
@@ -45,6 +109,9 @@ public class PluginListActivity extends BaseActivity
         pluginInToolbar = (Toolbar) findViewById(R.id.plugin_in_toolbar);
         pluginInRv = (RecyclerView) findViewById(R.id.plugin_in_rv);
         basicProgressDialog = BasicProgressDialog.create(this);
+        dialogView = LayoutInflater.from(PluginListActivity.this).inflate(R.layout.dialog_progressbar, null);
+        dialogProgressBar = (ProgressBar) dialogView.findViewById(R.id.dialog_progressBar);
+        dialogRate = (TextView) dialogView.findViewById(R.id.dialog_rate);
 
     }
 
@@ -59,6 +126,7 @@ public class PluginListActivity extends BaseActivity
     protected void configViews()
     {
         super.configViews();
+        mDownloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         new ScanTask().execute();
     }
 
@@ -76,7 +144,7 @@ public class PluginListActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-    class ScanTask extends AsyncTask<String, String,  List<Plugin>>
+    class ScanTask extends AsyncTask<String, String, List<Plugin>>
     {
 
         @Override
@@ -107,8 +175,6 @@ public class PluginListActivity extends BaseActivity
                             }.getType());
                 }
 
-                Log.i(Global.TAG, "body-->" + body);
-                Log.i(Global.TAG, "code-->" + Tool.getRepCode(body));
             }
             catch (Exception e)
             {
@@ -118,17 +184,104 @@ public class PluginListActivity extends BaseActivity
         }
 
         @Override
-        protected void onPostExecute(List<Plugin> s)
+        protected void onPostExecute(final List<Plugin> s)
         {
             super.onPostExecute(s);
             Tool.stopProgressDialog(basicProgressDialog);
-            if(s!= null)
+            if (s != null)
             {
-                PluginListAdapter pluginListAdapter = new PluginListAdapter(PluginListActivity.this,s);
+                PluginListAdapter pluginListAdapter = new PluginListAdapter(PluginListActivity.this, s);
                 pluginInRv.setAdapter(pluginListAdapter);
-                pluginInRv.setLayoutManager(new GridLayoutManager(PluginListActivity.this,4));
+                pluginInRv.addItemDecoration(new DividerItemDecoration(PluginListActivity.this, DividerItemDecoration.VERTICAL_LIST));
+                pluginInRv.setLayoutManager(new LinearLayoutManager(PluginListActivity.this, LinearLayoutManager.VERTICAL, false));
+                pluginInRv.setItemAnimator(new DefaultItemAnimator());
 
+                pluginListAdapter.setOnItemClickListener(new PluginListAdapter.OnItemClickListener()
+                {
+                    @Override
+                    public void onItemClick(View view, int position)
+                    {
+                        Tool.showToast(PluginListActivity.this, "" + s.get(position).toString());
+                        if(materialDialog == null)
+                        {
+                            materialDialog = getDownloadingDialog("下载中...", dialogView);
+                        }
+                        materialDialog.show();
+                        download(s.get(position).getRemote());
+
+
+                    }
+                });
             }
         }
+    }
+    public MaterialDialog getDownloadingDialog(String title, View view)
+    {
+        MaterialDialog materialDialog = new MaterialDialog(PluginListActivity.this)
+                .setTitle(title)
+                .setCanceledOnTouchOutside(false)
+                .setContentView(view);
+        return materialDialog;
+    }
+
+    public void download(final String url)
+    {
+        final String destFileDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+        Log.i(Global.TAG, "file dir==>" + destFileDir);
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        final Call call = Tool.getOkHttpClient().newCall(request);
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(Call call, IOException e)
+            {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException
+            {
+                InputStream is = null;
+                byte[] buf = new byte[2048];
+                int len = 0;
+                int total = 0;
+                FileOutputStream fos = null;
+                Intent intent = new Intent("android.intent.action.UPDATE_PROGRESS_BROADCAST");
+                try
+                {
+                    is = response.body().byteStream();
+                    intent.putExtra("max",(int)response.body().contentLength());
+                    File file = new File(destFileDir, Tool.getFileName(url));
+                    fos = new FileOutputStream(file);
+                    while ((len = is.read(buf)) != -1)
+                    {
+                        fos.write(buf, 0, len);
+                        total += len;
+                        intent.putExtra("total",total);
+                        //发送广播更新数据和进度条
+                        sendBroadcast(intent);
+                    }
+                    fos.flush();
+                }
+                catch (IOException e)
+                {
+                    Log.i(Global.TAG,"catch Exception when downloading plugin："+e.toString());
+                }
+                finally
+                {
+                    try
+                    {
+                        if (is != null) is.close();
+                        if (fos != null) fos.close();
+                    }
+                    catch (IOException e)
+                    {
+                        Log.i(Global.TAG,"catch Exception when close IO："+e.toString());
+                    }
+                }
+            }
+        });
     }
 }
