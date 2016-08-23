@@ -22,7 +22,7 @@
             android:id="@+id/item_plugin_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_share_gray"/>
 
         <TextView
             android:id="@+id/item_plugin_name"
@@ -33,6 +33,16 @@
             android:layout_marginLeft="10dp"
             android:text="News"
             android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/item_plugin_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_plugin_img"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginLeft="30dp"
+            android:text="News"
+            android:textColor="@color/gray600"/>
     </LinearLayout>
 
 </com.balysv.materialripple.MaterialRippleLayout>

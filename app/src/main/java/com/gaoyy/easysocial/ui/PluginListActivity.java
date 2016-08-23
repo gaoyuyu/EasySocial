@@ -1,12 +1,10 @@
 package com.gaoyy.easysocial.ui;
 
-import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,6 +35,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import me.drakeet.materialdialog.MaterialDialog;
 import okhttp3.Call;
@@ -50,35 +50,47 @@ public class PluginListActivity extends BaseActivity
     private Toolbar pluginInToolbar;
     private BasicProgressDialog basicProgressDialog;
     private List<Plugin> pluginList = null;
-    private long mDownloadId = 0;
-    private DownloadManager mDownloadManager = null;
     private ProgressBar dialogProgressBar;
     private View dialogView;
     private MaterialDialog materialDialog;
     private TextView dialogRate;
+    private PluginListAdapter pluginListAdapter;
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver()
     {
-
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            int max = intent.getIntExtra("max",-1);
-            int total = intent.getIntExtra("total",-1);
-            dialogProgressBar.setMax(max);
-            dialogProgressBar.setProgress(total);
-            NumberFormat numberFormat = NumberFormat.getInstance();
-            // 设置精确到小数点后2位
-            numberFormat.setMaximumFractionDigits(2);
-            String rate = numberFormat.format((float)total/(float)max*100);
-            dialogRate.setText(rate+"%");
-            if(total == max)
+            if (intent.getAction().equals("android.intent.action.UPDATE_PROGRESS_BROADCAST"))
             {
-                materialDialog.dismiss();
+                int max = intent.getIntExtra("max", -1);
+                int total = intent.getIntExtra("total", -1);
+                dialogProgressBar.setMax(max);
+                dialogProgressBar.setProgress(total);
+                NumberFormat numberFormat = NumberFormat.getInstance();
+                // 设置精确到小数点后2位
+                numberFormat.setMaximumFractionDigits(2);
+                String rate = numberFormat.format((float) total / (float) max * 100);
+                dialogRate.setText(rate + "%");
+                if (total == max)
+                {
+                    materialDialog.dismiss();
+                    if (pluginListAdapter != null)
+                    {
+                        pluginListAdapter.notifyDataSetChanged();
+                    }
+                }
+            } else if (intent.getAction().equals("android.intent.action.PLUGIN_SCAN_BROADCAST"))
+            {
+                Log.i(Global.TAG,"update Adapter");
+                if (pluginListAdapter != null)
+                {
+                    pluginListAdapter.notifyDataSetChanged();
+                }
             }
-
         }
     };
+
 
     @Override
     protected void configViewsOnResume()
@@ -86,6 +98,7 @@ public class PluginListActivity extends BaseActivity
         super.configViewsOnResume();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.intent.action.UPDATE_PROGRESS_BROADCAST");
+        intentFilter.addAction("android.intent.action.PLUGIN_SCAN_BROADCAST");
         registerReceiver(mReceiver, intentFilter);
     }
 
@@ -126,8 +139,21 @@ public class PluginListActivity extends BaseActivity
     protected void configViews()
     {
         super.configViews();
-        mDownloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         new ScanTask().execute();
+        TimerTask timerTask = new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                Log.i(Global.TAG,"========timetask=============");
+                Intent intent = new Intent("android.intent.action.PLUGIN_SCAN_BROADCAST");
+                sendBroadcast(intent);
+            }
+        };
+        Timer timer = new Timer();
+        long delay = 0;
+        long intevalPeriod = 3 * 1000;
+        timer.scheduleAtFixedRate(timerTask, delay,intevalPeriod);
     }
 
 
@@ -190,7 +216,7 @@ public class PluginListActivity extends BaseActivity
             Tool.stopProgressDialog(basicProgressDialog);
             if (s != null)
             {
-                PluginListAdapter pluginListAdapter = new PluginListAdapter(PluginListActivity.this, s);
+                pluginListAdapter = new PluginListAdapter(PluginListActivity.this, s);
                 pluginInRv.setAdapter(pluginListAdapter);
                 pluginInRv.addItemDecoration(new DividerItemDecoration(PluginListActivity.this, DividerItemDecoration.VERTICAL_LIST));
                 pluginInRv.setLayoutManager(new LinearLayoutManager(PluginListActivity.this, LinearLayoutManager.VERTICAL, false));
@@ -201,8 +227,7 @@ public class PluginListActivity extends BaseActivity
                     @Override
                     public void onItemClick(View view, int position)
                     {
-                        Tool.showToast(PluginListActivity.this, "" + s.get(position).toString());
-                        if(materialDialog == null)
+                        if (materialDialog == null)
                         {
                             materialDialog = getDownloadingDialog("下载中...", dialogView);
                         }
@@ -215,6 +240,7 @@ public class PluginListActivity extends BaseActivity
             }
         }
     }
+
     public MaterialDialog getDownloadingDialog(String title, View view)
     {
         MaterialDialog materialDialog = new MaterialDialog(PluginListActivity.this)
@@ -226,8 +252,12 @@ public class PluginListActivity extends BaseActivity
 
     public void download(final String url)
     {
-        final String destFileDir = Environment.getExternalStorageDirectory().getAbsolutePath();
-        Log.i(Global.TAG, "file dir==>" + destFileDir);
+        final String destFileDir = Tool.getPluginFileDir();
+        File pluginFile = new File(destFileDir);
+        if (!pluginFile.exists())
+        {
+            pluginFile.mkdir();
+        }
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -252,14 +282,14 @@ public class PluginListActivity extends BaseActivity
                 try
                 {
                     is = response.body().byteStream();
-                    intent.putExtra("max",(int)response.body().contentLength());
+                    intent.putExtra("max", (int) response.body().contentLength());
                     File file = new File(destFileDir, Tool.getFileName(url));
                     fos = new FileOutputStream(file);
                     while ((len = is.read(buf)) != -1)
                     {
                         fos.write(buf, 0, len);
                         total += len;
-                        intent.putExtra("total",total);
+                        intent.putExtra("total", total);
                         //发送广播更新数据和进度条
                         sendBroadcast(intent);
                     }
@@ -267,7 +297,7 @@ public class PluginListActivity extends BaseActivity
                 }
                 catch (IOException e)
                 {
-                    Log.i(Global.TAG,"catch Exception when downloading plugin："+e.toString());
+                    Log.i(Global.TAG, "catch Exception when downloading plugin：" + e.toString());
                 }
                 finally
                 {
@@ -278,7 +308,7 @@ public class PluginListActivity extends BaseActivity
                     }
                     catch (IOException e)
                     {
-                        Log.i(Global.TAG,"catch Exception when close IO："+e.toString());
+                        Log.i(Global.TAG, "catch Exception when close IO：" + e.toString());
                     }
                 }
             }

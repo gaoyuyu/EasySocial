@@ -13,6 +13,7 @@ import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.bean.Plugin;
 import com.gaoyy.easysocial.utils.Tool;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -54,8 +55,28 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)
     {
+
+        Plugin plugin = data.get(position);
         PluginViewHolder pluginViewHolder = (PluginViewHolder) holder;
         pluginViewHolder.itemPluginName.setText(Tool.getFileName(data.get(position).getRemote()) + "/" + data.get(position).getSize());
+
+
+        File pluginFile = new File(Tool.getPluginFileDir() + "/" + Tool.getFileName(plugin.getRemote()));
+        if (pluginFile.exists())
+        {
+            pluginViewHolder.itemPluginLayout.setTag(true);
+            pluginViewHolder.itemPluginImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_theme));
+            pluginViewHolder.itemPluginTag.setText("已下载");
+            pluginViewHolder.itemPluginTag.setTextColor(context.getResources().getColor(R.color.green_colorPrimary));
+
+        } else
+        {
+            pluginViewHolder.itemPluginLayout.setTag(false);
+            pluginViewHolder.itemPluginImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_dashboard));
+            pluginViewHolder.itemPluginTag.setText("未下载");
+            pluginViewHolder.itemPluginTag.setTextColor(context.getResources().getColor(R.color.gray600));
+        }
+
 
         if (onItemClickListener != null)
         {
@@ -80,7 +101,15 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             switch (id)
             {
                 case R.id.item_plugin_layout:
-                    onItemClickListener.onItemClick(pluginViewHolder.itemPluginLayout, pluginViewHolder.getLayoutPosition());
+                    boolean tag = (boolean) pluginViewHolder.itemPluginLayout.getTag();
+                    if(tag)
+                    {
+                        Tool.showSnackbar(pluginViewHolder.itemPluginLayout,"该插件已下载");
+                    }
+                    else
+                    {
+                        onItemClickListener.onItemClick(pluginViewHolder.itemPluginLayout, pluginViewHolder.getLayoutPosition());
+                    }
                     break;
             }
         }
@@ -98,6 +127,7 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         private ImageView itemPluginImg;
         private TextView itemPluginName;
         private LinearLayout itemPluginLayout;
+        private TextView itemPluginTag;
 
         public PluginViewHolder(View itemView)
         {
@@ -105,6 +135,7 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             itemPluginImg = (ImageView) itemView.findViewById(R.id.item_plugin_img);
             itemPluginName = (TextView) itemView.findViewById(R.id.item_plugin_name);
             itemPluginLayout = (LinearLayout) itemView.findViewById(R.id.item_plugin_layout);
+            itemPluginTag = (TextView) itemView.findViewById(R.id.item_plugin_tag);
         }
     }
 

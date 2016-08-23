@@ -10,6 +10,7 @@ import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -453,9 +454,23 @@ public class Tool
         return bitmap;
     }
 
+    /**
+     * 根据插件的http地址获取文件名
+     * @param path
+     * @return
+     */
     public static  String getFileName(String path)
     {
         int separatorIndex = path.lastIndexOf("/");
         return (separatorIndex < 0) ? path : path.substring(separatorIndex + 1, path.length());
+    }
+
+    /**
+     * 获取插件文件夹路径
+     * @return
+     */
+    public static String getPluginFileDir()
+    {
+        return Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+"pluginIn";
     }
 }
