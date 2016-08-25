@@ -47,7 +47,6 @@ dependencies {
     compile 'com.pnikosis:materialish-progress:1.7'
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'me.relex:photodraweeview:1.0.0'
-
     //If you can not start app, you cancel the annotation
     //如果app无法启动,请取消下面的注释
     //Other ABIs: optional
@@ -57,9 +56,8 @@ dependencies {
     compile 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.6.0'
     //ExoPlayer as IMediaPlayer: optional, experimental
     //compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.6.0'
-    
-
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
     testCompile 'junit:junit:4.12'
     compile project(':jcvideoplayer-lib')
+    compile project(':DroidPlugin')
 }

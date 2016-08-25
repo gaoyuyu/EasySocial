@@ -72,7 +72,7 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else
         {
             pluginViewHolder.itemPluginLayout.setTag(false);
-            pluginViewHolder.itemPluginImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_dashboard));
+            pluginViewHolder.itemPluginImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_default_plugin));
             pluginViewHolder.itemPluginTag.setText("未下载");
             pluginViewHolder.itemPluginTag.setTextColor(context.getResources().getColor(R.color.gray600));
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
+import android.os.RemoteException;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.gaoyy.easysocial.utils.Tool;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.morgoo.droidplugin.pm.PluginManager;
 
 import org.json.JSONObject;
 
@@ -79,10 +81,22 @@ public class PluginListActivity extends BaseActivity
                     {
                         pluginListAdapter.notifyDataSetChanged();
                     }
+
+                    int res = 0;
+                    try
+                    {
+                        res = PluginManager.getInstance().installPackage(Tool.getPluginFileDir()+"/"+Tool.getFileName(intent.getStringExtra("url")), 0);
+                        Intent mainIntent = getPackageManager().getLaunchIntentForPackage("com.gaoyy.newsreader");
+                        startActivity(mainIntent);
+                    }
+                    catch (RemoteException e)
+                    {
+                        e.printStackTrace();
+                    }
+
                 }
             } else if (intent.getAction().equals("android.intent.action.PLUGIN_SCAN_BROADCAST"))
             {
-                Log.i(Global.TAG,"update Adapter");
                 if (pluginListAdapter != null)
                 {
                     pluginListAdapter.notifyDataSetChanged();
@@ -145,7 +159,6 @@ public class PluginListActivity extends BaseActivity
             @Override
             public void run()
             {
-                Log.i(Global.TAG,"========timetask=============");
                 Intent intent = new Intent("android.intent.action.PLUGIN_SCAN_BROADCAST");
                 sendBroadcast(intent);
             }
@@ -289,6 +302,7 @@ public class PluginListActivity extends BaseActivity
                     {
                         fos.write(buf, 0, len);
                         total += len;
+                        intent.putExtra("url",url);
                         intent.putExtra("total", total);
                         //发送广播更新数据和进度条
                         sendBroadcast(intent);
