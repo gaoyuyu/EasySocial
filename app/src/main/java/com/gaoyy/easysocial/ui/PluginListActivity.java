@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
-import android.os.RemoteException;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,10 +60,7 @@ public class PluginListActivity extends BaseActivity implements PluginListAdapte
     private CheckBox hintCheckbox;
     private PluginListAdapter pluginListAdapter;
 
-    private static final int INSTALL_TAG = 630;
-    private static final int DELETE_TAG = 530;
-
-    private BroadcastReceiver mReceiver = new BroadcastReceiver()
+    private BroadcastReceiver pluginStatusReceiver = new BroadcastReceiver()
     {
         @Override
         public void onReceive(Context context, Intent intent)
@@ -85,7 +81,7 @@ public class PluginListActivity extends BaseActivity implements PluginListAdapte
                     loadingDialog.dismiss();
                     if (intent.getBooleanExtra("isNeedInstall", false))
                     {
-                        new PluginTask(INSTALL_TAG,intent.getStringExtra("url")).execute();
+                        new PluginTask(Global.INSTALL_TAG,intent.getStringExtra("url")).execute();
                     }
                     pluginListAdapter.notifyDataSetChanged();
                 }
@@ -101,14 +97,14 @@ public class PluginListActivity extends BaseActivity implements PluginListAdapte
         super.configViewsOnResume();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.intent.action.UPDATE_PROGRESS_BROADCAST");
-        registerReceiver(mReceiver, intentFilter);
+        registerReceiver(pluginStatusReceiver, intentFilter);
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
-        unregisterReceiver(mReceiver);
+        unregisterReceiver(pluginStatusReceiver);
     }
 
     @Override
@@ -192,7 +188,7 @@ public class PluginListActivity extends BaseActivity implements PluginListAdapte
                 download(pluginList.get(position).getRemote(), true);
                 break;
             case R.id.item_plugin_install:
-                new PluginTask(INSTALL_TAG,remote).execute();
+                new PluginTask(Global.INSTALL_TAG,remote).execute();
                 break;
             case R.id.item_plugin_delete:
                 hintDialog.setPositiveButton("确定", new View.OnClickListener()
@@ -204,7 +200,7 @@ public class PluginListActivity extends BaseActivity implements PluginListAdapte
                         {
                             new File(Tool.getPluginFileDir() + "/" + Tool.getFileName(pluginList.get(position).getRemote())).delete();
                         }
-                        new PluginTask(DELETE_TAG,remote).execute();
+                        new PluginTask(Global.DELETE_TAG,remote).execute();
                         hintDialog.dismiss();
                         pluginListAdapter.notifyDataSetChanged();
 
@@ -249,20 +245,20 @@ public class PluginListActivity extends BaseActivity implements PluginListAdapte
             {
                 switch (tag)
                 {
-                    case INSTALL_TAG:
+                    case Global.INSTALL_TAG:
                         int res = PluginManager.getInstance().installPackage(Tool.getPluginFileDir() + "/" + Tool.getFileName(remote), 0);
                         if(res == 1)
                         {
                             label = "安装成功";
                         }
                         break;
-                    case DELETE_TAG:
+                    case Global.DELETE_TAG:
                         PluginManager.getInstance().deletePackage(Tool.returnPackageName(Tool.getFileName(remote)), 0);
                         label = "已删除";
                         break;
                 }
             }
-            catch (RemoteException e)
+            catch (Exception e)
             {
                 Log.i(Global.TAG,"TAG : "+tag+"   catch Exception : "+e.toString());
             }
@@ -276,6 +272,12 @@ public class PluginListActivity extends BaseActivity implements PluginListAdapte
             Tool.stopProgressDialog(basicProgressDialog);
             Tool.showSnackbar(pluginInRv,i);
             pluginListAdapter.notifyDataSetChanged();
+
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.NAV_MENU_BROADCAST");
+            intent.putExtra("pluginTag",tag);
+            intent.putExtra("remote",remote);
+            sendBroadcast(intent);
         }
     }
 

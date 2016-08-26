@@ -9,6 +9,9 @@ public class Global
     public static final String HOST_URL="http://192.168.11.117/easysocial/index.php/Home/";
     public static final String TAG="Global";
 
+    public static final int INSTALL_TAG = 630;
+    public static final int DELETE_TAG = 530;
+
 
     //插件状态
     public static final int AFTER_DOWNLOAD_ONLY = 5;

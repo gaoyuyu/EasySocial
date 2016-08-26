@@ -101,6 +101,12 @@
         </activity>
         <activity android:name=".ui.PluginListActivity">
         </activity>
+
+        <!--<receiver android:name="com.gaoyy.easysocial.ui.MainActivity$NavMenuReceiver">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.NAV_MENU_BROADCAST"></action>-->
+            <!--</intent-filter>-->
+        <!--</receiver>-->
     </application>
 
 </manifest>

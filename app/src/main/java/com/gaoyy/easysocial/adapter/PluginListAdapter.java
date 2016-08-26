@@ -3,9 +3,9 @@ package com.gaoyy.easysocial.adapter;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
-import android.os.RemoteException;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +88,12 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
+    /**
+     * 设置UI状态
+     * @param pluginViewHolder
+     * @param pluginName
+     * @param pluginFile
+     */
     private void setUIStatus(PluginViewHolder pluginViewHolder, String pluginName, File pluginFile)
     {
         if(pluginFile.exists())
@@ -118,6 +124,11 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    /**
+     * 设置插件图标
+     * @param pluginViewHolder
+     * @param pluginName
+     */
     private void setPluginIcon(PluginViewHolder pluginViewHolder, String pluginName)
     {
         try
@@ -126,13 +137,18 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Resources pls = Tool.getPluginResources(context,Tool.getPluginFileDir()+"/"+pluginName);
             pluginViewHolder.itemPluginImg.setImageDrawable(pls.getDrawable(packageInfo.applicationInfo.icon));
         }
-        catch (RemoteException e)
+        catch (Exception e)
         {
-            e.printStackTrace();
+            Log.i(Global.TAG,"catch Exception when setPluginIcon : "+e.toString());
         }
     }
 
 
+    /**
+     * 更新插件操作按钮可见
+     * @param pluginViewHolder
+     * @param pluginStatus
+     */
     public void updateStatusBtn(PluginViewHolder pluginViewHolder, int pluginStatus)
     {
         switch (pluginStatus)

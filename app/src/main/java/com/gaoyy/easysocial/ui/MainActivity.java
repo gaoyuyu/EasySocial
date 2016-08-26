@@ -3,15 +3,17 @@ package com.gaoyy.easysocial.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,16 +22,18 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.fragment.MainFragment;
-import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.github.siyamed.shapeimageview.CircularImageView;
+import com.morgoo.droidplugin.pm.PluginManager;
+
+import java.util.List;
 
 import me.drakeet.materialdialog.MaterialDialog;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
     private DrawerLayout mainDrawerlayout;
-    private NavigationView mainNav;
+    private static NavigationView mainNav;
     private MainFragment mainFragment;
     private SharedPreferences sbc;
     private SharedPreferences account;
@@ -47,6 +51,34 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.currentFragment = currentFragment;
     }
 
+
+//    public static class NavMenuReceiver extends BroadcastReceiver
+//    {
+//
+//        public NavMenuReceiver()
+//        {
+//        }
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent)
+//        {
+//            if(intent.getAction().equals("android.intent.action.NAV_MENU_BROADCAST"))
+//            {
+//                switch (intent.getIntExtra("pluginTag",-1))
+//                {
+//                    case Global.INSTALL_TAG:
+//                        mainNav.getMenu().add(R.id.main,1234,10,"NewsReader");
+//                        mainNav.getMenu().findItem(1234).setIcon(context.getResources().getDrawable(R.mipmap.ic_default_plugin));
+//                        break;
+//                    case Global.DELETE_TAG:
+//                        mainNav.getMenu().removeItem(1234);
+//                        break;
+//                }
+//            }
+//        }
+//    }
+
+
     @Override
     public void initContentView()
     {
@@ -63,7 +95,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
         mainNav = (NavigationView) findViewById(R.id.main_nav);
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
-        mainNav.getMenu().add("adasdadads");
+
 
     }
 
@@ -73,15 +105,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     {
         super.configViewsOnResume();
         mainNav.getMenu().findItem(R.id.nav_home).setChecked(true);
-        Log.i(Global.TAG,"bg onresume");
         View headerView = mainNav.getHeaderView(0);
         SimpleDraweeView navHeaderBg = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_bg);
         if (!account.getString("personalbg", "").equals(""))
         {
             //navHeaderBg.setImageURI(Uri.parse("file://" + account.getString("personalbg", "")));
         }
-
-
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -136,8 +166,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             {
                 // 先判断是否被add过
                 ft.hide(from).add(R.id.main_layout, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
-            }
-            else
+            } else
             {
                 ft.hide(from).show(to).commit(); // 隐藏当前的fragment，显示下一个
             }
@@ -152,8 +181,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (mainDrawerlayout.isDrawerOpen(GravityCompat.START))
         {
             mainDrawerlayout.closeDrawer(GravityCompat.START);
-        }
-        else
+        } else
         {
             super.onBackPressed();
         }
@@ -168,7 +196,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         switch (id)
         {
             case R.id.nav_home:
-                if(!item.isChecked())
+                if (!item.isChecked())
                 {
                     intent.setClass(MainActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -179,8 +207,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 if (Tool.isLogin(this))
                 {
                     intent.setClass(MainActivity.this, PersonalActivity.class);
-                }
-                else
+                } else
                 {
                     Tool.showToast(this, "请先登录 : )");
                     intent.setClass(MainActivity.this, LoginActivity.class);
@@ -264,13 +291,49 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        try
+        {
+            List<PackageInfo> pkglist = PluginManager.getInstance().getInstalledPackages(0);
+            if(pkglist.size() == 0)
+            {
+                return super.onCreateOptionsMenu(menu);
+            }
+            for(int i=0;i<pkglist.size();i++)
+            {
+                menu.add(0,i,i,pkglist.get(i).applicationInfo.packageName);
+            }
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        int id = item.getItemId();
-        if (id == android.R.id.home)
+        try
         {
-
+            List<PackageInfo> pkglist = PluginManager.getInstance().getInstalledPackages(0);
+            for(int i=0;i<pkglist.size();i++)
+            {
+                if(item.getItemId() == i)
+                {
+                    Intent intent = getPackageManager().getLaunchIntentForPackage(pkglist.get(i).packageName);
+                    startActivity(intent);
+                }
+            }
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
         }
         return super.onOptionsItemSelected(item);
     }

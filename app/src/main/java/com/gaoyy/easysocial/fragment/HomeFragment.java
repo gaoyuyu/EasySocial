@@ -1,8 +1,6 @@
 package com.gaoyy.easysocial.fragment;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -18,18 +16,19 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gaoyy.easysocial.ui.LoginActivity;
-import com.gaoyy.easysocial.ui.PhotoActivity;
-import com.gaoyy.easysocial.ui.PublishActivity;
 import com.gaoyy.easysocial.R;
-import com.gaoyy.easysocial.ui.ReplyActivity;
-import com.gaoyy.easysocial.ui.TweetDetailActivity;
 import com.gaoyy.easysocial.adapter.ListAdapter;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.bean.Tweet;
+import com.gaoyy.easysocial.ui.LoginActivity;
+import com.gaoyy.easysocial.ui.PhotoActivity;
+import com.gaoyy.easysocial.ui.PublishActivity;
+import com.gaoyy.easysocial.ui.ReplyActivity;
+import com.gaoyy.easysocial.ui.TweetDetailActivity;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
@@ -425,14 +424,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     {
         super.onResume();
         Log.i(Global.TAG,"HomeFragment onResume");
-    }
-    public class SocialCountReceiver extends BroadcastReceiver
-    {
-        @Override
-        public void onReceive(Context context, Intent intent)
-        {
-
-        }
     }
 
 }
