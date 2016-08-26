@@ -11,6 +11,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.RemoteException;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -29,6 +30,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
+import com.morgoo.droidplugin.pm.PluginManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +46,7 @@ import okhttp3.OkHttpClient;
  */
 public class Tool
 {
+
     /**
      * showSnackbar
      *
@@ -473,4 +476,34 @@ public class Tool
     {
         return Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+"pluginIn";
     }
+
+
+    /**
+     * 检查指定包命的插件是否已安装
+     * @param fileName
+     */
+    public static boolean checkTargetPackageisInstalled(String fileName)
+    {
+        PackageInfo  p = null;
+        String packageName = returnPackageName(fileName);
+        try
+        {
+            p = PluginManager.getInstance().getPackageInfo(packageName,0);
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
+        return (p != null);
+    }
+    public static String returnPackageName(String fileName)
+    {
+        String res = null;
+        if(fileName.equals("NewsReader.apk"))
+        {
+            res = Global.NEWSREADER_PACKAGENAME;
+        }
+        return res;
+    }
+
 }

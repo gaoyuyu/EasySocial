@@ -100,11 +100,11 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
     protected void configViewsOnResume()
     {
         super.configViewsOnResume();
-        UpdateData();
+        updateData();
 
     }
 
-    private void UpdateData()
+    private void updateData()
     {
         Log.i(Global.TAG,"UpdateData");
         modifyAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
@@ -330,7 +330,7 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
                     }
 
                     //更新UI数据
-                    UpdateData();
+                    updateData();
 
                 }
                 else

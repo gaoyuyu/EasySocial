@@ -52,6 +52,10 @@
     <string name="sending">正在发送...</string>
     <string name="request">请求数据中...</string>
     <string name="plugin">插件</string>
+    <string name="download_install">下载并安装</string>
+    <string name="download">仅下载</string>
+    <string name="install">安装</string>
+    <string name="delete">删除</string>
 
 
 </resources>

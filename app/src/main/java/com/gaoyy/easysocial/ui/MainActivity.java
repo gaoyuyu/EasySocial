@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
         mainNav = (NavigationView) findViewById(R.id.main_nav);
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
+        mainNav.getMenu().add("adasdadads");
 
     }
 
