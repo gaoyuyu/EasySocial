@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
@@ -35,6 +36,8 @@ import com.morgoo.droidplugin.pm.PluginManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -207,6 +210,7 @@ public class Tool
 
     /**
      * getCommonDraweeController
+     *
      * @param picUri
      * @param img
      * @return
@@ -297,8 +301,7 @@ public class Tool
         if (loginKey.equals("") || (!loginKey.equals("1")))
         {
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -306,6 +309,7 @@ public class Tool
 
     /**
      * 带文本和图片
+     *
      * @param context
      * @param imgUrl
      * @param text
@@ -339,7 +343,8 @@ public class Tool
     }
 
     /**
-     *无文本无图片
+     * 无文本无图片
+     *
      * @param context
      */
     public static void showShare(Context context)
@@ -358,8 +363,8 @@ public class Tool
     public static int[] getThemeColors(Context context)
     {
         int[] colors = new int[2];
-        SharedPreferences sbc = context.getSharedPreferences("sbc",Activity.MODE_PRIVATE);
-        int key = sbc.getInt("color",-1);
+        SharedPreferences sbc = context.getSharedPreferences("sbc", Activity.MODE_PRIVATE);
+        int key = sbc.getInt("color", -1);
         switch (key)
         {
             case 0:
@@ -408,12 +413,13 @@ public class Tool
 
     /**
      * 获取网络视频缩略图
+     *
      * @param url
      * @param width
      * @param height
      * @return
      */
-    public static  Bitmap createVideoThumbnail(String url, int width, int height)
+    public static Bitmap createVideoThumbnail(String url, int width, int height)
     {
         Bitmap bitmap = null;
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
@@ -423,8 +429,7 @@ public class Tool
             if (Build.VERSION.SDK_INT >= 14)
             {
                 retriever.setDataSource(url, new HashMap<String, String>());
-            }
-            else
+            } else
             {
                 retriever.setDataSource(url);
             }
@@ -459,10 +464,11 @@ public class Tool
 
     /**
      * 根据插件的http地址获取文件名
+     *
      * @param path
      * @return
      */
-    public static  String getFileName(String path)
+    public static String getFileName(String path)
     {
         int separatorIndex = path.lastIndexOf("/");
         return (separatorIndex < 0) ? path : path.substring(separatorIndex + 1, path.length());
@@ -470,25 +476,27 @@ public class Tool
 
     /**
      * 获取插件文件夹路径
+     *
      * @return
      */
     public static String getPluginFileDir()
     {
-        return Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+"pluginIn";
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "pluginIn";
     }
 
 
     /**
-     * 检查指定包命的插件是否已安装
+     * 检查指定包名的插件是否已安装
+     *
      * @param fileName
      */
     public static boolean checkTargetPackageisInstalled(String fileName)
     {
-        PackageInfo  p = null;
+        PackageInfo p = null;
         String packageName = returnPackageName(fileName);
         try
         {
-            p = PluginManager.getInstance().getPackageInfo(packageName,0);
+            p = PluginManager.getInstance().getPackageInfo(packageName, 0);
         }
         catch (RemoteException e)
         {
@@ -496,14 +504,68 @@ public class Tool
         }
         return (p != null);
     }
+
+    /**
+     * 返回指定包名
+     *
+     * @param fileName
+     * @return
+     */
     public static String returnPackageName(String fileName)
     {
         String res = null;
-        if(fileName.equals("NewsReader.apk"))
+        if (fileName.equals("NewsReader.apk"))
         {
             res = Global.NEWSREADER_PACKAGENAME;
         }
         return res;
+    }
+
+    /**
+     * 返回插件的Resourse
+     *
+     * @param context
+     * @param apkPath
+     * @return
+     * @throws Exception
+     */
+    public static Resources getPluginResources(Context context, String apkPath)
+    {
+        Resources pluginRes = null;
+        try
+        {
+            String PATH_AssetManager = "android.content.res.AssetManager";
+            Class assetMagCls = null;
+
+            assetMagCls = Class.forName(PATH_AssetManager);
+
+            Constructor assetMagCt = assetMagCls.getConstructor((Class[]) null);
+            Object assetMag = assetMagCt.newInstance((Object[]) null);
+            Class[] typeArgs = new Class[1];
+            typeArgs[0] = String.class;
+            Method assetMag_addAssetPathMtd = assetMagCls.getDeclaredMethod("addAssetPath",
+                    typeArgs);
+            Object[] valueArgs = new Object[1];
+            valueArgs[0] = apkPath;
+            assetMag_addAssetPathMtd.invoke(assetMag, valueArgs);
+            Resources res = context.getResources();
+            typeArgs = new Class[3];
+            typeArgs[0] = assetMag.getClass();
+            typeArgs[1] = res.getDisplayMetrics().getClass();
+            typeArgs[2] = res.getConfiguration().getClass();
+            Constructor resCt = Resources.class.getConstructor(typeArgs);
+            valueArgs = new Object[3];
+            valueArgs[0] = assetMag;
+            valueArgs[1] = res.getDisplayMetrics();
+            valueArgs[2] = res.getConfiguration();
+            res = (Resources) resCt.newInstance(valueArgs);
+            pluginRes = res;
+        }
+        catch (Exception e)
+        {
+           Log.i(Global.TAG,"catch Exception when getPluginResources : "+e.toString());
+        }
+        return pluginRes;
     }
 
 }

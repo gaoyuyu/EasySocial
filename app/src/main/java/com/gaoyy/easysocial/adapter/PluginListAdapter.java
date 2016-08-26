@@ -2,10 +2,10 @@ package com.gaoyy.easysocial.adapter;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.res.Resources;
 import android.os.RemoteException;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,11 +70,10 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         String pluginName = Tool.getFileName(plugin.getRemote());
         File pluginFile = new File(Tool.getPluginFileDir() + "/" + pluginName);
 
-        setButtonVisiableStatus(pluginViewHolder, pluginName, pluginFile);
+        setUIStatus(pluginViewHolder, pluginName, pluginFile);
 
         if (onItemClickListener != null)
         {
-            pluginViewHolder.itemPluginLayout.setOnClickListener(new BasicOnClickListener(pluginViewHolder));
             pluginViewHolder.itemPluginDownload.setOnClickListener(new BasicOnClickListener(pluginViewHolder));
             pluginViewHolder.itemPluginBoth.setOnClickListener(new BasicOnClickListener(pluginViewHolder));
             pluginViewHolder.itemPluginInstall.setOnClickListener(new BasicOnClickListener(pluginViewHolder));
@@ -89,27 +88,19 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
-    private void setButtonVisiableStatus(PluginViewHolder pluginViewHolder, String pluginName, File pluginFile)
+    private void setUIStatus(PluginViewHolder pluginViewHolder, String pluginName, File pluginFile)
     {
         if(pluginFile.exists())
         {
             if(Tool.checkTargetPackageisInstalled(pluginName))
             {
                 updateStatusBtn(pluginViewHolder, Global.AFTER_DOWNLOAD_INSTALL);
-                try
-                {
-                    PackageInfo  packageInfo = PluginManager.getInstance().getPackageInfo(Tool.returnPackageName(pluginName),0);
-                    Log.i(Global.TAG,""+(packageInfo == null));
-//                    packageInfo.applicationInfo.icon;
-                }
-                catch (RemoteException e)
-                {
-                    e.printStackTrace();
-                }
+                setPluginIcon(pluginViewHolder, pluginName);
             }
             else
             {
                 updateStatusBtn(pluginViewHolder, Global.AFTER_DOWNLOAD_ONLY);
+                pluginViewHolder.itemPluginImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_default_plugin));
             }
         }
         else
@@ -117,11 +108,27 @@ public class PluginListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if(Tool.checkTargetPackageisInstalled(pluginName))
             {
                 updateStatusBtn(pluginViewHolder, Global.AFTER_DOWNLOAD_INSTALL);
+                setPluginIcon(pluginViewHolder, pluginName);
             }
             else
             {
                 updateStatusBtn(pluginViewHolder, -1);
+                pluginViewHolder.itemPluginImg.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_default_plugin));
             }
+        }
+    }
+
+    private void setPluginIcon(PluginViewHolder pluginViewHolder, String pluginName)
+    {
+        try
+        {
+            PackageInfo packageInfo = PluginManager.getInstance().getPackageInfo(Tool.returnPackageName(pluginName),0);
+            Resources pls = Tool.getPluginResources(context,Tool.getPluginFileDir()+"/"+pluginName);
+            pluginViewHolder.itemPluginImg.setImageDrawable(pls.getDrawable(packageInfo.applicationInfo.icon));
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
         }
     }
 
