@@ -37,6 +37,12 @@ Local版（推荐）：https://github.com/gaoyuyu/EasySocial-Server/
 * 视频真实URL不稳定，调整为`从网站下载视频存到服务器地址`，数据库存储视频地址和标题。
 *  _视频播放涉及版权问题，此处为自用学习_
 
+####插件化技术
+
+* 插件化框架：[DroidPluginTeam/DroidPlugin](https://github.com/DroidPluginTeam/DroidPlugin)
+* 插件NewsReader：https://github.com/gaoyuyu/NewsReader (简易新闻客户端，数据来源于聚合数据平台)
+* 插件管理：仅下载、下载并安装、安装、删除
+
 
 ###开源项目说明
 
@@ -68,5 +74,9 @@ Local版（推荐）：https://github.com/gaoyuyu/EasySocial-Server/
 > **pnikosis/materialish-progress**
 
 * **Link:** https://github.com/pnikosis/materialish-progress
+
+> **DroidPluginTeam/DroidPlugin**
+
+* **Link:** https://github.com/DroidPluginTeam/DroidPlugin
 
 
