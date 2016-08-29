@@ -44,7 +44,7 @@ public class MainFragment extends Fragment
     private DrawerLayout mainDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    String[] pagerTitle = {"首页", "排行榜","视频","scanPlugn"};
+    String[] pagerTitle = {"首页", "排行榜","视频"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 
@@ -101,10 +101,6 @@ public class MainFragment extends Fragment
             {
                 fragment = new VideoListFragment();
             }
-            else
-            {
-                fragment = new BlankFragment();
-            }
             fragment.setArguments(bundle);
             fragmentList.add(i, fragment);
         }
@@ -143,7 +139,7 @@ public class MainFragment extends Fragment
 
         pageAdapter = new PageAdapter(activity.getSupportFragmentManager(), pagerTitle, fragmentList);
         mainViewpager.setAdapter(pageAdapter);
-        mainViewpager.setOffscreenPageLimit(3);
+        mainViewpager.setOffscreenPageLimit(1);
 
 
         mainTablayout.setBackgroundColor(getActivity().getResources().getColor(colors[0]));

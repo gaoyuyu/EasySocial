@@ -28,7 +28,7 @@ public class BasicProgressDialog extends Dialog
     {
         basicProgressDialog = new BasicProgressDialog(context,
                 R.style.BasicProgressDialog);
-        basicProgressDialog.setContentView(R.layout.loading_dialog);
+        basicProgressDialog.setContentView(R.layout.dialog_loading);
         basicProgressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
         return basicProgressDialog;
 
