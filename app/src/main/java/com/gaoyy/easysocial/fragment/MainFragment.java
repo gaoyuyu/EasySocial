@@ -15,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.PageAdapter;
-import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -32,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * MainFragment，装载Home、Rank、VideoList三个Fragment
  */
 public class MainFragment extends Fragment
 {
@@ -152,7 +150,6 @@ public class MainFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        Log.i(Global.TAG, "onResume");
         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.main_nav);
         View headerView = navigationView.getHeaderView(0);
         SharedPreferences account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);

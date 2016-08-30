@@ -25,6 +25,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 注册
+ */
 public class RegActivity extends BaseActivity implements TextWatcher, View.OnClickListener
 {
 
@@ -196,12 +199,14 @@ public class RegActivity extends BaseActivity implements TextWatcher, View.OnCli
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG, "RegActivity body-->" + body);
-                Log.i(Global.TAG, "RegActivity code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "RegTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "RegTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "RegActivity e-->" + e.toString());
+                Log.e(Global.TAG, "RegTask doInBackground Exception-->" + e.toString());
             }
             return body;
         }
@@ -221,7 +226,7 @@ public class RegActivity extends BaseActivity implements TextWatcher, View.OnCli
             }
             catch (JSONException e)
             {
-                e.printStackTrace();
+                Log.e(Global.TAG, "RegTask onPostExecute Exception-->" + e.toString());
             }
         }
     }

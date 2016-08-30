@@ -38,6 +38,9 @@ import java.util.List;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 个人中心
+ */
 public class PersonalActivity extends BaseActivity
 {
     private CoordinatorLayout personalCoordinatorlayout;
@@ -240,11 +243,14 @@ public class PersonalActivity extends BaseActivity
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG, body);
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "PersonalCountTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "PersonalCountTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "doInBackground e-->" + e.toString());
+                Log.e(Global.TAG, "PersonalCountTask doInBackground Exception-->" + e.toString());
             }
             return body;
         }
@@ -266,7 +272,7 @@ public class PersonalActivity extends BaseActivity
             }
             catch (Exception e)
             {
-                e.printStackTrace();
+                Log.e(Global.TAG, "PersonalCountTask onPostExecute Exception-->" + e.toString());
             }
 
         }

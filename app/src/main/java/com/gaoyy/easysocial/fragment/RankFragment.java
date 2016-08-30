@@ -32,6 +32,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 排行榜
+ */
 public class RankFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
     private View rootView;
@@ -111,8 +114,10 @@ public class RankFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
-                Log.i(Global.TAG, "RankFragment body-->" + body);
-                Log.i(Global.TAG, "RankFragment code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "RankTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "RankTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
                 if (0 == Tool.getRepCode(body))
                 {
                     Gson gson = new Gson();
@@ -121,12 +126,11 @@ public class RankFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             new TypeToken<LinkedList<Rank>>()
                             {
                             }.getType());
-                    Log.i(Global.TAG, "RankFragment list-->" + list.toString());
                 }
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "RankFragment doInBackground Exception-->" + e.toString());
+                Log.e(Global.TAG, "RankTask doInBackground Exception-->" + e.toString());
             }
 
             return list;

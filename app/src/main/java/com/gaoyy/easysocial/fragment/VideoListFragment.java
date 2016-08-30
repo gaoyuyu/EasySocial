@@ -19,7 +19,6 @@ import com.gaoyy.easysocial.adapter.VideoListAdapter;
 import com.gaoyy.easysocial.bean.Video;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
-import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,7 +34,7 @@ import okhttp3.Response;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * 视频
  */
 public class VideoListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
@@ -49,7 +48,6 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
     private int pageCount = -1;
     private int currentPage = 1;
 
-    private BasicProgressDialog basicProgressDialog;
     private SwipeRefreshLayout fragmentVideoListSrlayout;
     private RecyclerView fragmentVideoListRv;
 
@@ -174,8 +172,10 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
-                Log.i(Global.TAG, "body-->" + body);
-                Log.i(Global.TAG, "code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "RankTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "RankTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
                 if (0 == Tool.getRepCode(body))
                 {
                     Gson gson = new Gson();
@@ -189,7 +189,7 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "e-->" + e.toString());
+                Log.e(Global.TAG, "RankTask doInBackground Exception-->" + e.toString());
             }
             return list;
         }
@@ -198,7 +198,6 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
         protected void onPostExecute(LinkedList<Video> s)
         {
             super.onPostExecute(s);
-            Log.i(Global.TAG, "s.size------>" + s.size());
             fragmentVideoListSrlayout.setRefreshing(false);
             if (s != null)
             {
@@ -213,7 +212,7 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
             }
             else
             {
-                Log.i(Global.TAG, "内部错误");
+                Log.i(Global.TAG, "RankTask内部错误");
             }
         }
     }

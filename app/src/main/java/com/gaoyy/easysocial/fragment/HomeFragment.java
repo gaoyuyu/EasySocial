@@ -16,7 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,7 +45,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by gaoyy on 2016/2/16/0016.
+ * 首页
  */
 public class HomeFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ListAdapter.OnItemClickListener
 {
@@ -267,7 +266,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             if(resultCode == getActivity().RESULT_OK)
             {
                 int position = data.getIntExtra("position",-1);
-                Log.i(Global.TAG,"=onActivityResult=frag==>"+position);
                 Tweet tweet = tweetList.get(position);
                 tweet.setComment_count(""+(Integer.valueOf(tweet.getComment_count())+1));
                 listAdapter.updateFromPosition(position,tweet);
@@ -310,8 +308,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
-                Log.i(Global.TAG, "body-->" + body);
-                Log.i(Global.TAG, "code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "HomeTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "HomeTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
                 if (0 == Tool.getRepCode(body))
                 {
                     Gson gson = new Gson();
@@ -325,7 +325,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "e-->" + e.toString());
+                Log.e(Global.TAG, "HomeTask doInBackground Exception-->" + e.toString());
             }
             return list;
         }
@@ -334,7 +334,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         protected void onPostExecute(LinkedList<Tweet> s)
         {
             super.onPostExecute(s);
-            Log.i(Global.TAG, "s.size------>" + s.size());
             fragmentHomeSrlayout.setRefreshing(false);
             if (s != null)
             {
@@ -349,7 +348,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
             }
             else
             {
-                Log.i(Global.TAG, "内部错误");
+                Log.i(Global.TAG, "HomeTask内部错误");
             }
         }
     }
@@ -390,11 +389,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG, "body--->" + body);
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "doFavorTask in HomeFragment code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "doFavorTask in HomeFragment body-->" + body);
+                Log.i(Global.TAG, "===========================================");
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "e-->" + e.toString());
+                Log.e(Global.TAG, "doFavorTask in HomeFragment doInBackground Exception-->" + e.toString());
             }
 
             return body;
@@ -419,11 +421,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         }
     }
 
-    @Override
-    public void onResume()
-    {
-        super.onResume();
-        Log.i(Global.TAG,"HomeFragment onResume");
-    }
 
 }

@@ -34,6 +34,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 修改个人信息
+ */
 public class ModifyActivity extends BaseActivity implements View.OnClickListener
 {
     private Toolbar modifyToolbar;
@@ -106,9 +109,7 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
 
     private void updateData()
     {
-        Log.i(Global.TAG,"UpdateData");
         modifyAvatar.setImageURI(Uri.parse(account.getString("avatar", "")));
-        Log.i(Global.TAG,"UpdateData ava-->"+account.getString("avatar", ""));
         modifyUsername.setText(account.getString("username", ""));
         if (account.getString("gender", "").equals("1"))
         {
@@ -240,7 +241,6 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
             }
             else if (radioGroup == null)
             {
-                Log.i(Global.TAG, "materialEditText.getText().toString()--->" + materialEditText.getText().toString());
                 String[] params = {key, materialEditText.getText().toString()};
                 new UpdatePersonInfoTask(materialDialog).execute(params);
             }
@@ -285,7 +285,6 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
         @Override
         protected String doInBackground(String... params)
         {
-            Log.i(Global.TAG, account.getString("aid", "") + "----" + params[0] + "----" + params[1]);
             RequestBody formBody = new FormBody.Builder()
                     .add("aid", account.getString("aid", ""))
                     .add("key", params[0])
@@ -301,11 +300,14 @@ public class ModifyActivity extends BaseActivity implements View.OnClickListener
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG, body);
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "UpdatePersonInfoTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "UpdatePersonInfoTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "doInBackground e-->" + e.toString());
+                Log.e(Global.TAG, "UpdatePersonInfoTask doInBackground Exception-->" + e.toString());
             }
             return body;
         }

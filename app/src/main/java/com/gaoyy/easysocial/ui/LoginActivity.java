@@ -27,9 +27,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 登录
+ */
 public class LoginActivity extends BaseActivity implements View.OnClickListener
 {
-
     private Toolbar loginToolbar;
     private MaterialEditText email;
     private MaterialEditText password;
@@ -145,7 +147,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "doInBackground e-->" + e.toString());
+                Log.e(Global.TAG, "LoginTask doInBackground Exception-->" + e.toString());
             }
 
             return body;
@@ -185,7 +187,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "onPostExecute e-->" + e.toString());
+                Log.e(Global.TAG, "LoginTask onPostExecute Exception-->" + e.toString());
             }
 
         }

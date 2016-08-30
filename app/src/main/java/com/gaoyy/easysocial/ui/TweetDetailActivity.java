@@ -42,6 +42,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * Tweet详情页
+ */
 public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, CommentAdapter.OnItemClickListener, CommentAdapter.OnTouchListener, View.OnClickListener
 {
     private LinearLayout tweetDetailLayout;
@@ -80,7 +83,6 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
     {
         setContentView(R.layout.activity_tweet_detail);
         tweet = (Tweet) getIntent().getSerializableExtra("tweet");
-        Log.i(Global.TAG, "TWEET-->" + tweet.toString());
     }
 
     @Override
@@ -347,8 +349,10 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
-                Log.i(Global.TAG, "body-->" + body);
-                Log.i(Global.TAG, "code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "CommentTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "CommentTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
                 if (0 == Tool.getRepCode(body))
                 {
                     Gson gson = new Gson();
@@ -364,7 +368,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "e-->" + e.toString());
+                Log.e(Global.TAG, "CommentTask doInBackground Exception-->" + e.toString());
             }
 
             return list;
@@ -374,7 +378,6 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
         protected void onPostExecute(LinkedList<Comment> s)
         {
             super.onPostExecute(s);
-            Log.i(Global.TAG, "comment list-->" + s.toString());
             tweetDetailSrlayout.setRefreshing(false);
             if (s != null)
             {
@@ -389,7 +392,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
             }
             else
             {
-                Log.i(Global.TAG, "内部错误");
+                Log.i(Global.TAG, "CommentTask内部错误");
             }
         }
     }
@@ -427,11 +430,14 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG, "body--->" + body);
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "doFavorTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "doFavorTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "e-->" + e.toString());
+                Log.e(Global.TAG, "doFavorTask in TweetDetail doInBackground Exception-->" + e.toString());
             }
 
             return body;

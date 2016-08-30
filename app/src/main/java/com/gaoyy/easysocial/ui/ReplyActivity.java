@@ -24,6 +24,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 回复
+ */
 public class ReplyActivity extends BaseActivity
 {
     private Toolbar replyToolbar;
@@ -137,11 +140,14 @@ public class ReplyActivity extends BaseActivity
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 body = response.body().string();
-                Log.i(Global.TAG, body);
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "SendTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "SendTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "doInBackground e-->" + e.toString());
+                Log.e(Global.TAG, "SendTask doInBackground Exception-->" + e.toString());
             }
             return body;
         }

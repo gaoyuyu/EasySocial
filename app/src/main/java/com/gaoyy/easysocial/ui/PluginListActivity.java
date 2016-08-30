@@ -45,6 +45,9 @@ import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * 插件列表
+ */
 public class PluginListActivity extends BaseActivity implements PluginListAdapter.OnItemClickListener
 {
     private RecyclerView pluginInRv;

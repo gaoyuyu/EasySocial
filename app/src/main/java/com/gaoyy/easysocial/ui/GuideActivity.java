@@ -3,14 +3,15 @@ package com.gaoyy.easysocial.ui;
 import android.animation.ArgbEvaluator;
 import android.graphics.Color;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.GuidePagerAdapter;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+/**
+ * 引导页
+ */
 public class GuideActivity extends BaseActivity
 {
 

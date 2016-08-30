@@ -31,9 +31,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
 
@@ -160,8 +157,10 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
                 String body = response.body().string();
-                Log.i(Global.TAG, "FavoriteFragment body-->" + body);
-                Log.i(Global.TAG, "FavoriteFragment code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "FavoriteTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "FavoriteTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
                 if (0 == Tool.getRepCode(body))
                 {
                     Gson gson = new Gson();
@@ -171,12 +170,11 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
                             new TypeToken<LinkedList<Favorite>>()
                             {
                             }.getType());
-                    Log.i(Global.TAG, "FavoriteFragment list-->" + list.toString());
                 }
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "FavoriteFragment doInBackground Exception-->" + e.toString());
+                Log.e(Global.TAG, "FavoriteTask doInBackground Exception-->" + e.toString());
             }
 
             return list;
@@ -200,7 +198,7 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             else
             {
-                Log.i(Global.TAG, "FavoriteFragment 内部错误");
+                Log.i(Global.TAG, "FavoriteTask 内部错误");
             }
         }
     }

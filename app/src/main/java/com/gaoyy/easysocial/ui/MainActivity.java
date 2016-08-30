@@ -51,34 +51,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.currentFragment = currentFragment;
     }
 
-
-//    public static class NavMenuReceiver extends BroadcastReceiver
-//    {
-//
-//        public NavMenuReceiver()
-//        {
-//        }
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent)
-//        {
-//            if(intent.getAction().equals("android.intent.action.NAV_MENU_BROADCAST"))
-//            {
-//                switch (intent.getIntExtra("pluginTag",-1))
-//                {
-//                    case Global.INSTALL_TAG:
-//                        mainNav.getMenu().add(R.id.main,1234,10,"NewsReader");
-//                        mainNav.getMenu().findItem(1234).setIcon(context.getResources().getDrawable(R.mipmap.ic_default_plugin));
-//                        break;
-//                    case Global.DELETE_TAG:
-//                        mainNav.getMenu().removeItem(1234);
-//                        break;
-//                }
-//            }
-//        }
-//    }
-
-
     @Override
     public void initContentView()
     {
@@ -95,8 +67,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
         mainNav = (NavigationView) findViewById(R.id.main_nav);
         mainDrawerlayout = (DrawerLayout) findViewById(R.id.main_drawerlayout);
-
-
     }
 
 
@@ -107,10 +77,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mainNav.getMenu().findItem(R.id.nav_home).setChecked(true);
         View headerView = mainNav.getHeaderView(0);
         SimpleDraweeView navHeaderBg = (SimpleDraweeView) headerView.findViewById(R.id.nav_header_bg);
-        if (!account.getString("personalbg", "").equals(""))
-        {
-            //navHeaderBg.setImageURI(Uri.parse("file://" + account.getString("personalbg", "")));
-        }
+        //刷新toolbar的menu
         invalidateOptionsMenu();
     }
 
@@ -248,6 +215,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 .setTitle("主题")
                 .setCanceledOnTouchOutside(true)
                 .setContentView(contentView);
+        //初始化颜色块
         CircularImageView indigoColor = (CircularImageView) contentView.findViewById(R.id.indigo_color);
         CircularImageView lightGreenColor = (CircularImageView) contentView.findViewById(R.id.light_green_color);
         CircularImageView blueColor = (CircularImageView) contentView.findViewById(R.id.blue_color);
@@ -257,7 +225,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         CircularImageView purpleColor = (CircularImageView) contentView.findViewById(R.id.purple_color);
         CircularImageView orangeColor = (CircularImageView) contentView.findViewById(R.id.orange_color);
         CircularImageView deepPurpleColor = (CircularImageView) contentView.findViewById(R.id.deep_purple_color);
-
         indigoColor.setOnClickListener(this);
         lightGreenColor.setOnClickListener(this);
         blueColor.setOnClickListener(this);
@@ -284,11 +251,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             }
         });
-
-
         materialDialog.show();
-
-
     }
 
 

@@ -30,6 +30,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 发表
+ */
 public class PublishActivity extends BaseActivity implements View.OnClickListener
 {
 
@@ -199,11 +202,14 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
                 body = response.body().string();
-                Log.i(Global.TAG, "publish body--->" + body);
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "PublishTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "PublishTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                e.printStackTrace();
+                Log.e(Global.TAG, "PublishTask doInBackground Exception-->" + e.toString());
             }
 
             return body;
@@ -224,7 +230,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "onPostExecute e-->" + e.toString());
+                Log.e(Global.TAG, "PublishTask onPostExecute Exception-->" + e.toString());
             }
         }
     }

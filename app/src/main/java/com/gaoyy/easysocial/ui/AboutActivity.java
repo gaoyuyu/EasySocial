@@ -9,6 +9,9 @@ import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Tool;
 
+/**
+ * 关于
+ */
 public class AboutActivity extends BaseActivity
 {
     private Toolbar aboutToolbar;

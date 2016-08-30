@@ -17,6 +17,9 @@ import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Tool;
 
+/**
+ * 设置
+ */
 public class SettingActivity extends BaseActivity implements View.OnClickListener
 {
     private Toolbar settingToolbar;
@@ -52,15 +55,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         settingLogout = (Button) findViewById(R.id.setting_logout);
     }
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
         assignViews();
         initToolbar();
         setListener();

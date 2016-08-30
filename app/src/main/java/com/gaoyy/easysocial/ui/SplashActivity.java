@@ -11,6 +11,9 @@ import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.utils.Tool;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
+/**
+ * 欢迎页
+ */
 public class SplashActivity extends AppCompatActivity
 {
     private static final long DELAY_TIME = 1000L;

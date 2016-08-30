@@ -27,6 +27,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * 图片选择设置
+ */
 public class SetPicActivity extends Activity implements View.OnClickListener
 {
     private TextView setPicAblum;
@@ -170,7 +173,7 @@ public class SetPicActivity extends Activity implements View.OnClickListener
         }
         else
         {
-            new UpoadTask().execute(path);
+            new UploadTask().execute(path);
         }
     }
 
@@ -199,7 +202,7 @@ public class SetPicActivity extends Activity implements View.OnClickListener
         }
     }
 
-    class UpoadTask extends AsyncTask<String, String, String>
+    class UploadTask extends AsyncTask<String, String, String>
     {
         @Override
         protected void onPreExecute()
@@ -226,13 +229,15 @@ public class SetPicActivity extends Activity implements View.OnClickListener
             {
                 Response response = Tool.getOkHttpClient().newCall(request).execute();
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
                 body = response.body().string();
-                Log.i(Global.TAG,"Setpic-->"+body);
+                Log.i(Global.TAG, "===========================================");
+                Log.i(Global.TAG, "UploadTask code-->" + Tool.getRepCode(body));
+                Log.i(Global.TAG, "UploadTask body-->" + body);
+                Log.i(Global.TAG, "===========================================");
             }
-            catch (IOException e)
+            catch (Exception e)
             {
-                e.printStackTrace();
+                Log.e(Global.TAG, "UploadTask doInBackground Exception-->" + e.toString());
             }
 
             return body;
@@ -252,9 +257,6 @@ public class SetPicActivity extends Activity implements View.OnClickListener
                     Intent intent = new Intent();
                     intent.putExtra("avatar",(Tool.getMainJsonObj(s)).getString("data"));
                     setResult(RESULT_OK,intent);
-//                    SharedPreferences.Editor editor = account.edit();
-//                    editor.putString("avatar", (Tool.getMainJsonObj(s)).getString("data"));
-//                    editor.commit();
                     finish();
                 }
                 else
@@ -264,32 +266,9 @@ public class SetPicActivity extends Activity implements View.OnClickListener
             }
             catch (Exception e)
             {
-                Log.i(Global.TAG, "onPostExecute e-->" + e.toString());
+                Log.e(Global.TAG, "UploadTask onPostExecute Exception-->" + e.toString());
             }
         }
     }
-
-
-    class UpdateAvatarTask extends AsyncTask<String, String, String>
-    {
-        @Override
-        protected void onPreExecute()
-        {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params)
-        {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s)
-        {
-            super.onPostExecute(s);
-        }
-    }
-
 
 }

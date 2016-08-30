@@ -30,12 +30,10 @@ import okhttp3.Response;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * Used For Test
  */
 public class BlankFragment extends Fragment
 {
-
-
 
     public BlankFragment()
     {
