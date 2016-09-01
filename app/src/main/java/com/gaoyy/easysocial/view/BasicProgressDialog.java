@@ -7,11 +7,13 @@ import android.widget.TextView;
 
 import com.gaoyy.easysocial.R;
 
+import java.lang.ref.WeakReference;
+
 public class BasicProgressDialog extends Dialog
 {
 
     private Context mContent;
-    private static BasicProgressDialog basicProgressDialog = null;
+    private static WeakReference<BasicProgressDialog> basicProgressDialogWeakReference = null;
 
     public BasicProgressDialog(Context context)
     {
@@ -26,21 +28,18 @@ public class BasicProgressDialog extends Dialog
 
     public static BasicProgressDialog create(Context context)
     {
-        basicProgressDialog = new BasicProgressDialog(context,
-                R.style.BasicProgressDialog);
+        basicProgressDialogWeakReference = new WeakReference<>(new BasicProgressDialog(context,R.style.BasicProgressDialog));
+        BasicProgressDialog basicProgressDialog = basicProgressDialogWeakReference.get();
         basicProgressDialog.setContentView(R.layout.dialog_loading);
         basicProgressDialog.getWindow().getAttributes().gravity = Gravity.CENTER;
         return basicProgressDialog;
 
     }
 
-    public BasicProgressDialog setTitle(String title)
-    {
-        return basicProgressDialog;
-    }
 
     public BasicProgressDialog setMessage(String message)
     {
+        BasicProgressDialog basicProgressDialog = basicProgressDialogWeakReference.get();
         TextView loading = (TextView) basicProgressDialog.findViewById(R.id.loading_hint);
         if (loading != null)
         {
