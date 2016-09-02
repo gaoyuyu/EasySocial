@@ -3,7 +3,6 @@ package com.gaoyy.easysocial.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.gaoyy.easysocial.bean.Rank;
-import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.RankAdapter;
+import com.gaoyy.easysocial.base.LazyFragment;
+import com.gaoyy.easysocial.bean.Rank;
+import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -35,7 +35,7 @@ import okhttp3.Response;
 /**
  * 排行榜
  */
-public class RankFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class RankFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener
 {
     private View rootView;
     private RelativeLayout fragmentRankLayout;
@@ -43,6 +43,8 @@ public class RankFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private RecyclerView fragmentRankRv;
     private LinkedList<Rank> rankList;
     private RankAdapter rankAdapter;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
 
     private void assignViews(View rootView)
     {
@@ -60,14 +62,27 @@ public class RankFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        rootView = inflater.inflate(R.layout.fragment_rank, container, false);
+        if(rootView == null)
+        {
+            rootView = inflater.inflate(R.layout.fragment_rank, container, false);
+        }
+        isPrepared = true;
+        lazyLoad();
+        return rootView;
+    }
+
+    @Override
+    protected void lazyLoad()
+    {
+        if (!isPrepared || !isVisible)
+        {
+            return;
+        }
         assignViews(rootView);
         initData();
         configViews();
         new RankTask().execute();
-        return rootView;
     }
-
 
     private void initData()
     {

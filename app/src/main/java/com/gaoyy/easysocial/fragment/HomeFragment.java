@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.ListAdapter;
+import com.gaoyy.easysocial.base.LazyFragment;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.bean.Tweet;
 import com.gaoyy.easysocial.ui.LoginActivity;
@@ -47,7 +47,7 @@ import okhttp3.Response;
 /**
  * 首页
  */
-public class HomeFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ListAdapter.OnItemClickListener
+public class HomeFragment extends LazyFragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ListAdapter.OnItemClickListener
 {
     private View rootView;
     private LinkedList<Tweet> tweetList;
@@ -69,6 +69,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
 
     private static final int REPLY_REQUEST_CODE = 600;
 
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
+
     private void assignViews(View rootView)
     {
         fragmentHomeSrlayout = (SwipeRefreshLayout) rootView.findViewById(R.id.fragment_home_srlayout);
@@ -82,7 +85,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        if(rootView == null)
+        {
+            rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        }
+        isPrepared = true;
+        lazyLoad();
+        return rootView;
+    }
+
+    @Override
+    protected void lazyLoad()
+    {
+        if (!isPrepared || !isVisible)
+        {
+            return;
+        }
         account = getActivity().getSharedPreferences("account", Activity.MODE_PRIVATE);
         isPersonal = (getArguments().getString("isPersonal") == null) ? "" : getArguments().getString("isPersonal");
         assignViews(rootView);
@@ -90,7 +108,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         configViews();
         setListener();
         new HomeTask(true).execute(String.valueOf(currentPage));
-        return rootView;
     }
 
 
@@ -273,6 +290,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Swip
         }
 
     }
+
+
     class HomeTask extends AsyncTask<String, String, LinkedList<Tweet>>
     {
         private boolean status;

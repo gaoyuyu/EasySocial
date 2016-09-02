@@ -2,6 +2,9 @@ package com.gaoyy.easysocial.base;
 
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
+
+import com.gaoyy.easysocial.utils.Global;
 
 public abstract class LazyFragment extends Fragment
 {
@@ -16,6 +19,7 @@ public abstract class LazyFragment extends Fragment
     public void setUserVisibleHint(boolean isVisibleToUser)
     {
         super.setUserVisibleHint(isVisibleToUser);
+        Log.i(Global.TAG,"setUserVisibleHint");
         if (getUserVisibleHint())
         {
             isVisible = true;

@@ -3,7 +3,6 @@ package com.gaoyy.easysocial.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,10 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.FavoriteAdapter;
+import com.gaoyy.easysocial.base.LazyFragment;
 import com.gaoyy.easysocial.bean.Favorite;
+import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,7 +31,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class FavoriteFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener
 {
 
     private View rootView;
@@ -45,6 +45,10 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     private int pageCount = -1;
     private int currentPage = 1;
     private LinearLayoutManager linearLayoutManager;
+
+
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
 
 
     private void assignViews(View rootView)
@@ -63,12 +67,26 @@ public class FavoriteFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
+        if(rootView == null)
+        {
+            rootView = inflater.inflate(R.layout.fragment_favorite, container, false);
+        }
+        isPrepared = true;
+        lazyLoad();
+        return rootView;
+    }
+
+    @Override
+    protected void lazyLoad()
+    {
+        if (!isPrepared || !isVisible)
+        {
+            return;
+        }
         assignViews(rootView);
         initData();
         configViews();
         new FavoriteTask(true).execute(String.valueOf(currentPage));
-        return rootView;
     }
 
     private void initData()

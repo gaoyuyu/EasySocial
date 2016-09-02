@@ -3,7 +3,6 @@ package com.gaoyy.easysocial.fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.VideoListAdapter;
+import com.gaoyy.easysocial.base.LazyFragment;
 import com.gaoyy.easysocial.bean.Video;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
@@ -36,7 +36,7 @@ import okhttp3.Response;
 /**
  * 视频
  */
-public class VideoListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
+public class VideoListFragment extends LazyFragment implements SwipeRefreshLayout.OnRefreshListener
 {
 
     private View rootView;
@@ -50,6 +50,8 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
 
     private SwipeRefreshLayout fragmentVideoListSrlayout;
     private RecyclerView fragmentVideoListRv;
+    // 标志位，标志已经初始化完成。
+    private boolean isPrepared;
 
 
     public VideoListFragment()
@@ -61,13 +63,27 @@ public class VideoListFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState)
     {
-        rootView = inflater.inflate(R.layout.fragment_video_list, container, false);
+        if(rootView == null)
+        {
+            rootView = inflater.inflate(R.layout.fragment_video_list, container, false);
+        }
+        isPrepared = true;
+        lazyLoad();
+        return rootView;
+    }
+
+    @Override
+    protected void lazyLoad()
+    {
+        if (!isPrepared || !isVisible)
+        {
+            return;
+        }
         assignViews(rootView);
         initData();
         configViews();
         setListener();
         new VideoTask(false).execute(String.valueOf(currentPage));
-        return rootView;
     }
 
     private void assignViews(View rootView)
