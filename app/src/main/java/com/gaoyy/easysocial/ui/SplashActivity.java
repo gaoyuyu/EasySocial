@@ -2,6 +2,7 @@ package com.gaoyy.easysocial.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,9 +34,18 @@ public class SplashActivity extends AppCompatActivity
 
         int[] colors = Tool.getThemeColors(this);
         splashLayout.setBackgroundColor(getResources().getColor(colors[0]));
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(colors[1]);
-        tintManager.setStatusBarTintEnabled(true);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            getWindow().setStatusBarColor(getResources().getColor(colors[1]));
+        }
+        else
+        {
+            SystemBarTintManager tintManager = new SystemBarTintManager(this);
+            tintManager.setStatusBarTintResource(colors[1]);
+            tintManager.setStatusBarTintEnabled(true);
+        }
+
         new Handler().postDelayed(new Runnable()
         {
             @Override

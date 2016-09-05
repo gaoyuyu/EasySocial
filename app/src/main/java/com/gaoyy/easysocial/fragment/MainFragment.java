@@ -24,7 +24,6 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.adapter.PageAdapter;
 import com.gaoyy.easysocial.utils.Tool;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class MainFragment extends Fragment
     private DrawerLayout mainDrawerLayout;
     private ActionBarDrawerToggle actionBarDrawerToggle;
 
-    String[] pagerTitle = {"首页", "排行榜","视频"};
+    String[] pagerTitle = {"首页", "排行榜", "视频"};
 
     List<Fragment> fragmentList = new ArrayList<Fragment>();
 
@@ -90,12 +89,10 @@ public class MainFragment extends Fragment
             if (pagerTitle[i].equals("首页"))
             {
                 fragment = new HomeFragment();
-            }
-            else if (pagerTitle[i].equals("排行榜"))
+            } else if (pagerTitle[i].equals("排行榜"))
             {
                 fragment = new RankFragment();
-            }
-            else if (pagerTitle[i].equals("视频"))
+            } else if (pagerTitle[i].equals("视频"))
             {
                 fragment = new VideoListFragment();
             }
@@ -131,15 +128,12 @@ public class MainFragment extends Fragment
         actionBarDrawerToggle.syncState();
         mainDrawerLayout.setDrawerListener(actionBarDrawerToggle);
 
-        SystemBarTintManager tintManager = new SystemBarTintManager(activity);
-        tintManager.setStatusBarTintResource(colors[1]);
-        tintManager.setStatusBarTintEnabled(true);
+        Tool.setStatusBarColor(activity, colors[1]);
+
 
         pageAdapter = new PageAdapter(activity.getSupportFragmentManager(), pagerTitle, fragmentList);
         mainViewpager.setAdapter(pageAdapter);
         mainViewpager.setOffscreenPageLimit(1);
-
-
         mainTablayout.setBackgroundColor(getActivity().getResources().getColor(colors[0]));
         mainTablayout.setTabMode(TabLayout.MODE_FIXED);
         mainTablayout.setupWithViewPager(mainViewpager);
@@ -164,8 +158,7 @@ public class MainFragment extends Fragment
                 img.setImageURI(Uri.parse(account.getString("avatar", "")));
                 name.setText(account.getString("username", ""));
                 signature.setText(account.getString("signature", ""));
-            }
-            else
+            } else
             {
                 name.setText("未登录");
                 signature.setText("");

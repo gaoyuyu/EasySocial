@@ -506,107 +506,108 @@ java.lang.NoSuchMethodError: android.support.v4.graphics.drawable.DrawableCompat
 ```
 运行app时
 ```Java
-java.lang.RuntimeException: Unable to start activity ComponentInfo{com.gaoyy.easysocial/com.gaoyy.easysocial.ui.PersonalActivity}: android.view.InflateException: Binary XML file line #16: Error inflating class android.support.design.widget.CollapsingToolbarLayout
-                                                                        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2195)
-                                                                        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245)
-                                                                        at android.app.ActivityThread.access$800(ActivityThread.java:135)
-                                                                        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196)
-                                                                        at android.os.Handler.dispatchMessage(Handler.java:102)
-                                                                        at android.os.Looper.loop(Looper.java:136)
-                                                                        at android.app.ActivityThread.main(ActivityThread.java:5017)
-                                                                        at java.lang.reflect.Method.invokeNative(Native Method)
-                                                                        at java.lang.reflect.Method.invoke(Method.java:515)
-                                                                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779)
-                                                                        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595)
-                                                                        at dalvik.system.NativeStart.main(Native Method)
-                                                                     Caused by: android.view.InflateException: Binary XML file line #16: Error inflating class android.support.design.widget.CollapsingToolbarLayout
-                                                                        at android.view.LayoutInflater.createView(LayoutInflater.java:621)
-                                                                        at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:697)
-                                                                        at android.view.LayoutInflater.rInflate(LayoutInflater.java:756)
-                                                                        at android.view.LayoutInflater.rInflate(LayoutInflater.java:759)
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:492)
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:397)
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:353)
-                                                                        at android.support.v7.app.AppCompatDelegateImplV7.setContentView(AppCompatDelegateImplV7.java:280)
-                                                                        at android.support.v7.app.AppCompatActivity.setContentView(AppCompatActivity.java:140)
-                                                                        at com.gaoyy.easysocial.ui.PersonalActivity.initContentView(PersonalActivity.java:74)
-                                                                        at com.gaoyy.easysocial.base.BaseActivity.onCreate(BaseActivity.java:21)
-                                                                        at android.app.Activity.performCreate(Activity.java:5231)
-                                                                        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087)
-                                                                        at com.morgoo.droidplugin.hook.handle.PluginInstrumentation.callActivityOnCreate(PluginInstrumentation.java:110)
-                                                                        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2159)
-                                                                        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245) 
-                                                                        at android.app.ActivityThread.access$800(ActivityThread.java:135) 
-                                                                        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196) 
-                                                                        at android.os.Handler.dispatchMessage(Handler.java:102) 
-                                                                        at android.os.Looper.loop(Looper.java:136) 
-                                                                        at android.app.ActivityThread.main(ActivityThread.java:5017) 
-                                                                        at java.lang.reflect.Method.invokeNative(Native Method) 
-                                                                        at java.lang.reflect.Method.invoke(Method.java:515) 
-                                                                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779) 
-                                                                        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595) 
-                                                                        at dalvik.system.NativeStart.main(Native Method) 
-                                                                     Caused by: java.lang.reflect.InvocationTargetException
-                                                                        at java.lang.reflect.Constructor.constructNative(Native Method)
-                                                                        at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-                                                                        at android.view.LayoutInflater.createView(LayoutInflater.java:595)
-                                                                        at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:697) 
-                                                                        at android.view.LayoutInflater.rInflate(LayoutInflater.java:756) 
-                                                                        at android.view.LayoutInflater.rInflate(LayoutInflater.java:759) 
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:492) 
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:397) 
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:353) 
-                                                                        at android.support.v7.app.AppCompatDelegateImplV7.setContentView(AppCompatDelegateImplV7.java:280) 
-                                                                        at android.support.v7.app.AppCompatActivity.setContentView(AppCompatActivity.java:140) 
-                                                                        at com.gaoyy.easysocial.ui.PersonalActivity.initContentView(PersonalActivity.java:74) 
-                                                                        at com.gaoyy.easysocial.base.BaseActivity.onCreate(BaseActivity.java:21) 
-                                                                        at android.app.Activity.performCreate(Activity.java:5231) 
-                                                                        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087) 
-                                                                        at com.morgoo.droidplugin.hook.handle.PluginInstrumentation.callActivityOnCreate(PluginInstrumentation.java:110) 
-                                                                        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2159) 
-                                                                        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245) 
-                                                                        at android.app.ActivityThread.access$800(ActivityThread.java:135) 
-                                                                        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196) 
-                                                                        at android.os.Handler.dispatchMessage(Handler.java:102) 
-                                                                        at android.os.Looper.loop(Looper.java:136) 
-                                                                        at android.app.ActivityThread.main(ActivityThread.java:5017) 
-                                                                        at java.lang.reflect.Method.invokeNative(Native Method) 
-                                                                        at java.lang.reflect.Method.invoke(Method.java:515) 
-                                                                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779) 
-                                                                        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595) 
-                                                                        at dalvik.system.NativeStart.main(Native Method) 
-                                                                     Caused by: java.lang.NoSuchMethodError: android.support.v4.graphics.drawable.DrawableCompat.setLayoutDirection
-                                                                        at android.support.design.widget.CollapsingToolbarLayout.setStatusBarScrim(CollapsingToolbarLayout.java:663)
-                                                                        at android.support.design.widget.CollapsingToolbarLayout.<init>(CollapsingToolbarLayout.java:197)
-                                                                        at android.support.design.widget.CollapsingToolbarLayout.<init>(CollapsingToolbarLayout.java:132)
-                                                                        at java.lang.reflect.Constructor.constructNative(Native Method) 
-                                                                        at java.lang.reflect.Constructor.newInstance(Constructor.java:423) 
-                                                                        at android.view.LayoutInflater.createView(LayoutInflater.java:595) 
-                                                                        at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:697) 
-                                                                        at android.view.LayoutInflater.rInflate(LayoutInflater.java:756) 
-                                                                        at android.view.LayoutInflater.rInflate(LayoutInflater.java:759) 
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:492) 
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:397) 
-                                                                        at android.view.LayoutInflater.inflate(LayoutInflater.java:353) 
-                                                                        at android.support.v7.app.AppCompatDelegateImplV7.setContentView(AppCompatDelegateImplV7.java:280) 
-                                                                        at android.support.v7.app.AppCompatActivity.setContentView(AppCompatActivity.java:140) 
-                                                                        at com.gaoyy.easysocial.ui.PersonalActivity.initContentView(PersonalActivity.java:74) 
-                                                                        at com.gaoyy.easysocial.base.BaseActivity.onCreate(BaseActivity.java:21) 
-                                                                        at android.app.Activity.performCreate(Activity.java:5231) 
-                                                                        at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087) 
-                                                                        at com.morgoo.droidplugin.hook.handle.PluginInstrumentation.callActivityOnCreate(PluginInstrumentation.java:110) 
-                                                                        at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2159) 
-                                                                        at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245) 
-                                                                        at android.app.ActivityThread.access$800(ActivityThread.java:135) 
-                                                                        at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196) 
-                                                                        at android.os.Handler.dispatchMessage(Handler.java:102) 
-                                                                        at android.os.Looper.loop(Looper.java:136) 
-                                                                        at android.app.ActivityThread.main(ActivityThread.java:5017) 
-                                                                        at java.lang.reflect.Method.invokeNative(Native Method) 
-                                                                        at java.lang.reflect.Method.invoke(Method.java:515) 
-                                                                        at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779) 
-                                                                        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595) 
-                                                                        at dalvik.system.NativeStart.main(Native Method) 
+java.lang.RuntimeException: Unable to start activity ComponentInfo{com.gaoyy.easysocial/com.gaoyy.easysocial.ui.PersonalActivity}:
+android.view.InflateException: Binary XML file line #16: Error inflating class android.support.design.widget.CollapsingToolbarLayout
+    at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2195)
+    at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245)
+    at android.app.ActivityThread.access$800(ActivityThread.java:135)
+    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196)
+    at android.os.Handler.dispatchMessage(Handler.java:102)
+    at android.os.Looper.loop(Looper.java:136)
+    at android.app.ActivityThread.main(ActivityThread.java:5017)
+    at java.lang.reflect.Method.invokeNative(Native Method)
+    at java.lang.reflect.Method.invoke(Method.java:515)
+    at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779)
+    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595)
+    at dalvik.system.NativeStart.main(Native Method)
+Caused by: android.view.InflateException: Binary XML file line #16: Error inflating class android.support.design.widget.CollapsingToolbarLayout
+    at android.view.LayoutInflater.createView(LayoutInflater.java:621)
+    at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:697)
+    at android.view.LayoutInflater.rInflate(LayoutInflater.java:756)
+    at android.view.LayoutInflater.rInflate(LayoutInflater.java:759)
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:492)
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:397)
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:353)
+    at android.support.v7.app.AppCompatDelegateImplV7.setContentView(AppCompatDelegateImplV7.java:280)
+    at android.support.v7.app.AppCompatActivity.setContentView(AppCompatActivity.java:140)
+    at com.gaoyy.easysocial.ui.PersonalActivity.initContentView(PersonalActivity.java:74)
+    at com.gaoyy.easysocial.base.BaseActivity.onCreate(BaseActivity.java:21)
+    at android.app.Activity.performCreate(Activity.java:5231)
+    at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087)
+    at com.morgoo.droidplugin.hook.handle.PluginInstrumentation.callActivityOnCreate(PluginInstrumentation.java:110)
+    at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2159)
+    at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245) 
+    at android.app.ActivityThread.access$800(ActivityThread.java:135) 
+    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196) 
+    at android.os.Handler.dispatchMessage(Handler.java:102) 
+    at android.os.Looper.loop(Looper.java:136) 
+    at android.app.ActivityThread.main(ActivityThread.java:5017) 
+    at java.lang.reflect.Method.invokeNative(Native Method) 
+    at java.lang.reflect.Method.invoke(Method.java:515) 
+    at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779) 
+    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595) 
+    at dalvik.system.NativeStart.main(Native Method) 
+Caused by: java.lang.reflect.InvocationTargetException
+    at java.lang.reflect.Constructor.constructNative(Native Method)
+    at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+    at android.view.LayoutInflater.createView(LayoutInflater.java:595)
+    at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:697) 
+    at android.view.LayoutInflater.rInflate(LayoutInflater.java:756) 
+    at android.view.LayoutInflater.rInflate(LayoutInflater.java:759) 
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:492) 
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:397) 
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:353) 
+    at android.support.v7.app.AppCompatDelegateImplV7.setContentView(AppCompatDelegateImplV7.java:280) 
+    at android.support.v7.app.AppCompatActivity.setContentView(AppCompatActivity.java:140) 
+    at com.gaoyy.easysocial.ui.PersonalActivity.initContentView(PersonalActivity.java:74) 
+    at com.gaoyy.easysocial.base.BaseActivity.onCreate(BaseActivity.java:21) 
+    at android.app.Activity.performCreate(Activity.java:5231) 
+    at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087) 
+    at com.morgoo.droidplugin.hook.handle.PluginInstrumentation.callActivityOnCreate(PluginInstrumentation.java:110) 
+    at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2159) 
+    at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245) 
+    at android.app.ActivityThread.access$800(ActivityThread.java:135) 
+    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196) 
+    at android.os.Handler.dispatchMessage(Handler.java:102) 
+    at android.os.Looper.loop(Looper.java:136) 
+    at android.app.ActivityThread.main(ActivityThread.java:5017) 
+    at java.lang.reflect.Method.invokeNative(Native Method) 
+    at java.lang.reflect.Method.invoke(Method.java:515) 
+    at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779) 
+    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595) 
+    at dalvik.system.NativeStart.main(Native Method) 
+Caused by: java.lang.NoSuchMethodError: android.support.v4.graphics.drawable.DrawableCompat.setLayoutDirection
+    at android.support.design.widget.CollapsingToolbarLayout.setStatusBarScrim(CollapsingToolbarLayout.java:663)
+    at android.support.design.widget.CollapsingToolbarLayout.<init>(CollapsingToolbarLayout.java:197)
+    at android.support.design.widget.CollapsingToolbarLayout.<init>(CollapsingToolbarLayout.java:132)
+    at java.lang.reflect.Constructor.constructNative(Native Method) 
+    at java.lang.reflect.Constructor.newInstance(Constructor.java:423) 
+    at android.view.LayoutInflater.createView(LayoutInflater.java:595) 
+    at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:697) 
+    at android.view.LayoutInflater.rInflate(LayoutInflater.java:756) 
+    at android.view.LayoutInflater.rInflate(LayoutInflater.java:759) 
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:492) 
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:397) 
+    at android.view.LayoutInflater.inflate(LayoutInflater.java:353) 
+    at android.support.v7.app.AppCompatDelegateImplV7.setContentView(AppCompatDelegateImplV7.java:280) 
+    at android.support.v7.app.AppCompatActivity.setContentView(AppCompatActivity.java:140) 
+    at com.gaoyy.easysocial.ui.PersonalActivity.initContentView(PersonalActivity.java:74) 
+    at com.gaoyy.easysocial.base.BaseActivity.onCreate(BaseActivity.java:21) 
+    at android.app.Activity.performCreate(Activity.java:5231) 
+    at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1087) 
+    at com.morgoo.droidplugin.hook.handle.PluginInstrumentation.callActivityOnCreate(PluginInstrumentation.java:110) 
+    at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2159) 
+    at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2245) 
+    at android.app.ActivityThread.access$800(ActivityThread.java:135) 
+    at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1196) 
+    at android.os.Handler.dispatchMessage(Handler.java:102) 
+    at android.os.Looper.loop(Looper.java:136) 
+    at android.app.ActivityThread.main(ActivityThread.java:5017) 
+    at java.lang.reflect.Method.invokeNative(Native Method) 
+    at java.lang.reflect.Method.invoke(Method.java:515) 
+    at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:779) 
+    at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:595) 
+    at dalvik.system.NativeStart.main(Native Method) 
 ```
 解决办法：http://www.cnblogs.com/liyiran/p/5647509.html<br>
 http://stackoverflow.com/questions/37423493/error-inflating-class-collapsingtoolbarlayout<br>
@@ -621,6 +622,42 @@ compile ('com.android.support:appcompat-v7:23.4.0'){
         force = true;
     }
 ```
-
+###2016.9.5
+关于statusbar颜色设置
+```Java
+    /**
+     * 设置NavBar和status颜色
+     * @param activity
+     * @param color
+     */
+    public static void setStatusBarColor(Activity activity, int color)
+    {
+        WeakReference<SystemBarTintManager> ws = new WeakReference<>(new SystemBarTintManager(activity));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            activity.getWindow().setStatusBarColor(activity.getResources().getColor(color));
+            activity.getWindow().setNavigationBarColor(activity.getResources().getColor(color));
+        } else
+        {
+            SystemBarTintManager systemBarTintManager = ws.get();
+            systemBarTintManager.setStatusBarTintResource(color);
+            systemBarTintManager.setStatusBarTintEnabled(true);
+        }
+    }
+```
+关于CardView在api>19下阴影不显示问题，需要同时设置CardView的`android:layout_margin="2dp"`，api=19下只需设置`card_view:cardElevation="3dp"`即可。
+```Java
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_home_cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:elevation="3dp"
+    android:foreground="?attr/selectableItemBackground"
+    card_view:cardElevation="3dp">
+ <!-- cardview 单独设置cardElevation在api19可以显示阴影，但是在api>19上需要设置margin才能显示出阴影-->
+```
 
 

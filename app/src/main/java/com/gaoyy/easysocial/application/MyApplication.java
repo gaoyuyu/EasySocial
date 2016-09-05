@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 
 import com.morgoo.droidplugin.PluginHelper;
-import com.squareup.leakcanary.LeakCanary;
 
 public class MyApplication extends Application
 {
@@ -15,7 +14,7 @@ public class MyApplication extends Application
         //DroidPlugin
         PluginHelper.getInstance().applicationOnCreate(getBaseContext()); //must behind super.onCreate()
 
-        LeakCanary.install(this);
+//        LeakCanary.install(this);
     }
 
     @Override

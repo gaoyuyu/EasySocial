@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.gaoyy.easysocial.utils.Tool;
 
 public abstract class BaseActivity extends AppCompatActivity
 {
@@ -56,9 +56,7 @@ public abstract class BaseActivity extends AppCompatActivity
         getSupportActionBar().setHomeButtonEnabled(enabled);
         getSupportActionBar().setDisplayHomeAsUpEnabled(enabled);
 
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(colors[1]);
-        tintManager.setStatusBarTintEnabled(true);
+        Tool.setStatusBarColor(this,colors[1]);
     }
 
     /**

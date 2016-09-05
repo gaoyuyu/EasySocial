@@ -32,10 +32,12 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.morgoo.droidplugin.pm.PluginManager;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -563,9 +565,30 @@ public class Tool
         }
         catch (Exception e)
         {
-           Log.i(Global.TAG,"catch Exception when getPluginResources : "+e.toString());
+            Log.i(Global.TAG, "catch Exception when getPluginResources : " + e.toString());
         }
         return pluginRes;
+    }
+
+
+    /**
+     * 设置NavBar和status颜色
+     * @param activity
+     * @param color
+     */
+    public static void setStatusBarColor(Activity activity, int color)
+    {
+        WeakReference<SystemBarTintManager> ws = new WeakReference<>(new SystemBarTintManager(activity));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            activity.getWindow().setStatusBarColor(activity.getResources().getColor(color));
+            activity.getWindow().setNavigationBarColor(activity.getResources().getColor(color));
+        } else
+        {
+            SystemBarTintManager systemBarTintManager = ws.get();
+            systemBarTintManager.setStatusBarTintResource(color);
+            systemBarTintManager.setStatusBarTintEnabled(true);
+        }
     }
 
 }
