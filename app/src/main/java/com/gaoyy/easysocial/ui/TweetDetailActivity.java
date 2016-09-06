@@ -103,11 +103,10 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
         toolbarCommentCount = (TextView) tweetDetailToolbar.findViewById(R.id.toolbar_comment_count);
         toolbarShareLayout = (LinearLayout) tweetDetailToolbar.findViewById(R.id.toolbar_share_layout);
 
-        if(tweet.getIsfavor().equals("1"))
+        if (tweet.getIsfavor().equals("1"))
         {
             toolbarFavoriteLabel.setImageDrawable(this.getResources().getDrawable(R.mipmap.ic_favorite_press));
-        }
-        else
+        } else
         {
             toolbarFavoriteLabel.setImageDrawable(TweetDetailActivity.this.getResources().getDrawable(R.mipmap.ic_favorite_white));
         }
@@ -150,8 +149,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
                     {
                         currentPage = currentPage + 1;
                         new CommentTask(false).execute(String.valueOf(currentPage));
-                    }
-                    else
+                    } else
                     {
                         Tool.showSnackbar(recyclerView, ":)到底啦");
                     }
@@ -242,15 +240,14 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
         switch (id)
         {
             case R.id.toolbar_favorite_layout:
-                if(!tweet.getIsfavor().equals("1"))
+                if (!tweet.getIsfavor().equals("1"))
                 {
                     SharedPreferences account = this.getSharedPreferences("account", Activity.MODE_PRIVATE);
                     String[] params = {tweet.getTid(), account.getString("aid", "")};
                     new doFavorTask(tweet).execute(params);
-                }
-                else
+                } else
                 {
-                    Tool.showSnackbar(toolbarDetailLayout,"已赞过~");
+                    Tool.showSnackbar(toolbarDetailLayout, "已赞过~");
                 }
 
                 break;
@@ -260,10 +257,10 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
                 comment.setTid(tweet.getTid());
                 intent.putExtra("comment", comment);
                 intent.setClass(TweetDetailActivity.this, ReplyActivity.class);
-                startActivityForResult(intent,COM_DETAIL_REQUEST_CODE);
+                startActivityForResult(intent, COM_DETAIL_REQUEST_CODE);
                 break;
             case R.id.toolbar_share_layout:
-                Tool.showShare(this,tweet.getPicture(),tweet.getContent());
+                Tool.showShare(this, tweet.getPicture(), tweet.getContent());
                 break;
         }
     }
@@ -273,14 +270,14 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == COM_DETAIL_REQUEST_CODE)
+        if (requestCode == COM_DETAIL_REQUEST_CODE)
         {
-            if(resultCode == RESULT_OK)
+            if (resultCode == RESULT_OK)
             {
-                Log.i(Global.TAG,"COM_DETAIL_REQUEST_CODE=onActivityResult=frag==>");
+                Log.i(Global.TAG, "COM_DETAIL_REQUEST_CODE=onActivityResult=frag==>");
                 toolbarFavoriteCount.setText(data.getStringExtra("favCount"));
                 toolbarCommentCount.setText(data.getStringExtra("comCount"));
-                if(data.getStringExtra("comCount").equals("1"))
+                if (data.getStringExtra("comCount").equals("1"))
                 {
                     toolbarFavoriteLabel.setImageDrawable(TweetDetailActivity.this.getResources().getDrawable(R.mipmap.ic_favorite_press));
                 }
@@ -308,7 +305,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
             intent.putExtra("comment", commentList.get(position - 1));
             intent.putExtra("isChild", true);
             intent.setClass(TweetDetailActivity.this, ReplyActivity.class);
-            startActivityForResult(intent,COM_DETAIL_REQUEST_CODE);
+            startActivityForResult(intent, COM_DETAIL_REQUEST_CODE);
 
         }
     }
@@ -384,13 +381,11 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
                 if (status)
                 {
                     commentAdapter.addItem(s);
-                }
-                else
+                } else
                 {
                     commentAdapter.addMoreItem(s);
                 }
-            }
-            else
+            } else
             {
                 Log.i(Global.TAG, "CommentTask内部错误");
             }
@@ -455,8 +450,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
                 currentTweet.setFavorite_count((Integer.valueOf(currentTweet.getFavorite_count()) + 1) + "");
                 toolbarFavoriteCount.setText(tweet.getFavorite_count());
                 toolbarFavoriteLabel.setImageDrawable(TweetDetailActivity.this.getResources().getDrawable(R.mipmap.ic_favorite_press));
-            }
-            else
+            } else
             {
                 Tool.showSnackbar(toolbarDetailLayout, "点赞失败 :(");
             }

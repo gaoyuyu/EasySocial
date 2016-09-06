@@ -27,7 +27,6 @@ import com.gaoyy.easysocial.fragment.FavoriteFragment;
 import com.gaoyy.easysocial.fragment.HomeFragment;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.json.JSONObject;
 
@@ -131,7 +130,6 @@ public class PersonalActivity extends BaseActivity
     @Override
     protected void initToolbar()
     {
-        super.initToolbar();
         int[] colors = Tool.getThemeColors(this);
         personalCollapsinglayout.setTitleEnabled(false);
         personalCollapsinglayout.setContentScrimColor(getResources().getColor(colors[0]));
@@ -141,9 +139,7 @@ public class PersonalActivity extends BaseActivity
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        SystemBarTintManager tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintResource(colors[1]);
-        tintManager.setStatusBarTintEnabled(true);
+        Tool.setStatusBarColor(this,colors[1]);
     }
 
     @Override

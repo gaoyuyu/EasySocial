@@ -6,13 +6,10 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     >
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/personal_header_bg"
             android:layout_width="match_parent"

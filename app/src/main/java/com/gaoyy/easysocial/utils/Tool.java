@@ -15,8 +15,10 @@ import android.os.Environment;
 import android.os.RemoteException;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -573,6 +575,7 @@ public class Tool
 
     /**
      * 设置NavBar和status颜色
+     *
      * @param activity
      * @param color
      */
@@ -589,6 +592,32 @@ public class Tool
             systemBarTintManager.setStatusBarTintResource(color);
             systemBarTintManager.setStatusBarTintEnabled(true);
         }
+    }
+
+    public static void animateToolbar(Context context,Toolbar toolbar)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            // this is gross but toolbar doesn't expose it's children to animate them :(
+            View t = toolbar.getChildAt(1);
+            if (t != null && t instanceof TextView)
+            {
+                TextView title = (TextView) t;
+
+                // fade in and space out the title.  Animating the letterSpacing performs horribly so
+                // fake it by setting the desired letterSpacing then animating the scaleX ¯\_(ツ)_/¯
+                title.setAlpha(0f);
+                title.setScaleX(0.8f);
+
+                title.animate()
+                        .alpha(1f)
+                        .scaleX(1f)
+                        .setStartDelay(500)
+                        .setDuration(900)
+                        .setInterpolator(AnimUtils.getFastOutSlowInInterpolator(context)).start();
+            }
+        }
+
     }
 
 }

@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#e8e8e8"
+    android:background="@color/gray50"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="740514999@qq.com"
+            android:textColor="@color/blue_colorPrimary"
             android:textSize="25sp"/>
 
         <ImageView

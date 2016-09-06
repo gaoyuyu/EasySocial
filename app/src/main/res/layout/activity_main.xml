@@ -7,10 +7,11 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
+    android:background="@color/white"
     >
 
     <android.support.v4.widget.DrawerLayout
-
+        android:background="@color/white"
         android:id="@+id/main_drawerlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

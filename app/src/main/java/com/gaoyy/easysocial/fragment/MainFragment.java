@@ -129,7 +129,7 @@ public class MainFragment extends Fragment
         mainDrawerLayout.setDrawerListener(actionBarDrawerToggle);
 
         Tool.setStatusBarColor(activity, colors[1]);
-
+        Tool.animateToolbar(activity,mainToolbar);
 
         pageAdapter = new PageAdapter(activity.getSupportFragmentManager(), pagerTitle, fragmentList);
         mainViewpager.setAdapter(pageAdapter);

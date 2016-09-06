@@ -659,5 +659,32 @@ compile ('com.android.support:appcompat-v7:23.4.0'){
     card_view:cardElevation="3dp">
  <!-- cardview 单独设置cardElevation在api19可以显示阴影，但是在api>19上需要设置margin才能显示出阴影-->
 ```
+###2016.9.6
+CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout在5.0+下顶部会出现迷之空白，需要在CoordinatorLayout+AppBarLayout设置`android:fitsSystemWindows="true"`
+```Java
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/personal_coordinatorlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/personal_appbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        >
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/personal_collapsinglayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_collapseParallaxMultiplier="0.6"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+```
 
 

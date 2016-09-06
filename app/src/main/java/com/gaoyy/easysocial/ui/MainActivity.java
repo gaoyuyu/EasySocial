@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -55,6 +56,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void initContentView()
     {
         Fresco.initialize(this);
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_main);
         sbc = getSharedPreferences("sbc", Activity.MODE_PRIVATE);
         account = getSharedPreferences("account", Activity.MODE_PRIVATE);
