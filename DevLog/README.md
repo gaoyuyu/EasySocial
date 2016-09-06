@@ -726,6 +726,11 @@ Ativity B：
                 <item name="android:windowReturnTransition">@null</item>
             </style>
 ```
+参考：
+https://segmentfault.com/q/1010000004594170  <br>
+http://blog.csdn.net/u012342082/article/details/50599596  <br>
+http://www.cnblogs.com/sunzn/p/3407078.html  <br>
+http://blog.csdn.net/swust_chenpeng/article/details/42297379  <br>
 
 
 
