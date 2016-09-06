@@ -686,5 +686,46 @@ CoordinatorLayout+AppBarLayout+CollapsingToolbarLayout在5.0+下顶部会出现�
             app:layout_collapseParallaxMultiplier="0.6"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 ```
+###2016.9.6
+Android 5.0+ 页面共享元素跳转
+```Java
+Ativity A：
+
+        // 允许使用transitions
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        setContentView(R.layout.activity_main);
+        ....
+
+        //跳转，view是共享元素
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,view,"view1");
+        startActivity(new Intent(this,OtherActivity.class), options.toBundle());
+
+        //当有多个view作为共享元素时
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this,
+                Pair.create(view1, "agreedName1"),
+                Pair.create(view2, "agreedName2"));
+
+Ativity B：
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setExitTransition(new Slide());//new Slide()  new Fade()
+
+同时作为共享元素的view需要在xml文件设置 android:transitionName="shareName"
+
+```
+关于在Light主题下，共享元素跳转出现闪屏解决方法：在AppTheme下设置过渡动画windowEnterTransition和windowReturnTransition为null
+```Java
+        <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+                <!-- Customize your theme here. -->
+                <item name="colorPrimary">@color/colorPrimary</item>
+                <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+                <item name="colorAccent">@color/colorAccent</item>
+                <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+                <item name="android:textColorPrimary">@color/white</item>
+                <item name="android:listDivider">@drawable/divider</item>
+                <item name="android:windowEnterTransition">@null</item>
+                <item name="android:windowReturnTransition">@null</item>
+            </style>
+```
+
 
 

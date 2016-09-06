@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -9,7 +9,8 @@
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:listDivider">@drawable/divider</item>
-        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowEnterTransition">@null</item>
+        <item name="android:windowReturnTransition">@null</item>
     </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
