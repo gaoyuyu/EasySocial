@@ -67,7 +67,7 @@ public class TransitionHelper
      * Aty退出动画
      * @param activity
      */
-    private static void finishAtyAfterTransition(Activity activity)
+    public static void finishAtyAfterTransition(Activity activity)
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {

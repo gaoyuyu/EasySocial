@@ -9,6 +9,7 @@
         <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:listDivider">@drawable/divider</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 
     <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">

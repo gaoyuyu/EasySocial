@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,6 +32,7 @@ import com.gaoyy.easysocial.ui.ReplyActivity;
 import com.gaoyy.easysocial.ui.TweetDetailActivity;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
+import com.gaoyy.easysocial.utils.TransitionHelper;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -181,7 +184,10 @@ public class HomeFragment extends LazyFragment implements View.OnClickListener, 
                 {
                     Intent intent = new Intent();
                     intent.setClass(getActivity(), PublishActivity.class);
-                    startActivity(intent);
+                    Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants
+                            (getActivity(), false,new Pair<>(v, "toolbar"));
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs);
+                    startActivity(intent,options.toBundle());
                 }
                 else
                 {

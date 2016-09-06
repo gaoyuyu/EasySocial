@@ -19,6 +19,7 @@ import com.gaoyy.easysocial.R;
 import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
+import com.gaoyy.easysocial.utils.TransitionHelper;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 
 import java.io.File;
@@ -112,7 +113,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
         switch (itemId)
         {
             case android.R.id.home:
-                finish();
+                TransitionHelper.finishAtyAfterTransition(this);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -225,7 +226,7 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
                 Tool.showToast(PublishActivity.this, (Tool.getMainJsonObj(s)).getString("data"));
                 if (0 == Tool.getRepCode(s))
                 {
-                    finish();
+                    TransitionHelper.finishAtyAfterTransition(PublishActivity.this);
                 }
             }
             catch (Exception e)
