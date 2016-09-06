@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -28,6 +31,7 @@ import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.bean.Tweet;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
+import com.gaoyy.easysocial.utils.TransitionHelper;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -74,6 +78,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
     private int rawY = -1;
 
     private int lastVisibleItemPosition;
+    private  PopupWindow popupWindow;
 
     private static int COM_DETAIL_REQUEST_CODE = 701;
 
@@ -81,6 +86,7 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
     @Override
     public void initContentView()
     {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         setContentView(R.layout.activity_tweet_detail);
         tweet = (Tweet) getIntent().getSerializableExtra("tweet");
     }
@@ -216,9 +222,9 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
     private void showPopupWindow(View view, int position, int rawX, int rawY)
     {
         View contentView = LayoutInflater.from(this).inflate(R.layout.item_comment_popwindow, null);
-        final PopupWindow popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
+        popupWindow = new PopupWindow(contentView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
         TextView tv = (TextView) contentView.findViewById(R.id.item_comment_pop_tv);
-        tv.setOnClickListener(new PopOnClickListener(popupWindow, position));
+        tv.setOnClickListener(new PopOnClickListener(view,popupWindow, position));
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setTouchable(true);
@@ -290,9 +296,11 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
     {
         int position;
         PopupWindow popupWindow;
+        View shareview;
 
-        public PopOnClickListener(PopupWindow popupWindow, int position)
+        public PopOnClickListener(View shareview,PopupWindow popupWindow, int position)
         {
+            this.shareview = shareview;
             this.position = position;
             this.popupWindow = popupWindow;
         }
@@ -304,9 +312,11 @@ public class TweetDetailActivity extends BaseActivity implements SwipeRefreshLay
             Intent intent = new Intent();
             intent.putExtra("comment", commentList.get(position - 1));
             intent.putExtra("isChild", true);
+            Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants
+                    (TweetDetailActivity.this, false,new Pair<>(shareview, "toolbar"));
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(TweetDetailActivity.this, pairs);
             intent.setClass(TweetDetailActivity.this, ReplyActivity.class);
-            startActivityForResult(intent, COM_DETAIL_REQUEST_CODE);
-
+            startActivityForResult(intent, COM_DETAIL_REQUEST_CODE,options.toBundle());
         }
     }
 

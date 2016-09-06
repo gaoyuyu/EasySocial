@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.transition.ChangeBounds;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -56,6 +59,11 @@ public class PublishActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void initContentView()
     {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            getWindow().setExitTransition(new ChangeBounds());
+        }
         setContentView(R.layout.activity_publish);
         account = getSharedPreferences("account", Activity.MODE_PRIVATE);
     }

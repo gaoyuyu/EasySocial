@@ -177,24 +177,23 @@ public class HomeFragment extends LazyFragment implements View.OnClickListener, 
     public void onClick(View v)
     {
         int id = v.getId();
+        Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants
+                (getActivity(), false,new Pair<>(v, "toolbar"));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs);
+        Intent intent = new Intent();
         switch (id)
         {
             case R.id.fragment_home_fab:
                 if (Tool.isLogin(getActivity()))
                 {
-                    Intent intent = new Intent();
                     intent.setClass(getActivity(), PublishActivity.class);
-                    Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants
-                            (getActivity(), false,new Pair<>(v, "toolbar"));
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs);
-                    startActivity(intent,options.toBundle());
                 }
                 else
                 {
                     Tool.showToast(getActivity(), "请先登录 : )");
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
+                    intent.setClass(getActivity(), LoginActivity.class);
                 }
+                startActivity(intent,options.toBundle());
                 break;
         }
 
@@ -211,6 +210,9 @@ public class HomeFragment extends LazyFragment implements View.OnClickListener, 
     public void onItemClick(View view, int position)
     {
         int id = view.getId();
+        Pair<View, String>[] pairs = TransitionHelper.createSafeTransitionParticipants
+                (getActivity(), false,new Pair<>(view, "toolbar"));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), pairs);
         Intent intent = new Intent();
         switch (id)
         {
@@ -242,7 +244,7 @@ public class HomeFragment extends LazyFragment implements View.OnClickListener, 
                     intent.putExtra("comment", comment);
                     intent.putExtra("position", position);
                     intent.setClass(getActivity(), ReplyActivity.class);
-                    startActivityForResult(intent,REPLY_REQUEST_CODE);
+                    startActivityForResult(intent,REPLY_REQUEST_CODE,options.toBundle());
                 }
                 else
                 {

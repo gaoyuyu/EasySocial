@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v7.widget.Toolbar;
+import android.transition.ChangeBounds;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.EditText;
 
 import com.gaoyy.easysocial.R;
@@ -15,6 +18,7 @@ import com.gaoyy.easysocial.base.BaseActivity;
 import com.gaoyy.easysocial.bean.Comment;
 import com.gaoyy.easysocial.utils.Global;
 import com.gaoyy.easysocial.utils.Tool;
+import com.gaoyy.easysocial.utils.TransitionHelper;
 import com.gaoyy.easysocial.view.BasicProgressDialog;
 
 import java.io.IOException;
@@ -40,6 +44,11 @@ public class ReplyActivity extends BaseActivity
     @Override
     public void initContentView()
     {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        {
+            getWindow().setExitTransition(new ChangeBounds());
+        }
         setContentView(R.layout.activity_reply);
         comment = (Comment) getIntent().getSerializableExtra("comment");
     }
@@ -90,7 +99,7 @@ public class ReplyActivity extends BaseActivity
         switch (itemId)
         {
             case android.R.id.home:
-                finish();
+                TransitionHelper.finishAtyAfterTransition(this);
                 break;
             case R.id.menu_reply_send:
                 String content = replyEdit.getText().toString();
@@ -186,7 +195,7 @@ public class ReplyActivity extends BaseActivity
                 }
 
                 setResult(RESULT_OK,intent);
-                finish();
+                TransitionHelper.finishAtyAfterTransition(ReplyActivity.this);
 
             }
             else

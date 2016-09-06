@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_comment_pop_cv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="2dp"
@@ -18,6 +19,7 @@
         android:paddingRight="20dp"
         android:paddingTop="8dp"
         android:text="回复"
+        android:transitionName="toolbar"
         android:textColor="@color/black"
         />
 

@@ -34,7 +34,7 @@ import me.drakeet.materialdialog.MaterialDialog;
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener
 {
     private DrawerLayout mainDrawerlayout;
-    private static NavigationView mainNav;
+    private NavigationView mainNav;
     private MainFragment mainFragment;
     private SharedPreferences sbc;
     private SharedPreferences account;
